@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# VitePress build output and cache
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
+# Local caches
+.cache/
+
+# IDE / editor
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+
+# Local agent/tooling files
+.codex/
+.claude/
+.agents/
+skills/
+skills-lock.json
