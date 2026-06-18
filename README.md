@@ -1,6 +1,6 @@
 # vmdocs
 
-Documentation source for the vminfo project.
+Monorepo documentation source for vminfo and future bestcheapvps.org subdomain docs sites.
 
 - Live site: https://vminfo.bestcheapvps.org
 - Source project: https://github.com/cloudapp3/vminfo
@@ -10,6 +10,14 @@ Documentation source for the vminfo project.
 
 ```bash
 pnpm install
+pnpm docs:dev:vminfo
+pnpm docs:build:vminfo
+pnpm docs:preview:vminfo
+```
+
+Compatibility aliases are also available for the current default site:
+
+```bash
 pnpm docs:dev
 pnpm docs:build
 pnpm docs:preview
@@ -17,6 +25,7 @@ pnpm docs:preview
 
 ## What lives here
 
-- VitePress + Teek docs source in `docs/`
-- Cloudflare Pages build output at `docs/.vitepress/dist`
-- SEO, guides, commands, API, and Chinese docs for vminfo
+- vminfo docs source in `sites/vminfo/docs/`
+- vminfo Cloudflare Pages output at `sites/vminfo/docs/.vitepress/dist`
+- shared dependencies and build scripts at the repository root
+- room for future docs sites under `sites/<project>/docs/`

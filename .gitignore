@@ -3,8 +3,8 @@ node_modules/
 .pnpm-store/
 
 # VitePress build output and cache
-docs/.vitepress/cache/
-docs/.vitepress/dist/
+sites/*/docs/.vitepress/cache/
+sites/*/docs/.vitepress/dist/
 
 # Local caches
 .cache/

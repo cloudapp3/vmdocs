@@ -5,22 +5,22 @@ description: Deploy the docs site to Cloudflare Pages with the correct build out
 
 # Deployment
 
-This docs site is designed to deploy cleanly to Cloudflare Pages.
+This docs site is designed to deploy cleanly to Cloudflare Pages from the `cloudapp3/vmdocs` documentation monorepo.
 
 ## Cloudflare Pages settings
 
 | Setting | Value |
 | --- | --- |
 | Framework preset | VitePress or None |
-| Build command | `pnpm docs:build` |
-| Build output directory | `docs/.vitepress/dist` |
+| Build command | `pnpm docs:build:vminfo` |
+| Build output directory | `sites/vminfo/docs/.vitepress/dist` |
 | Root directory | `/` |
 | Node.js version | 20 or newer |
 
 If your Pages project needs to install dependencies during build, use:
 
 ```bash
-corepack enable && pnpm install --frozen-lockfile && pnpm docs:build
+corepack enable && pnpm install --frozen-lockfile && pnpm docs:build:vminfo
 ```
 
 ## Custom domain
@@ -37,4 +37,4 @@ corepack enable && pnpm install --frozen-lockfile && pnpm docs:build
 
 ## Output
 
-Cloudflare Pages should publish the static site from `docs/.vitepress/dist`.
+Cloudflare Pages should publish the static site from `sites/vminfo/docs/.vitepress/dist`.

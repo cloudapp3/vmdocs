@@ -3,9 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs --host 0.0.0.0"
+    "docs:dev": "pnpm docs:dev:vminfo",
+    "docs:build": "pnpm docs:build:vminfo",
+    "docs:preview": "pnpm docs:preview:vminfo",
+    "docs:dev:vminfo": "vitepress dev sites/vminfo/docs",
+    "docs:build:vminfo": "vitepress build sites/vminfo/docs",
+    "docs:preview:vminfo": "vitepress preview sites/vminfo/docs --host 0.0.0.0"
   },
   "devDependencies": {
     "@types/node": "25.9.3",

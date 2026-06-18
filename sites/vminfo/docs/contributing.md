@@ -27,10 +27,11 @@ Chinese or English issues and PRs are both welcome.
 
 ## Repository layout
 
-- `docs/` — VitePress documentation source
-- `docs/.vitepress/` — VitePress and Teek configuration
-- `docs/assets/` — screenshots and GIFs
-- `docs/public/` — public static assets such as logo and favicon
+- `sites/vminfo/docs/` — vminfo VitePress documentation source
+- `sites/vminfo/docs/.vitepress/` — vminfo VitePress and Teek configuration
+- `sites/vminfo/docs/assets/` — screenshots and GIFs
+- `sites/vminfo/docs/public/` — public static assets such as logo and favicon
+- `sites/<project>/docs/` — future docs sites for additional subdomains
 - `package.json` — local development and build scripts
 
 ## Compatibility expectations
@@ -39,7 +40,7 @@ Chinese or English issues and PRs are both welcome.
 - Do not invent CLI flags, HTTP endpoints, or Go APIs
 - Check source code before documenting behavior that may have changed
 - Keep internal links and image paths valid
-- Do not commit generated files such as `docs/.vitepress/dist/`
+- Do not commit generated files such as `sites/*/docs/.vitepress/dist/`
 
 ## Local development
 
@@ -47,9 +48,9 @@ Chinese or English issues and PRs are both welcome.
 git clone https://github.com/cloudapp3/vmdocs.git
 cd vmdocs
 pnpm install
-pnpm docs:dev
-pnpm docs:build
-pnpm docs:preview
+pnpm docs:dev:vminfo
+pnpm docs:build:vminfo
+pnpm docs:preview:vminfo
 ```
 
 When documenting source behavior, also inspect the source project:
@@ -61,7 +62,7 @@ git clone https://github.com/cloudapp3/vminfo.git
 ## Pull request checklist
 
 - [ ] The change is focused and clearly described
-- [ ] `pnpm docs:build` passes
+- [ ] `pnpm docs:build:vminfo` passes
 - [ ] Links and image paths are valid
 - [ ] New or important pages include clear frontmatter
 - [ ] English and Chinese docs were updated together when appropriate
