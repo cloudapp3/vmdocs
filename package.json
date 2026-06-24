@@ -8,7 +8,10 @@
     "docs:preview": "pnpm docs:preview:vminfo",
     "docs:dev:vminfo": "vitepress dev sites/vminfo/docs",
     "docs:build:vminfo": "vitepress build sites/vminfo/docs",
-    "docs:preview:vminfo": "vitepress preview sites/vminfo/docs --host 0.0.0.0"
+    "docs:preview:vminfo": "vitepress preview sites/vminfo/docs --host 0.0.0.0",
+    "docs:dev:vmbench": "vitepress dev sites/vmbench/docs",
+    "docs:build:vmbench": "vitepress build sites/vmbench/docs",
+    "docs:preview:vmbench": "vitepress preview sites/vmbench/docs --host 0.0.0.0"
   },
   "devDependencies": {
     "@types/node": "25.9.3",
