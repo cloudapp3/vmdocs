@@ -1,5 +1,6 @@
 ---
 layout: home
+description: vminfo is a cross-platform terminal system monitor and CLI for Linux, macOS, and Windows — live CPU, memory, disk, network, and process stats, JSON output, a web dashboard, and an embeddable Go library.
 hero:
   name: vminfo
   text: Terminal system monitor, web dashboard, and Go library
@@ -87,7 +88,7 @@ Use it when you need to:
   <img src="./assets/tui-help.png" alt="vminfo help overlay" />
 </div>
 
-![vminfo demo GIF](./assets/tui-demo.gif)
+![vminfo TUI overview](./assets/tui-overview-refreshed.png)
 
 ## Quick links
 

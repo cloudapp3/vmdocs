@@ -38,11 +38,27 @@ export default defineConfig({
   head: [
     ['meta', { name: 'theme-color', content: '#22c55e' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:title', content: 'vminfo Documentation' }],
-    ['meta', { property: 'og:description', content: siteDescription }],
+    ['meta', { property: 'og:site_name', content: siteTitle }],
+    ['meta', { property: 'og:image', content: 'https://vminfo.bestcheapvps.org/og-image.png' }],
+    ['meta', { property: 'og:locale', content: 'en_US' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'https://vminfo.bestcheapvps.org/og-image.png' }],
     ['link', { rel: 'icon', href: '/favicon.svg' }],
   ],
+
+  // Per-page canonical URL + Open Graph tags (SEO)
+  transformHead: async (context) => {
+    const path = context.page
+      .replace(/(^|\/)index\.md$/, '$1')
+      .replace(/\.md$/, '');
+    const url = `https://vminfo.bestcheapvps.org/${path}`;
+    return [
+      ['link', { rel: 'canonical', href: url }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:title', content: context.page === 'index.md' ? siteTitle : (context.title || siteTitle) }],
+      ['meta', { property: 'og:description', content: context.description || siteDescription }],
+    ];
+  },
 
   themeConfig: {
     logo: '/logo.svg',
