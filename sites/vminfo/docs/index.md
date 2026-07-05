@@ -32,8 +32,8 @@ features:
     details: Export snapshots and watch streams for automation, CI, and diagnostics.
     link: /commands/summary
   - icon: 🌐
-    title: Lightweight Web Dashboard
-    details: Start a read-only browser dashboard with REST and WebSocket endpoints.
+    title: Themed Web Dashboard
+    details: Start a read-only browser dashboard with REST and WebSocket endpoints and switchable themes.
     link: /guide/web-dashboard
   - icon: 🧩
     title: Embeddable Go APIs
@@ -43,6 +43,10 @@ features:
     title: Zero-config Runtime Visibility
     details: No daemon, no database, no central server. Install and inspect the local host quickly.
     link: /guide/installation
+  - icon: 🔍
+    title: Network Diagnostics
+    details: Run DNS, TCP port, ping, and public-IP / ASN lookups on demand — from the CLI or the dashboard.
+    link: /commands/net
   - icon: 🔒
     title: Token-aware Web Mode
     details: Protect remote dashboard access with token, cookie, CORS, and WebSocket origin checks.

@@ -22,6 +22,7 @@ vminfo collects:
 - memory and swap usage
 - disk usage and disk I/O
 - network totals, speeds, TCP/UDP counts
+- TCP state distribution (`ESTABLISHED` / `TIME_WAIT` / `SYN_RECV` / …) and conntrack usage (Linux)
 - per-interface traffic, errors, and drops
 - process lists and process metadata
 - temperature readings
@@ -44,6 +45,7 @@ vminfo collects:
 - `vminfo --web`
 - `vminfo ps`
 - `vminfo kill <pid>`
+- `vminfo net dns | port | ping | ip`
 - `vminfo update`
 
 ## Good fits

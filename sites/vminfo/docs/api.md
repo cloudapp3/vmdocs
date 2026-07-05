@@ -91,6 +91,8 @@ Returns filesystem usage and disk I/O rates.
 
 Returns network throughput, TCP/UDP connection counts, and interface counters.
 
+On Linux the payload also includes the TCP state distribution (how many sockets are in `ESTABLISHED`, `TIME_WAIT`, `SYN_RECV`, …) and conntrack usage (current vs. max `nf_conntrack` entries) so you can spot socket or connection-tracking saturation.
+
 ### `GET /api/v1/processes`
 
 Returns the hydrated process list.
@@ -155,6 +157,43 @@ Returns the lightweight health score and warnings used by the dashboard.
   ]
 }
 ```
+
+The `code` field identifies the warning. Network-aware codes include:
+
+| Code | Meaning |
+| --- | --- |
+| `network_errors` | Sustained per-interface error rate (events/s, not cumulative counters) |
+| `network_drops` | Sustained per-interface packet-drop rate |
+| `tcpconn_high` | Unusually high TCP socket count (≥5000 warn / ≥20000 critical) |
+| `conntrack_high` | conntrack table filling up (≥85% warn / ≥95% critical, Linux) |
+
+Rates — not raw counters — gate `network_errors` / `network_drops`, so a long-lived total does not keep an otherwise-healthy host flagged.
+
+### `POST /api/v1/net/diag`
+
+Runs a network diagnostic on demand — the same probes as the [`net` command](/commands/net), callable from the dashboard. It is mounted on the protected mux, so when token auth is enabled it inherits the token / cookie and same-origin checks like the other `/api/v1/*` routes.
+
+Request body:
+
+| Field | Description |
+| --- | --- |
+| `action` | `dns`, `port`, `ping`, or `ip` |
+| `target` | Domain (dns) or host (port/ping); required. For `ip`, the IP to look up or empty for your own public IP |
+| `port` | Target port (port / ping actions) |
+| `server` | Optional DNS server (dns) or IP lookup service base URL (ip) |
+| `timeout_ms` | Per-probe timeout in milliseconds (port / ping) |
+| `count` | Number of probes (ping) |
+| `mode` | Ping mode: `tcp` (default) or `icmp` |
+
+Example:
+
+```bash
+curl -X POST http://127.0.0.1:20021/api/v1/net/diag \
+  -H 'Content-Type: application/json' \
+  -d '{"action":"ping","target":"example.com","port":443,"count":4,"mode":"tcp"}'
+```
+
+The response shape matches the corresponding CLI JSON result (`DNSResult`, `PortResult`, `PingResult`, or `IPInfo`).
 
 ### `GET /ws`
 

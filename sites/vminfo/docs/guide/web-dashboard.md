@@ -5,7 +5,7 @@ description: Start the read-only HTTP API and browser dashboard, including token
 
 # Web Dashboard
 
-`vminfo --web` starts a lightweight, read-only HTTP API and dashboard.
+`vminfo --web` starts a lightweight, read-only HTTP API and dashboard with switchable themes.
 
 ## Start the server
 
@@ -67,6 +67,13 @@ When binding to `0.0.0.0`, enable `--token` unless the dashboard is only exposed
 | `GET /api/v1/processes` | Process list |
 | `GET /api/v1/system` | Host metadata |
 | `GET /api/v1/health` | Health score and warnings |
+| `POST /api/v1/net/diag` | Run a network diagnostic (dns / port / ping / ip) |
 | `GET /ws` | Live snapshot stream |
 
 See the full [HTTP API reference](/api) for payload examples and query parameters.
+
+## Themes
+
+The dashboard ships with switchable themes from the header: **Auto**, **Neon**, **Light**, **Terminal**, and **Synthwave**. "Auto" follows the OS color scheme.
+
+[JetBrains Mono](https://www.jetbrains.com/lp/mono/) is **embedded** in the binary, so the dashboard is fully self-contained — it renders with its intended monospaced typeface and works offline with no external font requests.

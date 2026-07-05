@@ -7,6 +7,9 @@ description: Release notes and recent product changes for vminfo.
 
 ## Unreleased
 
+- Add `vminfo net` diagnostics — `dns`, `port`, `ping` (TCP or ICMP), and `ip` (public IP + ASN / geo) subcommands, each with `--json` output, plus a `POST /api/v1/net/diag` endpoint to trigger them from the web dashboard.
+- Add switchable web dashboard themes (Auto / Neon / Light / Terminal / Synthwave) and embed JetBrains Mono so the dashboard is self-contained and works offline.
+- Add network health signals: TCP state distribution (`ESTABLISHED` / `TIME_WAIT` / …), conntrack usage (Linux), and health warnings `network_errors`, `network_drops`, `tcpconn_high`, and `conntrack_high` in `GET /api/v1/health`.
 - Enhance `vminfo ps` on Linux with positional and `--filter` process search, `--limit`, tree output, `--watch` with `--count` / `--interval`, `AGE` / `COMMAND` columns, and JSON `command` / `started_at_unix` process fields.
 - Add a lightweight web Health Summary card, `GET /api/v1/health`, and a filterable/sortable `GET /api/v1/processes` endpoint for process diagnostics.
 - Add `docs/api.md` and `docs/roadmap/feature-benchmark.md` to document the HTTP API, competitor feature benchmarking, and a prioritized product roadmap for `vminfo`.

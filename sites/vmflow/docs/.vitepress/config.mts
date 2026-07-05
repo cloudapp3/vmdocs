@@ -1,9 +1,9 @@
 import { defineConfig } from 'vitepress';
 import { defineTeekConfig } from 'vitepress-theme-teek/config';
 
-const siteTitle = 'vminfo';
+const siteTitle = 'vmflow';
 const siteDescription =
-  'Cross-platform host runtime information toolkit with terminal UI, JSON output, web dashboard, and embeddable Go APIs.';
+  'A small pure-Go L4 forwarding runtime. Run it as a standalone daemon or embed it into your own control plane — TCP/UDP forwarding, rule lifecycle, precheck, metrics, and a terminal UI.';
 
 const teekConfig = defineTeekConfig({
   teekTheme: true,
@@ -24,7 +24,7 @@ export default defineConfig({
 
   lang: 'en-US',
   title: siteTitle,
-  titleTemplate: ':title | vminfo',
+  titleTemplate: ':title | vmflow',
   description: siteDescription,
 
   cleanUrls: true,
@@ -32,17 +32,18 @@ export default defineConfig({
   ignoreDeadLinks: false,
 
   sitemap: {
-    hostname: 'https://vminfo.bestcheapvps.org',
+    hostname: 'https://vmflow.bestcheapvps.org',
   },
 
   head: [
-    ['meta', { name: 'theme-color', content: '#22c55e' }],
+    ['meta', { name: 'theme-color', content: '#14b8a6' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: siteTitle }],
-    ['meta', { property: 'og:image', content: 'https://vminfo.bestcheapvps.org/og-image.png' }],
+    // TODO: replace with a 1200x630 og-image.png once designed.
+    ['meta', { property: 'og:image', content: 'https://vmflow.bestcheapvps.org/logo.svg' }],
     ['meta', { property: 'og:locale', content: 'en_US' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:image', content: 'https://vminfo.bestcheapvps.org/og-image.png' }],
+    ['meta', { name: 'twitter:image', content: 'https://vmflow.bestcheapvps.org/logo.svg' }],
     ['link', { rel: 'icon', href: '/favicon.svg' }],
   ],
 
@@ -51,7 +52,7 @@ export default defineConfig({
     const path = context.page
       .replace(/(^|\/)index\.md$/, '$1')
       .replace(/\.md$/, '');
-    const url = `https://vminfo.bestcheapvps.org/${path}`;
+    const url = `https://vmflow.bestcheapvps.org/${path}`;
     return [
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
@@ -67,18 +68,18 @@ export default defineConfig({
     },
     nav: [
       { text: 'Guide', link: '/guide/quick-start' },
-      { text: 'Commands', link: '/commands/' },
+      { text: 'CLI', link: '/commands/' },
       { text: 'HTTP API', link: '/api' },
       { text: 'Go Library', link: '/library/' },
       { text: '中文', link: '/zh/' },
       {
         text: 'Community',
         items: [
-          { text: 'GitHub', link: 'https://github.com/cloudapp3/vminfo' },
+          { text: 'GitHub', link: 'https://github.com/cloudapp3/vmflow' },
           { text: 'Docs Repo', link: 'https://github.com/cloudapp3/vmdocs' },
           { text: 'Contributing', link: '/contributing' },
           { text: 'Changelog', link: '/changelog' },
-          { text: 'Roadmap', link: '/roadmap/feature-benchmark' },
+          { text: 'Roadmap', link: '/roadmap' },
         ],
       },
     ],
@@ -89,16 +90,23 @@ export default defineConfig({
           items: [
             { text: 'Quick Start', link: '/guide/quick-start' },
             { text: 'Installation', link: '/guide/installation' },
+            { text: 'Configuration', link: '/guide/configuration' },
             { text: 'Deployment', link: '/guide/deployment' },
-            { text: 'Platform Support', link: '/guide/platform-support' },
           ],
         },
         {
-          text: 'Using vminfo',
+          text: 'Core Concepts',
           items: [
-            { text: 'Overview', link: '/guide/overview' },
-            { text: 'Web Dashboard', link: '/guide/web-dashboard' },
-            { text: 'TUI Controls', link: '/guide/tui-controls' },
+            { text: 'Forwarding Engine', link: '/guide/forwarding' },
+            { text: 'Rules & Lifecycle', link: '/guide/rules' },
+            { text: 'Precheck', link: '/guide/precheck' },
+          ],
+        },
+        {
+          text: 'Interfaces',
+          items: [
+            { text: 'TUI Dashboard', link: '/guide/tui' },
+            { text: 'Telegram Bot', link: '/guide/telegram-bot' },
           ],
         },
       ],
@@ -107,12 +115,10 @@ export default defineConfig({
           text: 'Commands',
           items: [
             { text: 'Command Reference', link: '/commands/' },
-            { text: 'summary', link: '/commands/summary' },
-            { text: 'watch', link: '/commands/watch' },
-            { text: 'ps', link: '/commands/ps' },
-            { text: 'kill', link: '/commands/kill' },
-            { text: 'net', link: '/commands/net' },
-            { text: 'update', link: '/commands/update' },
+            { text: 'daemon', link: '/commands/daemon' },
+            { text: 'ctl', link: '/commands/ctl' },
+            { text: 'tui', link: '/commands/tui' },
+            { text: 'version', link: '/commands/version' },
           ],
         },
       ],
@@ -120,16 +126,9 @@ export default defineConfig({
         {
           text: 'Go Library',
           items: [
-            { text: 'Library Usage', link: '/library/' },
-            { text: 'Collect Metrics', link: '/library/collect' },
-            { text: 'Embed TUI', link: '/library/embed-tui' },
+            { text: 'Embedding vmflow', link: '/library/' },
+            { text: 'Runtime API', link: '/library/runtime' },
           ],
-        },
-      ],
-      '/roadmap/': [
-        {
-          text: 'Roadmap',
-          items: [{ text: 'Feature Benchmark', link: '/roadmap/feature-benchmark' }],
         },
       ],
       '/zh/': [
@@ -143,9 +142,9 @@ export default defineConfig({
         },
       ],
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/cloudapp3/vminfo' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/cloudapp3/vmflow' }],
     editLink: {
-      pattern: 'https://github.com/cloudapp3/vmdocs/edit/main/sites/vminfo/docs/:path',
+      pattern: 'https://github.com/cloudapp3/vmdocs/edit/main/sites/vmflow/docs/:path',
       text: 'Edit this page on GitHub',
     },
     footer: {

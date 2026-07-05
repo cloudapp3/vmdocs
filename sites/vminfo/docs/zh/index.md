@@ -31,6 +31,17 @@ vminfo summary --json
 vminfo --web
 ```
 
+仪表盘内置多套主题(Auto / Neon / Light / Terminal / Synthwave),可从页头切换;JetBrains Mono 字体内嵌,离线也能保持一致排版。
+
+## 网络诊断
+
+```bash
+vminfo net dns example.com            # 解析域名
+vminfo net port example.com 443       # 测试 TCP 端口
+vminfo net ping example.com --tcp-port 443   # TCP ping(默认,跨平台)
+vminfo net ip                         # 本机公网 IP + ASN / 地理
+```
+
 继续阅读：
 
 - [快速开始](/zh/quick-start)
