@@ -46,6 +46,6 @@ http://127.0.0.1:20021
 ## 下一步
 
 - 查看 [命令参考](/zh/commands)
-- 阅读 [HTTP API](/api)
-- 了解 [Go Library](/library/)
-- 看英文的 [Web Dashboard](/guide/web-dashboard)
+- 阅读 [HTTP API](/zh/api)
+- 了解 [Go Library](/zh/library)
+- 查看 [Web 仪表盘](/zh/web-dashboard)

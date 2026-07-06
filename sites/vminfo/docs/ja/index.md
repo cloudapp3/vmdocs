@@ -46,5 +46,5 @@ vminfo net ip                         # 自マシンのパブリック IP + ASN 
 
 - [クイックスタート](/ja/quick-start)
 - [コマンドリファレンス](/ja/commands)
-- [HTTP API](/api)
-- [Go ライブラリ](/library/)
+- [HTTP API](/ja/api)
+- [Go ライブラリ](/ja/library)

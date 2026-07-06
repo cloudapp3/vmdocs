@@ -46,5 +46,5 @@ vminfo net ip                         # 本机公网 IP + ASN / 地理
 
 - [快速开始](/zh/quick-start)
 - [命令参考](/zh/commands)
-- [HTTP API](/api)
-- [Go Library](/library/)
+- [HTTP API](/zh/api)
+- [Go Library](/zh/library)

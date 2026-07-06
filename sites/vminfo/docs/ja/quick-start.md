@@ -46,6 +46,6 @@ http://127.0.0.1:20021
 ## 次のステップ
 
 - [コマンドリファレンス](/ja/commands) を見る
-- [HTTP API](/api) を読む
-- [Go ライブラリ](/library/) を知る
-- 英語の [Web Dashboard](/guide/web-dashboard) を見る
+- [HTTP API](/ja/api) を読む
+- [Go ライブラリ](/ja/library) を知る
+- [Web ダッシュボード](/ja/web-dashboard) を見る

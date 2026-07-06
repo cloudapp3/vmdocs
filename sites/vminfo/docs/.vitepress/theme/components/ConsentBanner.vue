@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getConsent, setConsent, loadAdSense, loadGA } from '../ads'
+import { useConsentMessages } from '../i18n'
 
 const show = ref(false)
+// Banner copy is localized per <html lang>; see theme/i18n.ts.
+const t = useConsentMessages()
 
 onMounted(() => {
   const c = getConsent()
@@ -26,15 +29,13 @@ const reject = () => {
 
 <template>
   <Transition name="consent">
-    <div v-if="show" class="consent-banner" role="dialog" aria-label="Cookie consent">
+    <div v-if="show" class="consent-banner" role="dialog" :aria-label="t.ariaLabel">
       <p class="consent-text">
-        We use cookies to serve ads via Google AdSense and to measure traffic with Google Analytics.
-        You can accept or reject these cookies at any time. See our
-        <a href="/privacy">Privacy Policy</a>.
+        {{ t.before }}<a href="/privacy">{{ t.privacy }}</a>{{ t.after }}
       </p>
       <div class="consent-actions">
-        <button class="btn btn-reject" @click="reject">Reject</button>
-        <button class="btn btn-accept" @click="accept">Accept</button>
+        <button class="btn btn-reject" @click="reject">{{ t.reject }}</button>
+        <button class="btn btn-accept" @click="accept">{{ t.accept }}</button>
       </div>
     </div>
   </Transition>
