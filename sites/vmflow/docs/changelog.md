@@ -7,7 +7,13 @@ description: Notable user-facing changes to vmflow.
 
 All notable user-facing changes to `vmflow` are documented here.
 
-## Unreleased
+## v0.1.1
+
+### Added
+
+- `vmflow update` self-update command (`--check`, `--version`), ported from vminfo's updater. Self-replaces the binary on Linux/macOS; Windows is check-only.
+
+## v0.1.0
 
 ### Added
 

@@ -5,7 +5,7 @@ description: vmflow CLI reference — daemon, ctl, tui, version subcommands and 
 
 # Command Reference
 
-vmflow is a single binary with four subcommands, each with a one-letter alias.
+vmflow is a single binary with five subcommands, each with a one-letter alias.
 
 | Command | Alias | Purpose |
 | --- | --- | --- |
@@ -13,6 +13,7 @@ vmflow is a single binary with four subcommands, each with a one-letter alias.
 | [`ctl`](./ctl) | `c` | Query and control a running daemon. |
 | [`tui`](./tui) | `t` | Terminal dashboard. |
 | [`version`](./version) | `v` | Print build metadata. |
+| [`update`](./update) | `u` | Check for or install a newer release. |
 
 ## Common flags
 

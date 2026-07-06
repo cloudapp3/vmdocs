@@ -119,6 +119,7 @@ export default defineConfig({
             { text: 'ctl', link: '/commands/ctl' },
             { text: 'tui', link: '/commands/tui' },
             { text: 'version', link: '/commands/version' },
+            { text: 'update', link: '/commands/update' },
           ],
         },
       ],

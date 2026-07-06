@@ -47,6 +47,10 @@ features:
     title: TUI & Telegram Bot
     details: A terminal dashboard and an optional Telegram bot let you inspect and control rules from wherever you operate.
     link: /guide/tui
+  - icon: ⬆️
+    title: Self-Update
+    details: Check for and install newer releases in place with `vmflow update` — no installer script needed after the first install.
+    link: /commands/update
 ---
 
 ## Install in one command

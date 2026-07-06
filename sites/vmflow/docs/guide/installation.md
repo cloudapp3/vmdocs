@@ -74,3 +74,15 @@ sudo ln -sf "$HOME/.local/bin/vmflow" /usr/local/bin/vmflow
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
+
+## Updating vmflow
+
+Once installed from a tagged release (v0.1.1 or later), `vmflow` can update itself:
+
+```bash
+vmflow update --check            # check for a newer release
+vmflow update                    # install the newest release
+vmflow update --version v0.1.1   # install a specific version
+```
+
+See [`vmflow update`](../commands/update) for details, flags, and platform notes. (The v0.1.0 release predates the `update` command — reinstall it with the installer above to gain self-update.)
