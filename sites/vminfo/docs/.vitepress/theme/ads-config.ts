@@ -10,8 +10,8 @@
 export const adsClient = 'ca-pub-6224508725077453'
 
 export const slots = {
-  docBottom: '0000000001', // TODO: replace with real ad-slot id (AdSense > By ad unit > Display ads)
-  aside: '0000000002', // TODO: replace with real ad-slot id
+  docBottom: '9188312610', // vminfo-doc-bottom
+  aside: '3323530850', // vminfo-aside
 } as const
 
 /** localStorage key recording the visitor's cookie-consent choice. */
