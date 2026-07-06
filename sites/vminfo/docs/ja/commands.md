@@ -18,7 +18,7 @@ description: vminfo のコマンド説明、よく使う引数と使用例。
 | `vminfo kill <pid>` | Linux プロセスに SIGTERM を送信 |
 | `vminfo net` | ネットワーク診断（dns / port / ping / ip） |
 | `vminfo update` | アップデートの確認・インストール |
-| `vminfo --lang ja` | UI 言語を切り替え |
+| `vminfo --lang en` | UI 言語を切り替え |
 
 ## チートシート
 
@@ -50,7 +50,7 @@ vminfo net ip
 vminfo update
 vminfo update --check
 vminfo update --version v0.1.0
-vminfo --lang ja
+vminfo --lang en
 ```
 
 ## 解説
