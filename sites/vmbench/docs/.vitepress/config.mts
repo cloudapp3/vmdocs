@@ -61,6 +61,7 @@ export default defineConfig({
           { text: 'Docs Repo', link: 'https://github.com/cloudapp3/vmdocs' },
           { text: 'Contributing', link: '/contributing' },
           { text: 'Changelog', link: '/changelog' },
+          { text: 'Privacy Policy', link: '/privacy' },
         ],
       },
     ],

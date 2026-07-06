@@ -80,6 +80,7 @@ export default defineConfig({
           { text: 'Contributing', link: '/contributing' },
           { text: 'Changelog', link: '/changelog' },
           { text: 'Roadmap', link: '/roadmap' },
+          { text: 'Privacy Policy', link: '/privacy' },
         ],
       },
     ],
