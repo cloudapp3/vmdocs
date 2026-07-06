@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress';
 import { defineTeekConfig } from 'vitepress-theme-teek/config';
+import { adsClient } from './theme/ads-config';
 
 const siteTitle = 'vminfo';
 const siteDescription =
@@ -64,6 +65,8 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
     ['link', { rel: 'icon', href: '/favicon.svg' }],
+    // AdSense site verification (loads no scripts, sets no cookies on its own).
+    ['meta', { name: 'google-adsense-account', content: adsClient }],
   ],
 
   // Per-page canonical URL, Open Graph, locale, and hreflang tags (SEO)
@@ -149,6 +152,7 @@ export default defineConfig({
           { text: 'Contributing', link: '/contributing' },
           { text: 'Changelog', link: '/changelog' },
           { text: 'Roadmap', link: '/roadmap/feature-benchmark' },
+          { text: 'Privacy Policy', link: '/privacy' },
         ],
       },
     ],
