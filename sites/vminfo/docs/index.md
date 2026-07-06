@@ -104,3 +104,4 @@ Use it when you need to:
 - [HTTP API](/api)
 - [Go Library](/library/)
 - [中文文档](/zh/)
+- [日本語ドキュメント](/ja/)

@@ -8,14 +8,51 @@ const siteDescription =
 
 const siteUrl = 'https://vminfo.bestcheapvps.org';
 
-// English path -> Chinese translation path, for hreflang pairing.
-const zhOf: Record<string, string> = {
-  '': 'zh/',
-  'guide/quick-start': 'zh/quick-start',
-  'commands/': 'zh/commands',
+// English path -> translated paths (only pages actually translated).
+// Add a row whenever a page is localized into another language.
+const translations: Record<string, { zh?: string; ja?: string }> = {
+  '': { zh: 'zh/', ja: 'ja/' },
+  'guide/quick-start': { zh: 'zh/quick-start', ja: 'ja/quick-start' },
+  'commands/': { zh: 'zh/commands', ja: 'ja/commands' },
 };
-const enOf: Record<string, string> = {};
-for (const [en, zh] of Object.entries(zhOf)) enOf[zh] = en;
+
+// Per-locale metadata for hreflang + og:locale.
+const localeMeta = {
+  en: { hreflang: 'en-US', og: 'en_US' },
+  zh: { hreflang: 'zh-CN', og: 'zh_CN' },
+  ja: { hreflang: 'ja-JP', og: 'ja_JP' },
+} as const;
+type Locale = keyof typeof localeMeta;
+
+function detectLocale(path: string): Locale {
+  if (path.startsWith('zh/') || path === 'zh') return 'zh';
+  if (path.startsWith('ja/') || path === 'ja') return 'ja';
+  return 'en';
+}
+
+// hreflang alternates: emits a <link> for every available translation of the
+// current page (plus x-default). Pages with no translation emit nothing.
+function alternateLinks(path: string): any[] {
+  let enPath: string | undefined;
+  if (translations[path]) {
+    enPath = path;
+  } else {
+    for (const [en, t] of Object.entries(translations)) {
+      if (t.zh === path || t.ja === path) { enPath = en; break; }
+    }
+  }
+  if (enPath === undefined) return [];
+
+  const group: { lang: string; p: string }[] = [{ lang: localeMeta.en.hreflang, p: enPath }];
+  const t = translations[enPath];
+  if (t.zh) group.push({ lang: localeMeta.zh.hreflang, p: t.zh });
+  if (t.ja) group.push({ lang: localeMeta.ja.hreflang, p: t.ja });
+
+  return [
+    ...group.map((g) => ['link', { rel: 'alternate', hreflang: g.lang, href: `${siteUrl}/${g.p}` }]),
+    ['link', { rel: 'alternate', hreflang: 'x-default', href: `${siteUrl}/${enPath}` }],
+  ];
+}
 
 const teekConfig = defineTeekConfig({
   teekTheme: true,
@@ -47,10 +84,11 @@ export default defineConfig({
   // built as a page so it can't pollute the sitemap or split search ranking.
   srcExclude: ['README.zh-CN.md'],
 
-  // Per-locale <html lang>. Routes under /zh/ render with lang="zh-CN".
+  // Per-locale <html lang>. Routes under /zh/ render zh-CN, /ja/ render ja-JP.
   locales: {
     root: { label: 'English', lang: 'en-US' },
     zh: { label: '中文', lang: 'zh-CN' },
+    ja: { label: '日本語', lang: 'ja-JP' },
   },
 
   sitemap: {
@@ -75,36 +113,23 @@ export default defineConfig({
       .replace(/(^|\/)index\.md$/, '$1')
       .replace(/\.md$/, '');
     const url = `${siteUrl}/${path}`;
-    const isZh = path.startsWith('zh/') || path === 'zh';
-    const isHome = context.page === 'index.md' || context.page === 'zh/index.md';
-    const homeOgTitle = isZh
-      ? 'vminfo — 跨平台终端系统监控、Web 仪表盘与 Go 库'
-      : 'vminfo — terminal system monitor, web dashboard & Go library';
+    const loc = detectLocale(path);
+    const isHome = context.page === 'index.md' || context.page === 'zh/index.md' || context.page === 'ja/index.md';
+    const homeOgTitle =
+      loc === 'zh' ? 'vminfo — 跨平台终端系统监控、Web 仪表盘与 Go 库'
+        : loc === 'ja' ? 'vminfo — クロスプラットフォームのシステムモニター・Web ダッシュボード・Go ライブラリ'
+        : 'vminfo — terminal system monitor, web dashboard & Go library';
 
     const head: any[] = [
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
       ['meta', { property: 'og:title', content: isHome ? homeOgTitle : (context.title || homeOgTitle) }],
       ['meta', { property: 'og:description', content: context.description || siteDescription }],
-      ['meta', { property: 'og:locale', content: isZh ? 'zh_CN' : 'en_US' }],
+      ['meta', { property: 'og:locale', content: localeMeta[loc].og }],
     ];
 
-    // Pair translated pages so search engines route users to the right locale.
-    if (enOf[path] !== undefined) {
-      const enUrl = `${siteUrl}/${enOf[path]}`;
-      head.push(
-        ['link', { rel: 'alternate', hreflang: 'zh-CN', href: url }],
-        ['link', { rel: 'alternate', hreflang: 'en-US', href: enUrl }],
-        ['link', { rel: 'alternate', hreflang: 'x-default', href: enUrl }],
-      );
-    } else if (zhOf[path] !== undefined) {
-      const zhUrl = `${siteUrl}/${zhOf[path]}`;
-      head.push(
-        ['link', { rel: 'alternate', hreflang: 'en-US', href: url }],
-        ['link', { rel: 'alternate', hreflang: 'zh-CN', href: zhUrl }],
-        ['link', { rel: 'alternate', hreflang: 'x-default', href: url }],
-      );
-    }
+    // hreflang alternates for every available translation of this page.
+    head.push(...alternateLinks(path));
 
     // Structured data: the landing page is a SoftwareApplication, docs are TechArticle.
     if (isHome) {
@@ -144,6 +169,7 @@ export default defineConfig({
       { text: 'HTTP API', link: '/api' },
       { text: 'Go Library', link: '/library/' },
       { text: '中文', link: '/zh/' },
+      { text: '日本語', link: '/ja/' },
       {
         text: 'Community',
         items: [
@@ -213,6 +239,16 @@ export default defineConfig({
             { text: '中文首页', link: '/zh/' },
             { text: '快速开始', link: '/zh/quick-start' },
             { text: '命令参考', link: '/zh/commands' },
+          ],
+        },
+      ],
+      '/ja/': [
+        {
+          text: '日本語ドキュメント',
+          items: [
+            { text: '日本語トップ', link: '/ja/' },
+            { text: 'クイックスタート', link: '/ja/quick-start' },
+            { text: 'コマンドリファレンス', link: '/ja/commands' },
           ],
         },
       ],
