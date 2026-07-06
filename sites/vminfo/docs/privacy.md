@@ -1,6 +1,6 @@
 ---
 title: Privacy Policy
-description: How vminfo.bestcheapvps.org handles data, cookies, and third-party advertising.
+description: How vminfo.bestcheapvps.org handles data, cookies, analytics, and third-party advertising.
 ---
 
 # Privacy Policy
@@ -13,23 +13,23 @@ This Privacy Policy describes how **vminfo.bestcheapvps.org** ("we", "the site")
 
 We do not require an account and do not collect personal information to deliver documentation. The site is a static documentation website; server-side logs kept by our hosting provider (Cloudflare) may include standard request metadata (IP address, user agent, timestamps) for security and abuse prevention.
 
-## Cookies and Google AdSense
+## Cookies, advertising, and analytics
 
-This site displays ads through **Google AdSense**. AdSense and its partners (including Google's DoubleClick) may use cookies and device identifiers to serve ads based on your prior visits to this and other websites.
+This site uses cookies only **after you accept** them via the consent banner. If you reject, no advertising or analytics scripts are loaded and no such cookies are set. The technologies, all gated behind the same consent choice, are:
 
-- **Ad cookies** (e.g. `__gads`, `IDE`, `NID`) are set by Google only **after you accept** ad cookies via the consent banner. If you reject, the AdSense script is not loaded and no ad cookies are set.
-- Google's use of advertising cookies enables it and its partners to serve ads based on your visits to this site and others.
-- You may opt out of personalized advertising at [Google Ads Settings](https://www.google.com/settings/ads) and learn more at [How Google uses information from sites that use its services](https://policies.google.com/technologies/partner-sites).
+### Google AdSense
 
-## Analytics
+The site displays ads through **Google AdSense**. AdSense and its partners (including Google's DoubleClick) may use cookies and device identifiers (e.g. `__gads`, `IDE`, `NID`) to serve ads based on your visits to this and other websites. You can opt out of personalized advertising at [Google Ads Settings](https://www.google.com/settings/ads) and learn more at [How Google uses information from sites that use its services](https://policies.google.com/technologies/partner-sites).
 
-The site may use privacy-respecting, aggregated traffic measurement. No cross-site behavioral tracking is performed by the site operator.
+### Google Analytics 4
+
+The site uses **Google Analytics 4** to understand aggregate traffic — which pages are visited and roughly where visitors come from. GA4 sets the `_ga` cookie (and a `_ga_<container-id>` cookie) to distinguish unique users and sessions. IP addresses are anonymized (`anonymize_ip`) at collection time. See [How Google uses information from sites using its services](https://policies.google.com/technologies/partner-sites) and [Google Analytics Privacy Overview](https://support.google.com/analytics/answer/6004245).
 
 ## Your choices
 
-- **Accept or reject ad cookies** using the consent banner. To revisit your choice, clear the `vminfo-cookie-consent` entry in your browser's local storage.
+- **Accept or reject ad/analytics cookies** using the consent banner. To revisit your choice, clear the `vminfo-cookie-consent` entry in your browser's local storage.
 - **Disable cookies** in your browser settings.
-- **Opt out of personalized ads** via Google's Ads Settings (link above).
+- **Opt out of personalized ads** via [Google Ads Settings](https://www.google.com/settings/ads).
 
 ## Your rights (GDPR / CCPA)
 

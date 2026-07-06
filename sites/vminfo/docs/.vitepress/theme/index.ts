@@ -4,12 +4,15 @@ import './style.css';
 import { h } from 'vue';
 import AdSlot from './components/AdSlot.vue';
 import ConsentBanner from './components/ConsentBanner.vue';
+import GATracker from './components/GATracker.vue';
 import { slots } from './ads-config';
 
 export default {
   extends: Teek,
   Layout: () =>
     h(Teek.Layout, null, {
+      // GA4 SPA page_view tracker (fires on each route change, after consent).
+      'layout-top': () => h(GATracker),
       // Below doc content — a horizontal ad unit appears after you finish reading.
       'doc-bottom': () => h(AdSlot, { slot: slots.docBottom }),
       // Bottom of the right outline column.

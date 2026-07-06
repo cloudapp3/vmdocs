@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getConsent, setConsent, loadAdSense } from '../ads'
+import { getConsent, setConsent, loadAdSense, loadGA } from '../ads'
 
 const show = ref(false)
 
 onMounted(() => {
   const c = getConsent()
-  if (c === 'accepted') loadAdSense()
-  else if (c === null) show.value = true
+  if (c === 'accepted') {
+    loadAdSense()
+    loadGA()
+  } else if (c === null) {
+    show.value = true
+  }
 })
 
 const accept = () => {
@@ -24,8 +28,8 @@ const reject = () => {
   <Transition name="consent">
     <div v-if="show" class="consent-banner" role="dialog" aria-label="Cookie consent">
       <p class="consent-text">
-        We use cookies to serve ads via Google AdSense and to measure traffic.
-        You can accept or reject ad cookies at any time. See our
+        We use cookies to serve ads via Google AdSense and to measure traffic with Google Analytics.
+        You can accept or reject these cookies at any time. See our
         <a href="/privacy">Privacy Policy</a>.
       </p>
       <div class="consent-actions">
