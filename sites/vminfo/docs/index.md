@@ -1,5 +1,6 @@
 ---
 layout: home
+titleTemplate: false
 description: vminfo is a cross-platform terminal system monitor and CLI for Linux, macOS, and Windows — live CPU, memory, disk, network, and process stats, JSON output, a web dashboard, and an embeddable Go library.
 hero:
   name: vminfo

@@ -5,6 +5,17 @@ const siteTitle = 'vminfo';
 const siteDescription =
   'Cross-platform host runtime information toolkit with terminal UI, JSON output, web dashboard, and embeddable Go APIs.';
 
+const siteUrl = 'https://vminfo.bestcheapvps.org';
+
+// English path -> Chinese translation path, for hreflang pairing.
+const zhOf: Record<string, string> = {
+  '': 'zh/',
+  'guide/quick-start': 'zh/quick-start',
+  'commands/': 'zh/commands',
+};
+const enOf: Record<string, string> = {};
+for (const [en, zh] of Object.entries(zhOf)) enOf[zh] = en;
+
 const teekConfig = defineTeekConfig({
   teekTheme: true,
   teekHome: false,
@@ -31,33 +42,92 @@ export default defineConfig({
   lastUpdated: true,
   ignoreDeadLinks: false,
 
+  // The legacy Chinese README stub duplicates /zh/; exclude it from being
+  // built as a page so it can't pollute the sitemap or split search ranking.
+  srcExclude: ['README.zh-CN.md'],
+
+  // Per-locale <html lang>. Routes under /zh/ render with lang="zh-CN".
+  locales: {
+    root: { label: 'English', lang: 'en-US' },
+    zh: { label: '中文', lang: 'zh-CN' },
+  },
+
   sitemap: {
-    hostname: 'https://vminfo.bestcheapvps.org',
+    hostname: siteUrl,
   },
 
   head: [
     ['meta', { name: 'theme-color', content: '#22c55e' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: siteTitle }],
-    ['meta', { property: 'og:image', content: 'https://vminfo.bestcheapvps.org/og-image.png' }],
-    ['meta', { property: 'og:locale', content: 'en_US' }],
+    ['meta', { property: 'og:image', content: `${siteUrl}/og-image.png` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:image', content: 'https://vminfo.bestcheapvps.org/og-image.png' }],
+    ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
     ['link', { rel: 'icon', href: '/favicon.svg' }],
   ],
 
-  // Per-page canonical URL + Open Graph tags (SEO)
+  // Per-page canonical URL, Open Graph, locale, and hreflang tags (SEO)
   transformHead: async (context) => {
     const path = context.page
       .replace(/(^|\/)index\.md$/, '$1')
       .replace(/\.md$/, '');
-    const url = `https://vminfo.bestcheapvps.org/${path}`;
-    return [
+    const url = `${siteUrl}/${path}`;
+    const isZh = path.startsWith('zh/') || path === 'zh';
+    const isHome = context.page === 'index.md' || context.page === 'zh/index.md';
+    const homeOgTitle = isZh
+      ? 'vminfo — 跨平台终端系统监控、Web 仪表盘与 Go 库'
+      : 'vminfo — terminal system monitor, web dashboard & Go library';
+
+    const head: any[] = [
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
-      ['meta', { property: 'og:title', content: context.page === 'index.md' ? siteTitle : (context.title || siteTitle) }],
+      ['meta', { property: 'og:title', content: isHome ? homeOgTitle : (context.title || homeOgTitle) }],
       ['meta', { property: 'og:description', content: context.description || siteDescription }],
+      ['meta', { property: 'og:locale', content: isZh ? 'zh_CN' : 'en_US' }],
     ];
+
+    // Pair translated pages so search engines route users to the right locale.
+    if (enOf[path] !== undefined) {
+      const enUrl = `${siteUrl}/${enOf[path]}`;
+      head.push(
+        ['link', { rel: 'alternate', hreflang: 'zh-CN', href: url }],
+        ['link', { rel: 'alternate', hreflang: 'en-US', href: enUrl }],
+        ['link', { rel: 'alternate', hreflang: 'x-default', href: enUrl }],
+      );
+    } else if (zhOf[path] !== undefined) {
+      const zhUrl = `${siteUrl}/${zhOf[path]}`;
+      head.push(
+        ['link', { rel: 'alternate', hreflang: 'en-US', href: url }],
+        ['link', { rel: 'alternate', hreflang: 'zh-CN', href: zhUrl }],
+        ['link', { rel: 'alternate', hreflang: 'x-default', href: url }],
+      );
+    }
+
+    // Structured data: the landing page is a SoftwareApplication, docs are TechArticle.
+    if (isHome) {
+      head.push(['script', { type: 'application/ld+json' }, JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: siteTitle,
+        applicationCategory: 'SystemApplication',
+        operatingSystem: 'Linux, macOS, Windows',
+        description: context.description || siteDescription,
+        url,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      })]);
+    } else if (context.title) {
+      head.push(['script', { type: 'application/ld+json' }, JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        headline: context.title,
+        description: context.description || siteDescription,
+        url,
+        author: { '@type': 'Organization', name: 'cloudapp3' },
+        publisher: { '@type': 'Organization', name: 'cloudapp3' },
+      })]);
+    }
+
+    return head;
   },
 
   themeConfig: {
