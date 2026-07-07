@@ -171,11 +171,17 @@ const LOCALE_UI = {
   },
 } as const;
 
-// Locale switcher entries: every language except the current one.
+// Locale switcher as a dropdown (keeps the nav tidy as languages grow,
+// instead of a long flat row of language links). The label shows the current
+// language; the menu lists the others.
 function localeSwitcher(currentCode: string) {
-  return LANGUAGES
-    .filter((l) => l.code !== currentCode)
-    .map((l) => ({ text: l.label, link: l.route + '/' }));
+  const current = LANGUAGES.find((l) => l.code === currentCode);
+  return {
+    text: current?.label ?? 'Language',
+    items: LANGUAGES
+      .filter((l) => l.code !== currentCode)
+      .map((l) => ({ text: l.label, link: l.route + '/' })),
+  };
 }
 
 function navFor(code: string) {
@@ -185,7 +191,7 @@ function navFor(code: string) {
     { text: s.nav.commands, link: s.links.commands },
     { text: s.nav.api, link: '/api' },
     { text: s.nav.library, link: '/library/' },
-    ...localeSwitcher(code),
+    localeSwitcher(code),
     {
       text: s.nav.community,
       items: [
