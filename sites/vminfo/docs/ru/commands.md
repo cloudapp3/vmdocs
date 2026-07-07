@@ -13,7 +13,7 @@ description: Обзор команд CLI vminfo и типичные сценар
 | `vminfo info` | Псевдоним для TUI |
 | `vminfo summary` | Сбор одного снимка |
 | `vminfo watch` | Непрерывный поток снимков |
-| `vminfo --web` | Запуск браузерного дашборда |
+| `vminfo --web` | Запуск веб-дашборда |
 | `vminfo ps` | Список локальных процессов на Linux |
 | `vminfo kill <pid>` | Отправка SIGTERM процессу Linux |
 | `vminfo net` | Сетевая диагностика (dns / port / ping / ip) |

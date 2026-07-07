@@ -10,7 +10,7 @@ description: Linux・macOS・Windows で利用できる機能の対応状況。
 | `summary` / `watch` | ✅ | ✅ | ✅ |
 | TUI | ✅ | ✅ | ✅ |
 | Web ダッシュボード | ✅ | ✅ | ✅ |
-| `ps` / `kill` | ✅ | ⚠️ stub | ⚠️ stub |
+| `ps` / `kill` | ✅ | ⚠️ スタブ | ⚠️ スタブ |
 | `update --check` | ✅ | ✅ | ✅ |
 | `update` インストール | ✅ | ✅ | ⚠️ 確認のみ |
 

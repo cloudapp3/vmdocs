@@ -39,7 +39,7 @@ vminfo ps --sort mem
 - デフォルトのソートは `cpu` です。
 - JSON 出力はプロセスオブジェクトの配列を返します。
 - `--watch --json` は `collected_at` タイムスタンプ付きの JSON Lines を返します。
-- 非 Linux ビルドでは、このコマンドは未サポートの stub として残ります。
+- 非 Linux ビルドでは、このコマンドはサポート対象外のスタブ として残ります。
 
 ## 例
 

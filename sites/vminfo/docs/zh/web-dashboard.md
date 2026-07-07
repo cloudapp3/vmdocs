@@ -1,6 +1,6 @@
 ---
 title: Web 仪表盘
-description: 启动只读 HTTP API 与浏览器仪表盘，包括 token 鉴权与 WebSocket 访问。
+description: 启动只读 HTTP API 与 Web 仪表盘，包括 token 鉴权与 WebSocket 访问。
 ---
 
 # Web 仪表盘

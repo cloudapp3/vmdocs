@@ -1,6 +1,6 @@
 ---
 title: Web ダッシュボード
-description: 読み取り専用の HTTP API とブラウザダッシュボード（トークン認証・WebSocket アクセスを含む）を起動します。
+description: 読み取り専用の HTTP API と Web ダッシュボード（トークン認証・ WebSocket アクセスを含む）を起動します。
 ---
 
 # Web ダッシュボード

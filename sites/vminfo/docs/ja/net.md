@@ -87,7 +87,7 @@ vminfo net ip --json
 
 - 人間が読める出力はローカライズされます。JSON 出力は安定しており、言語に依存しません。
 - JSON の結果ではタイミングを `elapsed_ms` で返し、エラーは `error` フィールドで示します。
-- これらの診断は、Web ダッシュボードから [`POST /api/v1/net/diag`](/ja/api#post-api-v1-net-diag) 経由でも利用できます。
+- これらの診断は、 Web ダッシュボードから [`POST /api/v1/net/diag`](/ja/api#post-api-v1-net-diag) 経由でも利用できます。
 
 ## 例
 

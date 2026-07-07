@@ -61,3 +61,14 @@ vminfo --lang en
 - `kill`：Linux 専用。`SIGTERM` を送信。
 - `net`：オンデマンドのネットワーク診断。`dns` はドメイン名を解決（`--server` で DNS 指定可）、`port` は TCP ポートの接続性とレイテンシをテスト、`ping` は TCP（デフォルト・クロスプラットフォーム）と ICMP（権限が必要）の両モードをサポート、`ip` は自マシンまたは指定 IP のパブリック情報（ASN / 地理情報、第三者の `ip.bestcheapvps.org` 経由）を照会します。いずれも `--json` に対応。
 - `update`：最新リリースの確認・インストール。Windows は確認のみ対応。
+
+## 各コマンドの詳細
+
+各コマンドの詳細は以下のページを参照してください：
+
+- [summary](/ja/summary)
+- [watch](/ja/watch)
+- [ps](/ja/ps)
+- [kill](/ja/kill)
+- [net](/ja/net)
+- [update](/ja/update)

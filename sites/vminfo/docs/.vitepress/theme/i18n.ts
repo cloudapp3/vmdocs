@@ -66,6 +66,24 @@ const consentDict: Record<string, ConsentMessages> = {
     reject: 'Rechazar',
     ariaLabel: 'Consentimiento de cookies',
   },
+  'pt-BR': {
+    before:
+      'Usamos cookies para exibir anúncios do Google AdSense e medir o tráfego com o Google Analytics. Você pode aceitar ou rejeitar esses cookies a qualquer momento. Consulte nossa ',
+    privacy: 'Política de privacidade',
+    after: '.',
+    accept: 'Aceitar',
+    reject: 'Rejeitar',
+    ariaLabel: 'Consentimento de cookies',
+  },
+  'ko-KR': {
+    before:
+      'Google AdSense 광고 게재와 Google Analytics 트래픽 측정을 위해 쿠키를 사용합니다. 언제든지 수락하거나 거부할 수 있습니다. ',
+    privacy: '개인정보 처리방침',
+    after: '을 참조하세요.',
+    accept: '수락',
+    reject: '거부',
+    ariaLabel: '쿠키 동의',
+  },
 };
 
 const FALLBACK = 'en-US';

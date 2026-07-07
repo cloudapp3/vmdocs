@@ -29,6 +29,8 @@ export const LANGUAGES: Language[] = [
   { code: 'ja', label: '日本語', vpLang: 'ja-JP', hreflang: 'ja-JP', og: 'ja_JP', route: '/ja' },
   { code: 'ru', label: 'Русский', vpLang: 'ru-RU', hreflang: 'ru-RU', og: 'ru_RU', route: '/ru' },
   { code: 'es', label: 'Español', vpLang: 'es-ES', hreflang: 'es-ES', og: 'es_ES', route: '/es' },
+  { code: 'pt-BR', label: 'Português (BR)', vpLang: 'pt-BR', hreflang: 'pt-BR', og: 'pt_BR', route: '/pt-BR' },
+  { code: 'ko', label: '한국어', vpLang: 'ko-KR', hreflang: 'ko-KR', og: 'ko_KR', route: '/ko' },
 ];
 
 /** The root (English) language — no URL prefix. */
