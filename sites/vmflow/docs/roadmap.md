@@ -13,14 +13,14 @@ vmflow is at a practical v0.1-style MVP. The forwarding path, rule lifecycle, lo
 - [x] UDP forwarding
 - [x] `ApplySnapshot`
 - [x] daemon + CLI
-- [x] local admin API
+- [x] local control API
 - [x] YAML config
 
 ## v0.2 — in progress
 
 - [x] Prometheus metrics
 - [x] better structured logging
-- [x] admin API authentication
+- [x] control API authentication
 - [x] rule precheck
 - [ ] graceful drain
 - [ ] Windows / macOS manual verification
@@ -30,7 +30,8 @@ vmflow is at a practical v0.1-style MVP. The forwarding path, rule lifecycle, lo
 - [ ] per-rule shared bandwidth bucket
 - [ ] event subscription API
 - [ ] config hot-reload enhancements
-- [ ] Docker / systemd official examples
+- [x] native boot-startup service (systemd / launchd / Windows Service via `vmflow service install`)
+- [ ] Docker official image / examples
 
 ## Reserved for later
 

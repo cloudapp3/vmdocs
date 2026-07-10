@@ -14,8 +14,9 @@
     "docs:build:vmbench": "vitepress build sites/vmbench/docs",
     "docs:preview:vmbench": "vitepress preview sites/vmbench/docs --host 0.0.0.0",
     "docs:dev:vmflow": "vitepress dev sites/vmflow/docs",
-    "docs:build:vmflow": "vitepress build sites/vmflow/docs",
-    "docs:preview:vmflow": "vitepress preview sites/vmflow/docs --host 0.0.0.0"
+    "docs:build:vmflow": "vitepress build sites/vmflow/docs && pnpm check:i18n:vmflow",
+    "docs:preview:vmflow": "vitepress preview sites/vmflow/docs --host 0.0.0.0",
+    "check:i18n:vmflow": "node sites/vmflow/docs/.vitepress/check-hreflang.mjs"
   },
   "devDependencies": {
     "@types/node": "25.9.3",

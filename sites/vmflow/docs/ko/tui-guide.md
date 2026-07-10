@@ -1,0 +1,38 @@
+---
+title: TUI 대시보드
+description: vmflow 터미널 대시보드 — 시작하고, Dashboard·Rules·Detail 보기 간에 전환합니다.
+---
+
+# TUI 대시보드
+
+vmflow는 실행 중인 데몬을 살펴보는 터미널 UI를 제공합니다. 로컬 컨트롤 API에서 읽어오므로 라이브 규칙 상태와 트래픽 카운터를 보여줍니다.
+
+## 시작하기
+
+```bash
+vmflow tui
+```
+
+기본이 아닌 컨트롤 주소를 가리키거나 토큰을 전달하세요:
+
+```bash
+vmflow tui -addr http://127.0.0.1:19090 -token <token>
+# or
+VMFLOW_CONTROL_TOKEN=<token> vmflow tui
+```
+
+TUI는 `ctl`과 동일한 클라이언트 플래그를 받으며, TLS/mTLS 플래그(`-tls-ca-file`, `-tls-client-cert`, `-tls-client-key`, `-tls-skip-verify`)와 커스텀 요청 헤더를 위한 `-H` / `--header`도 포함됩니다.
+
+## 보기
+
+<kbd>Tab</kbd>을 눌러 보기 간에 순환하세요:
+
+| 보기 | 표시 |
+| --- | --- |
+| **Dashboard** | 전반적인 상태, 실행 중인 규칙 수, 가동 시간. |
+| **Rules** | 라이브 카운터와 함께 실행 중인 규칙 목록. 이름으로 규칙 필터링 지원. |
+| **Detail** | 선택한 규칙의 상세 정보. |
+
+## 활용 시점
+
+TUI는 메트릭을 수집하지 않고 "vmflow가 지금 무엇을 하고 있는가?"에 답하는 가장 빠른 방법입니다. 장기 히스토리가 필요하다면 대신 Prometheus를 `/metrics`로 향하게 하세요 — TUI는 메모리 상의 현재 상태만 보여줍니다.

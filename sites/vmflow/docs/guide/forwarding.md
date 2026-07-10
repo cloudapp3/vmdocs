@@ -27,6 +27,7 @@ Each rule carries runtime controls independent of the protocol:
 
 - **`speed_limit`** — per-connection bidirectional rate limit (token bucket), in bytes/sec. `0` means unlimited. This is intentionally simple and per-session; it is not a shared global bandwidth bucket.
 - **`max_conn`** — concurrent connection cap. When the cap is reached, new connections are closed immediately. `0` means unlimited.
+- **`idle_timeout`** — per-connection idle timeout in seconds. `0` means use the default (5 minutes / 300s). Changing it restarts the rule.
 - **`enabled`** — a disabled rule is kept in config (and in snapshots) but is not started.
 
 ## Traffic counters
@@ -41,4 +42,4 @@ Counters live in memory only. For UDP, the connection count is a session-like ap
 
 ## Rule equivalence
 
-Rules carry both runtime fields (protocol, addresses, ports, limits) and metadata (`remark`, `revision`, timestamps). The engine compares only the runtime fields when diffing a new snapshot against the live state, so cosmetic edits do not cause needless restarts. See [Rules & Lifecycle](./rules).
+Rules carry both runtime fields (protocol, addresses, ports, limits, `idle_timeout`) and metadata (`remark`, `revision`, timestamps). The engine compares only the runtime fields when diffing a new snapshot against the live state, so cosmetic edits do not cause needless restarts — but changing `idle_timeout` does trigger a restart. See [Rules & Lifecycle](./rules).

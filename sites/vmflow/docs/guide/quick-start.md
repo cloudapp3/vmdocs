@@ -41,7 +41,7 @@ The sample forwards TCP `0.0.0.0:2201` to `127.0.0.1:22` (SSH).
 
 ## 3. Query it
 
-From another terminal, point the CLI at the local admin API (default `127.0.0.1:19090`):
+From another terminal, point the CLI at the local control API (default `127.0.0.1:19090`):
 
 ```bash
 vmflow ctl health
@@ -74,3 +74,5 @@ Reload runs [precheck](./precheck) first; if there are errors, the change is rej
 - [Configuration](./configuration) — every YAML field explained
 - [Forwarding Engine](./forwarding) — protocols, speed limits, connection caps
 - [Rules & Lifecycle](./rules) — snapshot apply and incremental diff
+- [`vmflow service install`](../commands/service) — run vmflow as a boot-time native service (systemd / launchd / Windows Service)
+- [`vmflow uninstall`](../commands/uninstall) — one-command teardown (service, binary, config, logs, certs)

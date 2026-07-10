@@ -11,7 +11,7 @@ vmflow version [-json]
 
 Alias: `vmflow v`.
 
-Prints build metadata (version, commit, build time, target OS/arch). Add `-json` for machine-readable output.
+Prints build metadata — version, commit, and build time. Add `-json` for machine-readable output.
 
 ## Examples
 

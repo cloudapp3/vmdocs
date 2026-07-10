@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getConsent, setConsent, loadGA } from '../ads'
+import { useConsentMessages } from '../i18n'
 
 const show = ref(false)
+const msgs = useConsentMessages()
 
 onMounted(() => {
   const c = getConsent()
@@ -22,15 +24,14 @@ const reject = () => {
 
 <template>
   <Transition name="consent">
-    <div v-if="show" class="consent-banner" role="dialog" aria-label="Cookie consent">
+    <div v-if="show" class="consent-banner" role="dialog" :aria-label="msgs.ariaLabel.value">
       <p class="consent-text">
-        We use cookies to measure traffic with Google Analytics. You can accept or reject
-        these cookies at any time. See our
-        <a href="/privacy">Privacy Policy</a>.
+        {{ msgs.before.value }}
+        <a href="/privacy">{{ msgs.privacy.value }}</a>{{ msgs.after.value }}
       </p>
       <div class="consent-actions">
-        <button class="btn btn-reject" @click="reject">Reject</button>
-        <button class="btn btn-accept" @click="accept">Accept</button>
+        <button class="btn btn-reject" @click="reject">{{ msgs.reject.value }}</button>
+        <button class="btn btn-accept" @click="accept">{{ msgs.accept.value }}</button>
       </div>
     </div>
   </Transition>

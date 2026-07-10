@@ -1,73 +1,37 @@
 ---
 title: 命令参考
-description: vmflow CLI 命令参考 —— daemon / ctl / tui / version 及其别名。
+description: vmflow CLI 参考——daemon、ctl、tui、version、update、service、uninstall 子命令及其别名。
 ---
 
 # 命令参考
 
-`vmflow` 是单二进制,五个子命令,每个都有单字母别名。
+vmflow 是一个带有七个子命令的单二进制程序。别名见下表。
 
 | 命令 | 别名 | 用途 |
 | --- | --- | --- |
-| `daemon` | `d` | 运行转发守护进程 |
-| `ctl` | `c` | 查询/控制一个运行中的守护进程 |
-| `tui` | `t` | 终端仪表盘 |
-| `version` | `v` | 打印构建信息 |
-| `update` | `u` | 检查或安装更新版本 |
+| [`daemon`](./daemon) | `d` | 运行转发守护进程。 |
+| [`ctl`](./ctl) | `c` | 查询并控制一个运行中的守护进程。 |
+| [`tui`](./tui) | `t` | 终端仪表盘。 |
+| [`version`](./version) | `v` | 打印构建元数据。 |
+| [`update`](./update) | `u` | 检查或安装更新的版本。 |
+| [`service`](./service) | `svc` | 注册为原生系统服务（开机自启）。 |
+| [`uninstall`](./uninstall) | `remove`, `rm` | 一键卸载并清理。 |
 
-## 通用 flag
+## 通用客户端参数 {#common-client-flags}
 
-`ctl` 和 `tui` 共用以下 flag:
+`ctl` 和 `tui` 都是[控制 API](./api) 的客户端，共用以下参数：
 
-| Flag | 环境变量 | 默认值 | 说明 |
+| 参数 | 环境变量 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `-addr` | `VMFLOW_ADMIN_ADDR` | `http://127.0.0.1:19090` | admin API 地址 |
-| `-token` | `VMFLOW_ADMIN_TOKEN` | _(无)_ | 开启鉴权时的 Bearer Token |
+| `-addr` | _(无)_ | `http://127.0.0.1:19090` | 控制 API 的 base URL。 |
+| `-token` | `VMFLOW_CONTROL_TOKEN` | _(无)_ | 启用认证时的 Bearer 令牌。 |
+| `-tls-ca-file` | `VMFLOW_TLS_CA_FILE` | _(无)_ | 用于校验控制 API 服务器证书的 CA 包（私有/自签名 CA）。 |
+| `-tls-client-cert` | `VMFLOW_TLS_CLIENT_CERT` | _(无)_ | mTLS 的客户端证书（当服务器设置了 `control_tls.client_ca_file` 时必需）。 |
+| `-tls-client-key` | `VMFLOW_TLS_CLIENT_KEY` | _(无)_ | mTLS 的客户端密钥（与 `-tls-client-cert` 配合使用）。 |
+| `-tls-skip-verify` | `VMFLOW_TLS_INSECURE` (`1`/`true`) | `false` | 跳过服务器证书校验（危险，仅用于调试）。 |
+| `-H` / `--header` | `VMFLOW_HEADERS`（以 `;` 分隔） | _(无)_ | 额外的请求头，格式为 `Name: Value`（可重复）。 |
 
-## `vmflow daemon`
+## 备注
 
-```bash
-vmflow daemon -config ./examples/config.yaml [-admin-listen 127.0.0.1:19090]
-```
-
-## `vmflow ctl`
-
-```bash
-vmflow ctl [-addr http://127.0.0.1:19090] [-token TOKEN] <health|rules|stats|metrics|precheck|reload>
-```
-
-| 子命令 | 对应接口 | 说明 |
-| --- | --- | --- |
-| `health` | `GET /healthz` | 守护进程健康状态 |
-| `rules` | `GET /v1/rules` | 列出运行中的规则 |
-| `stats` | `GET /v1/stats` | 每条规则的流量统计(内存快照) |
-| `metrics` | `GET /metrics` | Prometheus 文本指标 |
-| `precheck` | `GET\|POST /v1/precheck` | 校验当前配置但不应用 |
-| `reload` | `POST /v1/reload` | 重新加载配置并应用 |
-
-## `vmflow tui`
-
-```bash
-vmflow tui [-addr http://127.0.0.1:19090] [-token TOKEN]
-```
-
-## `vmflow version`
-
-```bash
-vmflow version [-json]
-```
-
-## `vmflow update`
-
-检查并安装最新 release(自更新;linux/macOS 支持原地替换,Windows 仅 `--check`)。
-
-```bash
-vmflow update [--check] [--version <tag>]
-```
-
-详见英文 [update 命令参考](../commands/update)。
-
-::: tip 备注
-- 旧的分离二进制 `relayd` / `relayctl` / `relaytui` 仍可编译(兼容保留),但发布产物推荐统一使用 `vmflow`。
-- 隧道命令(`tunnel-server` / `tunnel-client` / `tunnel-ctl`)和证书命令(`certs` 系列)在当前构建中**未启用**。
-:::
+- 出于兼容性，旧的分离式二进制 `relayd`、`relayctl` 和 `relaytui` 仍然可以构建——它们只是对相同包的薄封装，并读取相同的 `VMFLOW_CONTROL_TOKEN` 环境变量——但发布产物优先使用统一的 `vmflow` 二进制。
+- 隧道命令（`tunnel-server`、`tunnel-client`、`tunnel-ctl`）和证书命令（`certs`、`certs-obtain`、`certs-review`）在当前构建中**未启用**。
