@@ -84,6 +84,14 @@ Use it when you need to:
 - embed host metrics collection into another Go tool
 - diagnose a single host without running a full monitoring platform
 
+Not sure which layer you need? Use the [system monitoring tool comparison](/compare/) to decide between vminfo, btop, Glances, and gopsutil.
+
+## Compare monitoring tools
+
+- [vminfo vs btop](/compare/vminfo-vs-btop): terminal-first monitoring versus a broader JSON, Web/API, and Go workflow
+- [vminfo vs Glances](/compare/vminfo-vs-glances): self-contained local diagnostics versus plugins, exports, and client/server monitoring
+- [vminfo vs gopsutil](/compare/vminfo-vs-gopsutil): a ready-to-run toolkit and high-level API versus low-level Go metric primitives
+
 ## Screenshots
 
 <div class="vminfo-screenshot-grid">
@@ -93,8 +101,6 @@ Use it when you need to:
   <img src="./assets/tui-help.png" alt="vminfo help overlay" />
 </div>
 
-![vminfo TUI overview](./assets/tui-overview-refreshed.png)
-
 ## Quick links
 
 - [Quick start](/guide/quick-start)
@@ -103,5 +109,6 @@ Use it when you need to:
 - [Command reference](/commands/)
 - [HTTP API](/api)
 - [Go Library](/library/)
+- [Compare vminfo](/compare/)
 - [中文文档](/zh/)
 - [日本語ドキュメント](/ja/)

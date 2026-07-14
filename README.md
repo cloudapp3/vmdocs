@@ -29,3 +29,34 @@ pnpm docs:preview
 - vminfo Cloudflare Pages output at `sites/vminfo/docs/.vitepress/dist`
 - shared dependencies and build scripts at the repository root
 - room for future docs sites under `sites/<project>/docs/`
+
+## Deploy the vminfo docs site
+
+The public vminfo documentation site is deployed from this repository. These
+settings are for documentation maintainers; they are not instructions for
+deploying the vminfo application itself.
+
+### Cloudflare Pages settings
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | VitePress or None |
+| Build command | `pnpm docs:build:vminfo` |
+| Build output directory | `sites/vminfo/docs/.vitepress/dist` |
+| Root directory | `/` |
+| Node.js version | 20 or newer |
+
+If the Pages project needs to install dependencies during the build, use:
+
+```bash
+corepack enable && pnpm install --frozen-lockfile && pnpm docs:build:vminfo
+```
+
+Add the custom domain in the Cloudflare Pages project before creating or
+changing its DNS record. The production site uses
+`https://vminfo.bestcheapvps.org/` at the domain root, so the VitePress config
+does not set `base`. A future subpath deployment such as
+`https://example.com/vminfo/` would require `base: "/vminfo/"` instead.
+
+Do not commit `sites/*/docs/.vitepress/dist/`; Cloudflare Pages must publish the
+fresh output produced by the build command.

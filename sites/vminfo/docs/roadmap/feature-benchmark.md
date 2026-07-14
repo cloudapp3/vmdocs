@@ -7,6 +7,8 @@ description: Feature comparison and product direction notes for vminfo.
 
 This document records vminfo's feature tradeoffs after comparing similar open-source projects. It is a planning reference for issues and PR review, not a promise list.
 
+For user-facing selection guidance, see the evidence-based comparisons for [btop](/compare/vminfo-vs-btop), [Glances](/compare/vminfo-vs-glances), and [gopsutil](/compare/vminfo-vs-gopsutil). Those pages explain current fit; this page remains the internal product-direction reference.
+
 ## Product position
 
 vminfo should stay within these boundaries:

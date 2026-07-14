@@ -11,7 +11,7 @@ import {
 
 const siteTitle = 'vminfo';
 const siteDescription =
-  'Cross-platform host runtime information toolkit with terminal UI, JSON output, web dashboard, and embeddable Go APIs.';
+  'Cross-platform terminal system monitor with JSON output, a web dashboard, network diagnostics, and embeddable Go APIs.';
 
 const siteUrl = 'https://vminfo.bestcheapvps.org';
 
@@ -115,59 +115,59 @@ function alternateLinks(path: string): any[] {
 const LOCALE_UI = {
   en: {
     nav: { guide: 'Guide', commands: 'Commands', api: 'HTTP API', library: 'Go Library', community: 'Community', docsRepo: 'Docs Repo', contributing: 'Contributing', changelog: 'Changelog', roadmap: 'Roadmap', privacy: 'Privacy Policy' },
-    links: { guide: '/guide/quick-start', commands: '/commands/' },
+    links: { guide: '/guide/quick-start', commands: '/commands/', api: '/api', library: '/library/' },
     editLink: 'Edit this page on GitHub',
     footer: 'Released under the MIT License.',
     homeOgTitle: 'vminfo — terminal system monitor, web dashboard & Go library',
-    sidebar: { title: 'Documentation', home: 'Home', quickStart: 'Quick Start', commands: 'Commands' },
+    sidebar: { title: 'Documentation', home: 'Home', gettingStarted: 'Getting Started', quickStart: 'Quick Start', installation: 'Installation', deployment: 'Deployment', platformSupport: 'Platform Support', using: 'Using vminfo', overview: 'Overview', webDashboard: 'Web Dashboard', tuiControls: 'TUI Controls', commands: 'Commands', api: 'HTTP API', library: 'Go Library', libraryHome: 'Library Usage', collect: 'Collect Metrics', embedTui: 'Embed TUI' },
   },
   zh: {
     nav: { guide: '快速开始', commands: '命令参考', api: 'HTTP API', library: 'Go 库', community: '社区', docsRepo: '文档仓库', contributing: '参与贡献', changelog: '更新日志', roadmap: '路线图', privacy: '隐私政策' },
-    links: { guide: '/zh/quick-start', commands: '/zh/commands' },
+    links: { guide: '/zh/quick-start', commands: '/zh/commands', api: '/zh/api', library: '/zh/library' },
     editLink: '在 GitHub 上编辑此页',
     footer: '基于 MIT 协议发布。',
     homeOgTitle: 'vminfo — 跨平台终端系统监控、Web 仪表盘与 Go 库',
-    sidebar: { title: '中文文档', home: '中文首页', quickStart: '快速开始', commands: '命令参考' },
+    sidebar: { title: '中文文档', home: '中文首页', gettingStarted: '入门', quickStart: '快速开始', installation: '安装', deployment: '部署', platformSupport: '平台支持', using: '使用 vminfo', overview: '概览', webDashboard: 'Web 仪表盘', tuiControls: 'TUI 控制', commands: '命令参考', api: 'HTTP API', library: 'Go 库', libraryHome: '库用法', collect: '采集指标', embedTui: '嵌入 TUI' },
   },
   ja: {
     nav: { guide: 'クイックスタート', commands: 'コマンド', api: 'HTTP API', library: 'Go ライブラリ', community: 'コミュニティ', docsRepo: 'ドキュメントリポジトリ', contributing: '貢献する', changelog: '変更履歴', roadmap: 'ロードマップ', privacy: 'プライバシーポリシー' },
-    links: { guide: '/ja/quick-start', commands: '/ja/commands' },
+    links: { guide: '/ja/quick-start', commands: '/ja/commands', api: '/ja/api', library: '/ja/library' },
     editLink: 'GitHub でこのページを編集',
     footer: 'MIT ライセンスで公開。',
     homeOgTitle: 'vminfo — クロスプラットフォームのシステムモニター・Web ダッシュボード・Go ライブラリ',
-    sidebar: { title: '日本語ドキュメント', home: '日本語トップ', quickStart: 'クイックスタート', commands: 'コマンドリファレンス' },
+    sidebar: { title: '日本語ドキュメント', home: '日本語トップ', gettingStarted: 'はじめに', quickStart: 'クイックスタート', installation: 'インストール', deployment: 'デプロイ', platformSupport: '対応プラットフォーム', using: 'vminfo の使い方', overview: '概要', webDashboard: 'Web ダッシュボード', tuiControls: 'TUI 操作', commands: 'コマンド', api: 'HTTP API', library: 'Go ライブラリ', libraryHome: 'ライブラリの使い方', collect: 'メトリクス収集', embedTui: 'TUI の組み込み' },
   },
   ru: {
     nav: { guide: 'Руководство', commands: 'Команды', api: 'HTTP API', library: 'Библиотека Go', community: 'Сообщество', docsRepo: 'Репозиторий док.', contributing: 'Участие', changelog: 'Журнал изменений', roadmap: 'Дорожная карта', privacy: 'Политика конфиденциальности' },
-    links: { guide: '/ru/quick-start', commands: '/ru/commands' },
+    links: { guide: '/ru/quick-start', commands: '/ru/commands', api: '/ru/api', library: '/ru/library' },
     editLink: 'Редактировать на GitHub',
     footer: 'Выпускается по лицензии MIT.',
     homeOgTitle: 'vminfo — системный монитор для терминала, веб-дашборд и библиотека Go',
-    sidebar: { title: 'Документация', home: 'Главная', quickStart: 'Быстрый старт', commands: 'Команды' },
+    sidebar: { title: 'Документация', home: 'Главная', gettingStarted: 'Начало работы', quickStart: 'Быстрый старт', installation: 'Установка', deployment: 'Развертывание', platformSupport: 'Поддержка платформ', using: 'Использование vminfo', overview: 'Обзор', webDashboard: 'Веб-панель', tuiControls: 'Управление TUI', commands: 'Команды', api: 'HTTP API', library: 'Библиотека Go', libraryHome: 'Использование библиотеки', collect: 'Сбор метрик', embedTui: 'Встраивание TUI' },
   },
   es: {
     nav: { guide: 'Guía', commands: 'Comandos', api: 'HTTP API', library: 'Biblioteca Go', community: 'Comunidad', docsRepo: 'Repositorio de docs', contributing: 'Contribuir', changelog: 'Cambios', roadmap: 'Hoja de ruta', privacy: 'Política de privacidad' },
-    links: { guide: '/es/quick-start', commands: '/es/commands' },
+    links: { guide: '/es/quick-start', commands: '/es/commands', api: '/es/api', library: '/es/library' },
     editLink: 'Editar esta página en GitHub',
     footer: 'Publicado bajo la licencia MIT.',
     homeOgTitle: 'vminfo — monitor del sistema para terminal, panel web y biblioteca Go',
-    sidebar: { title: 'Documentación', home: 'Inicio', quickStart: 'Inicio rápido', commands: 'Comandos' },
+    sidebar: { title: 'Documentación', home: 'Inicio', gettingStarted: 'Primeros pasos', quickStart: 'Inicio rápido', installation: 'Instalación', deployment: 'Despliegue', platformSupport: 'Plataformas', using: 'Uso de vminfo', overview: 'Descripción general', webDashboard: 'Panel web', tuiControls: 'Controles TUI', commands: 'Comandos', api: 'HTTP API', library: 'Biblioteca Go', libraryHome: 'Uso de la biblioteca', collect: 'Recopilar métricas', embedTui: 'Integrar TUI' },
   },
   'pt-BR': {
     nav: { guide: 'Guia', commands: 'Comandos', api: 'HTTP API', library: 'Biblioteca Go', community: 'Comunidade', docsRepo: 'Repositório de docs', contributing: 'Contribuir', changelog: 'Mudanças', roadmap: 'Roteiro', privacy: 'Política de privacidade' },
-    links: { guide: '/pt-BR/quick-start', commands: '/pt-BR/commands' },
+    links: { guide: '/pt-BR/quick-start', commands: '/pt-BR/commands', api: '/pt-BR/api', library: '/pt-BR/library' },
     editLink: 'Editar esta página no GitHub',
     footer: 'Publicado sob a licença MIT.',
     homeOgTitle: 'vminfo — monitor do sistema para terminal, painel web e biblioteca Go',
-    sidebar: { title: 'Documentação', home: 'Início', quickStart: 'Início rápido', commands: 'Comandos' },
+    sidebar: { title: 'Documentação', home: 'Início', gettingStarted: 'Primeiros passos', quickStart: 'Início rápido', installation: 'Instalação', deployment: 'Implantação', platformSupport: 'Plataformas', using: 'Uso do vminfo', overview: 'Visão geral', webDashboard: 'Painel web', tuiControls: 'Controles TUI', commands: 'Comandos', api: 'HTTP API', library: 'Biblioteca Go', libraryHome: 'Uso da biblioteca', collect: 'Coletar métricas', embedTui: 'Incorporar TUI' },
   },
   ko: {
     nav: { guide: '가이드', commands: '명령어', api: 'HTTP API', library: 'Go 라이브러리', community: '커뮤니티', docsRepo: '문서 저장소', contributing: '기여하기', changelog: '변경 이력', roadmap: '로드맵', privacy: '개인정보 처리방침' },
-    links: { guide: '/ko/quick-start', commands: '/ko/commands' },
+    links: { guide: '/ko/quick-start', commands: '/ko/commands', api: '/ko/api', library: '/ko/library' },
     editLink: 'GitHub에서 이 페이지 편집',
     footer: 'MIT 라이선스로 배포됩니다.',
     homeOgTitle: 'vminfo — 터미널 시스템 모니터, 웹 대시보드 및 Go 라이브러리',
-    sidebar: { title: '문서', home: '홈', quickStart: '빠른 시작', commands: '명령어' },
+    sidebar: { title: '문서', home: '홈', gettingStarted: '시작하기', quickStart: '빠른 시작', installation: '설치', deployment: '배포', platformSupport: '플랫폼 지원', using: 'vminfo 사용', overview: '개요', webDashboard: '웹 대시보드', tuiControls: 'TUI 조작', commands: '명령어', api: 'HTTP API', library: 'Go 라이브러리', libraryHome: '라이브러리 사용', collect: '메트릭 수집', embedTui: 'TUI 임베드' },
   },
 } as const;
 
@@ -189,13 +189,14 @@ function navFor(code: string) {
   return [
     { text: s.nav.guide, link: s.links.guide },
     { text: s.nav.commands, link: s.links.commands },
-    { text: s.nav.api, link: '/api' },
-    { text: s.nav.library, link: '/library/' },
+    { text: s.nav.api, link: s.links.api },
+    { text: s.nav.library, link: s.links.library },
     localeSwitcher(code),
     {
       text: s.nav.community,
       items: [
         { text: 'GitHub', link: 'https://github.com/cloudapp3/vminfo' },
+        { text: 'Compare', link: '/compare/' },
         { text: s.nav.docsRepo, link: 'https://github.com/cloudapp3/vmdocs' },
         { text: s.nav.contributing, link: '/contributing' },
         { text: s.nav.changelog, link: '/changelog' },
@@ -228,14 +229,48 @@ function localizedSidebars() {
   for (const l of TRANSLATED_LANGS) {
     const s = LOCALE_UI[l.code as keyof typeof LOCALE_UI];
     if (!s) continue;
-    out[`/${l.code}/`] = [{
-      text: s.sidebar.title,
-      items: [
-        { text: s.sidebar.home, link: `/${l.code}/` },
-        { text: s.sidebar.quickStart, link: `/${l.code}/quick-start` },
-        { text: s.sidebar.commands, link: `/${l.code}/commands` },
-      ],
-    }];
+    const prefix = `/${l.code}`;
+    out[`${prefix}/`] = [
+      {
+        text: s.sidebar.gettingStarted,
+        items: [
+          { text: s.sidebar.home, link: `${prefix}/` },
+          { text: s.sidebar.quickStart, link: `${prefix}/quick-start` },
+          { text: s.sidebar.installation, link: `${prefix}/installation` },
+          { text: s.sidebar.deployment, link: `${prefix}/deployment` },
+          { text: s.sidebar.platformSupport, link: `${prefix}/platform-support` },
+        ],
+      },
+      {
+        text: s.sidebar.using,
+        items: [
+          { text: s.sidebar.overview, link: `${prefix}/overview` },
+          { text: s.sidebar.webDashboard, link: `${prefix}/web-dashboard` },
+          { text: s.sidebar.tuiControls, link: `${prefix}/tui-controls` },
+        ],
+      },
+      {
+        text: s.sidebar.commands,
+        items: [
+          { text: s.sidebar.commands, link: `${prefix}/commands` },
+          { text: 'summary', link: `${prefix}/summary` },
+          { text: 'watch', link: `${prefix}/watch` },
+          { text: 'ps', link: `${prefix}/ps` },
+          { text: 'kill', link: `${prefix}/kill` },
+          { text: 'net', link: `${prefix}/net` },
+          { text: 'update', link: `${prefix}/update` },
+          { text: s.sidebar.api, link: `${prefix}/api` },
+        ],
+      },
+      {
+        text: s.sidebar.library,
+        items: [
+          { text: s.sidebar.libraryHome, link: `${prefix}/library` },
+          { text: s.sidebar.collect, link: `${prefix}/collect` },
+          { text: s.sidebar.embedTui, link: `${prefix}/embed-tui` },
+        ],
+      },
+    ];
   }
   return out;
 }
@@ -323,13 +358,17 @@ export default defineConfig({
     const isHome = context.page === 'index.md'
       || TRANSLATED_LANGS.some((l) => context.page === `${l.code}/index.md`);
     const homeOgTitle = (LOCALE_UI[loc as keyof typeof LOCALE_UI] ?? LOCALE_UI.en).homeOgTitle;
+    const pageTitle = isHome ? homeOgTitle : (context.title || homeOgTitle);
+    const pageDescription = context.description || siteDescription;
 
     const head: any[] = [
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
-      ['meta', { property: 'og:title', content: isHome ? homeOgTitle : (context.title || homeOgTitle) }],
-      ['meta', { property: 'og:description', content: context.description || siteDescription }],
+      ['meta', { property: 'og:title', content: pageTitle }],
+      ['meta', { property: 'og:description', content: pageDescription }],
       ['meta', { property: 'og:locale', content: localeMeta[loc].og }],
+      ['meta', { name: 'twitter:title', content: pageTitle }],
+      ['meta', { name: 'twitter:description', content: pageDescription }],
     ];
 
     // hreflang alternates for every available translation of this page.
@@ -350,17 +389,34 @@ export default defineConfig({
         name: siteTitle,
         applicationCategory: 'SystemApplication',
         operatingSystem: 'Linux, macOS, Windows',
-        description: context.description || siteDescription,
+        description: pageDescription,
         url,
+        codeRepository: 'https://github.com/cloudapp3/vminfo',
+        downloadUrl: 'https://github.com/cloudapp3/vminfo/releases/latest',
+        license: 'https://github.com/cloudapp3/vminfo/blob/main/LICENSE',
+        screenshot: `${siteUrl}/og-image.png`,
+        isAccessibleForFree: true,
+        featureList: [
+          'Live terminal system monitor',
+          'JSON snapshots and streams',
+          'Read-only web dashboard and HTTP API',
+          'Network diagnostics',
+          'Embeddable Go APIs and terminal UI',
+        ],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       })]);
     } else if (context.title) {
+      const lastUpdated = context.pageData.lastUpdated;
       head.push(['script', { type: 'application/ld+json' }, JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'TechArticle',
         headline: context.title,
-        description: context.description || siteDescription,
+        description: pageDescription,
         url,
+        inLanguage: localeMeta[loc].hreflang,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        image: `${siteUrl}/og-image.png`,
+        ...(lastUpdated ? { dateModified: new Date(lastUpdated).toISOString() } : {}),
         author: { '@type': 'Organization', name: 'cloudapp3' },
         publisher: { '@type': 'Organization', name: 'cloudapp3' },
       })]);
@@ -415,6 +471,17 @@ export default defineConfig({
             { text: 'Library Usage', link: '/library/' },
             { text: 'Collect Metrics', link: '/library/collect' },
             { text: 'Embed TUI', link: '/library/embed-tui' },
+          ],
+        },
+      ],
+      '/compare/': [
+        {
+          text: 'Compare vminfo',
+          items: [
+            { text: 'Comparison Guide', link: '/compare/' },
+            { text: 'vminfo vs btop', link: '/compare/vminfo-vs-btop' },
+            { text: 'vminfo vs Glances', link: '/compare/vminfo-vs-glances' },
+            { text: 'vminfo vs gopsutil', link: '/compare/vminfo-vs-gopsutil' },
           ],
         },
       ],
