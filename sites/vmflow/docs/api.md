@@ -5,6 +5,8 @@ description: The vmflow local control API — authentication, TLS/mTLS, health, 
 
 # HTTP API
 
+> **Internal, loopback-only interface — not a public/external API.** The control API listens only on `127.0.0.1:19090` and is consumed by the local CLI/TUI (`vmflow ctl`, `vmflow tui`). Interact via the CLI/TUI; the endpoints and `curl` examples below are reference for local tooling and debugging only.
+
 The daemon exposes a local control API. The default listen address is `127.0.0.1:19090`. The CLI and TUI are thin clients over these endpoints.
 
 ## Authentication
@@ -24,6 +26,7 @@ auth:
 ```
 
 ```bash
+# Local debugging only — prefer `vmflow ctl` / `vmflow tui` for normal use.
 curl -H "Authorization: Bearer change-me" http://127.0.0.1:19090/v1/stats
 ```
 

@@ -5,6 +5,8 @@ description: vmflow 本地控制 API——认证、TLS/mTLS、health、rules、s
 
 # HTTP API
 
+> **内部本地接口,非对外 API。** 控制 API 只监听 `127.0.0.1:19090`,供本机 CLI/TUI(`vmflow ctl`、`vmflow tui`)使用,不作为对外公开接口。日常操作请走 CLI/TUI;下面的端点与 `curl` 示例仅供本机工具与调试参考。
+
 守护进程暴露一个本地控制 API。默认监听地址为 `127.0.0.1:19090`。CLI 和 TUI 都是这些端点之上的薄客户端。
 
 ## 认证 {#authentication}
@@ -24,6 +26,7 @@ auth:
 ```
 
 ```bash
+# 仅本机调试——日常请用 `vmflow ctl` / `vmflow tui`
 curl -H "Authorization: Bearer change-me" http://127.0.0.1:19090/v1/stats
 ```
 
