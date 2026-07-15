@@ -31,7 +31,7 @@ vmflow uninstall [--dry-run]
 | --- | --- |
 | 原生服务 | 停止并移除 systemd unit / launchd plist / Windows Service。 |
 | 配置文件 | 平台默认配置（参见 [`service`](./service)），如果存在。 |
-| TLS / ACME 证书 | **被配置引用的**证书和密钥路径（`control_tls`、ACME/证书缓存目录）。 |
+| 外部 TLS / ACME 证书 | vmflow 自有存储之外引用的证书和密钥文件会被保留。 |
 | 日志目录 | 例如 `/var/log/vmflow`（Linux/macOS）、`C:\ProgramData\vmflow\logs`（Windows）。 |
 | 自更新缓存 | 更新器的缓存目录。 |
 | vmflow 二进制 | 正在运行的可执行文件，最后移除。 |

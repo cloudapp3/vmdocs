@@ -7,7 +7,7 @@ description: Instala vmflow desde GitHub Releases con el instalador de una líne
 
 `vmflow` se distribuye como un único binario estático para Linux y macOS (`amd64` y `arm64`). Obténlo desde GitHub Releases con el instalador, o compílalo desde el código fuente.
 
-Además de los binarios estáticos, cada release también publica paquetes de sistema `.deb` y `.rpm` (generados con GoReleaser).
+Las releases usan archivos portables en lugar de paquetes `.deb` o `.rpm` administrados por la distribución. Usa el instalador de abajo o descomprime un archivo manualmente.
 
 ## Instalador de una línea
 

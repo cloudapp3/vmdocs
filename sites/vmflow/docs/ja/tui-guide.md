@@ -5,7 +5,7 @@ description: vmflow のターミナルダッシュボード — 起動方法、D
 
 # TUI ダッシュボード
 
-vmflow には実行中のデーモンを確認するためのターミナル UI が同梱されています。ローカルのコントロール API から読み取るため、ライブなルール状態とトラフィックカウンタを表示します。
+vmflow にはローカルデーモンのルール状態とトラフィックカウンターを確認するターミナル UI が同梱されています。
 
 ## 起動する
 
@@ -13,15 +13,13 @@ vmflow には実行中のデーモンを確認するためのターミナル UI 
 vmflow tui
 ```
 
-デフォルト以外のコントロールアドレスを指定したり、トークンを渡したりします：
+認証を有効にした場合は、アクセストークンを渡します：
 
 ```bash
-vmflow tui -addr http://127.0.0.1:19090 -token <token>
+vmflow tui -token <token>
 # or
 VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 ```
-
-TUI は `ctl` と同じクライアントフラグを受け付けます。これには TLS/mTLS フラグ（`-tls-ca-file`、`-tls-client-cert`、`-tls-client-key`、`-tls-skip-verify`）と、カスタムリクエストヘッダー用の `-H` / `--header` も含まれます。
 
 ## ビュー
 

@@ -1,59 +1,30 @@
 ---
 title: Deployment
-description: Run vmflow as a daemon in production — control API exposure, authentication, TLS/mTLS, logging, metrics, and native service setup.
+description: Run vmflow in production with loopback-only management, logging, metrics, SSH access, and native service setup.
 ---
 
 # Deployment
 
-vmflow runs as a long-lived daemon exposing a local control API. This page covers the practical concerns for running it on a host.
+vmflow runs as a long-lived forwarding daemon. Management stays on loopback and operators use the bundled CLI/TUI.
 
-## Keep the control API on loopback
+## Local management
 
-The default `control_listen_addr` is `127.0.0.1:19090`. With `auth.enabled: false` the control API treats every request as an anonymous admin-level caller — that is only safe on loopback.
-
-The daemon **refuses to start** if the control API is bound to a non-loopback address (`0.0.0.0`, `::`, a non-loopback IP, or `:port`) without protection. This is fail-closed: it prevents accidentally exposing an unauthenticated remote control endpoint. To bind off-loopback, satisfy one of:
-
-1. `auth.enabled: true` with at least one token, **or**
-2. mutual TLS via `control_tls.client_ca_file` (clients must present a cert), **or**
-3. pass `-insecure-allow-remote-control` to the daemon to explicitly acknowledge the risk.
-
-## Exposing it off localhost
-
-When you need to reach the control API from another host, pick one of the safe options.
-
-### Option A — bearer-token auth
+The daemon always binds its internal management channel to `127.0.0.1`. Configure only the local port:
 
 ```yaml
-control_listen_addr: 0.0.0.0:19090
-auth:
-  enabled: true
-  tokens:
-    - name: admin
-      token: <long-random-secret>
-      role: admin
-    - name: viewer
-      token: <another-random-secret>
-      role: viewer
+control_port: 19090
 ```
 
-Use the `admin` token for any mutating call (`reload`). Read-only calls work with a `viewer` token.
+Use `vmflow ctl` and `vmflow tui` for supported management workflows. The internal transport is not a public integration API.
 
-### Option B — TLS / mutual TLS (recommended)
+## Remote administration
 
-Terminate TLS on the control API itself and, for the strongest posture, require client certificates:
+Forward the loopback port over SSH, then use the local CLI/TUI:
 
-```yaml
-control_listen_addr: 0.0.0.0:19090
-control_tls:
-  cert_file: /etc/vmflow/server.pem
-  key_file:  /etc/vmflow/server.key
-  client_ca_file: /etc/vmflow/client-ca.pem   # mTLS — satisfies the startup check
-  min_version: "1.2"
+```bash
+ssh -N -L 19090:127.0.0.1:19090 user@server
+vmflow ctl rules
 ```
-
-Clients then connect with `-tls-ca-file`, `-tls-client-cert`, `-tls-client-key` (see [Common client flags](../commands/#common-client-flags)). This is the recommended way to expose the control API behind a Cloudflare Tunnel with zero inbound ports. See [HTTP API → TLS and mutual TLS](../api#tls-and-mutual-tls).
-
-See also [HTTP API → Authentication](../api#authentication).
 
 ## Logging
 
@@ -69,7 +40,7 @@ log:
 
 ## Metrics
 
-Point Prometheus at the control API:
+Point a same-host Prometheus instance at the loopback metrics listener:
 
 ```yaml
 scrape_configs:
@@ -79,11 +50,11 @@ scrape_configs:
     metrics_path: /metrics
 ```
 
-See [HTTP API → Metrics](../api#get-metrics) for the exposed metric families.
+The metrics endpoint is loopback-only; run Prometheus on the host or reach it through an SSH tunnel.
 
 ## Reload safely
 
-Configuration changes go through `POST /v1/reload` (or `vmflow ctl reload`). Reload runs [precheck](./precheck) first and rejects the change on any error, leaving running rules untouched. There is no graceful drain window yet — existing connections to a removed/changed rule are not migrated.
+Use `vmflow ctl reload` to apply configuration changes. Reload runs [precheck](./precheck) first and rejects any invalid change without partially applying it.
 
 ## Running as a native service
 
@@ -106,7 +77,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/vmflow daemon -config /etc/vmflow/config.yaml
+ExecStart=/usr/local/bin/vmflow -config /etc/vmflow/config.yaml
 ExecReload=/usr/local/bin/vmflow ctl reload
 Restart=on-failure
 RestartSec=3
@@ -127,6 +98,6 @@ For a full teardown (service + binary + config + logs + certs + update cache), u
 
 ## Current limits
 
-- Statistics are **in-memory only**; there is no built-in historical aggregation.
+- Cumulative traffic counters can optionally persist; active connections and rates remain process-local.
 - No bundled web dashboard or multi-node coordinator.
-- No official Docker image in the release archive yet (native service install, plus `.deb`/`.rpm` packages, are available).
+- No official Docker image is published yet; use the built-in native service installer for boot startup.

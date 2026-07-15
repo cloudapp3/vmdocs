@@ -1,59 +1,30 @@
 ---
 title: 배포
-description: 프로덕션에서 vmflow를 데몬으로 실행 — 컨트롤 API 노출, 인증, TLS/mTLS, 로깅, 메트릭, 네이티브 서비스 설정.
+description: 루프백 관리, 로그, 메트릭, SSH, 네이티브 서비스로 vmflow를 운영합니다.
 ---
 
 # 배포
 
-vmflow는 로컬 컨트롤 API를 노출하는 장기 실행 데몬으로 동작합니다. 이 페이지는 호스트에서 실행할 때 실질적으로 고려할 사항을 다룹니다.
+vmflow는 장기 실행 포워딩 프로세스입니다. 관리는 루프백에 유지되며 번들 CLI/TUI를 사용합니다.
 
-## 컨트롤 API는 루프백에 두세요
+## 로컬 관리
 
-기본 `control_listen_addr`는 `127.0.0.1:19090`입니다. `auth.enabled: false`이면 컨트롤 API는 모든 요청을 익명의 admin 수준 호출자로 취급합니다 — 이는 루프백에서만 안전합니다.
-
-컨트롤 API가 보호 없이 루프백 외 주소(`0.0.0.0`, `::`, 루프백이 아닌 IP, 또는 `:port`)에 바인딩되면 데몬은 **시작을 거부**합니다. 이는 실패 시 닫히는(fail-closed) 동작으로, 인증되지 않은 원격 제어 엔드포인트가 실수로 노출되는 것을 막아줍니다. 루프백 외부로 바인딩하려면 다음 중 하나를 충족하세요:
-
-1. `auth.enabled: true`에 토큰을 최소 하나 이상 설정, **또는**
-2. `control_tls.client_ca_file`로 상호 TLS(클라이언트가 인증서를 제시해야 함), **또는**
-3. 위험을 명시적으로 인정하는 `-insecure-allow-remote-control`을 데몬에 전달.
-
-## 로컬호스트 외부로 노출하기
-
-다른 호스트에서 컨트롤 API에 접근해야 할 때, 안전한 옵션 중 하나를 선택하세요.
-
-### 옵션 A — Bearer 토큰 인증
+내부 관리 채널은 항상 `127.0.0.1`에 바인딩됩니다. 설정에서는 로컬 포트만 지정합니다.
 
 ```yaml
-control_listen_addr: 0.0.0.0:19090
-auth:
-  enabled: true
-  tokens:
-    - name: admin
-      token: <long-random-secret>
-      role: admin
-    - name: viewer
-      token: <another-random-secret>
-      role: viewer
+control_port: 19090
 ```
 
-상태를 변경하는 호출(`reload`)에는 `admin` 토큰을 사용하세요. 읽기 전용 호출은 `viewer` 토큰으로도 동작합니다.
+지원되는 관리 인터페이스는 `vmflow ctl`과 `vmflow tui`입니다. 내부 전송 계층은 공개 통합 API가 아닙니다.
 
-### 옵션 B — TLS / 상호 TLS(권장)
+## 원격 관리
 
-컨트롤 API 자체에서 TLS를 종료하고, 가장 강력한 구성을 원한다면 클라이언트 인증서를 요구하세요:
+SSH로 루프백 포트를 전달한 뒤 로컬 CLI/TUI를 사용합니다.
 
-```yaml
-control_listen_addr: 0.0.0.0:19090
-control_tls:
-  cert_file: /etc/vmflow/server.pem
-  key_file:  /etc/vmflow/server.key
-  client_ca_file: /etc/vmflow/client-ca.pem   # mTLS — satisfies the startup check
-  min_version: "1.2"
+```bash
+ssh -N -L 19090:127.0.0.1:19090 user@server
+vmflow ctl rules
 ```
-
-이후 클라이언트는 `-tls-ca-file`, `-tls-client-cert`, `-tls-client-key`로 연결합니다([공통 클라이언트 플래그](./commands#common-client-flags) 참고). 인바운드 포트 없이 Cloudflare Tunnel 뒤에서 컨트롤 API를 노출할 때 권장되는 방법입니다. [HTTP API → TLS와 상호 TLS](./api#tls-and-mutual-tls)를 참고하세요.
-
-[HTTP API → 인증](./api#authentication)도 함께 보세요.
 
 ## 로깅
 
@@ -69,7 +40,7 @@ log:
 
 ## 메트릭
 
-Prometheus를 컨트롤 API로 향하게 하세요:
+같은 호스트의 Prometheus가 루프백 메트릭 리스너를 읽도록 설정합니다:
 
 ```yaml
 scrape_configs:
@@ -79,11 +50,9 @@ scrape_configs:
     metrics_path: /metrics
 ```
 
-노출되는 메트릭 패밀리는 [HTTP API → 메트릭](./api#get-metrics)을 참고하세요.
-
 ## 안전하게 리로드하기
 
-설정 변경은 `POST /v1/reload`(또는 `vmflow ctl reload`)를 거칩니다. 리로드는 먼저 [사전 검사](./precheck)를 실행하고, 오류가 있으면 변경을 거부하며 실행 중인 규칙은 그대로 둡니다. 아직 우아한 드레인(graceful drain) 기간은 없습니다 — 제거되거나 변경된 규칙에 대한 기존 연결은 마이그레이션되지 않습니다.
+`vmflow ctl reload`로 설정 변경을 적용합니다. 먼저 [사전 검사](./precheck)를 실행하며 잘못된 설정은 부분 적용되지 않습니다.
 
 ## 네이티브 서비스로 실행하기
 
@@ -106,7 +75,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/vmflow daemon -config /etc/vmflow/config.yaml
+ExecStart=/usr/local/bin/vmflow -config /etc/vmflow/config.yaml
 ExecReload=/usr/local/bin/vmflow ctl reload
 Restart=on-failure
 RestartSec=3
@@ -127,6 +96,6 @@ sudo systemctl reload vmflow
 
 ## 현재 제한 사항
 
-- 통계는 **메모리에만** 존재합니다. 빌트인 과거 집계 기능은 없습니다.
+- 누적 트래픽 카운터는 선택적으로 영속화할 수 있으며 활성 연결과 속도는 프로세스 로컬입니다.
 - 번들된 웹 대시보드나 다중 노드 코디네이터는 없습니다.
-- 릴리스 아카이브에 공식 Docker 이미지는 아직 없습니다(네이티브 서비스 설치와 `.deb`/`.rpm` 패키지는 사용 가능합니다).
+- 공식 Docker 이미지는 아직 제공되지 않습니다. 부팅 시 자동 시작하려면 내장 네이티브 서비스 설치 프로그램을 사용하세요.

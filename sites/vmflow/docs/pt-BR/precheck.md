@@ -13,7 +13,7 @@ O precheck valida uma configuração **sem aplicá-la**. Ele é executado automa
 vmflow ctl precheck
 ```
 
-Ou pela API: `GET|POST /v1/precheck`.
+Execute `vmflow ctl precheck` para validar a configuração atual.
 
 ## O que ele verifica
 
@@ -49,7 +49,7 @@ O precheck produz uma lista de achados, cada um sendo um **erro** ou um **aviso*
 
 ## Como o recarregamento o utiliza
 
-`POST /v1/reload` executa as mesmas verificações primeiro. Se `error_count > 0`, o recarregamento é rejeitado e as regras em execução são deixadas exatamente como estavam. Isso torna seguro o envio de edições de configuração por meio de automação: uma configuração quebrada não pode ser parcialmente aplicada.
+`vmflow ctl reload` executa as mesmas verificações primeiro. Se `error_count > 0`, o recarregamento é rejeitado e as regras em execução são deixadas exatamente como estavam. Isso torna seguro o envio de edições de configuração por meio de automação: uma configuração quebrada não pode ser parcialmente aplicada.
 
 ::: warning Portas locais
 A sonda de vinculabilidade de porta abre um listener local brevemente. Se o seu ambiente bloquear a criação de sockets locais, o precheck (e, portanto, o recarregamento) não poderá validar totalmente a vinculabilidade.

@@ -16,9 +16,6 @@ hero:
       text: CLI Reference
       link: /commands/
     - theme: alt
-      text: HTTP API
-      link: /api
-    - theme: alt
       text: GitHub
       link: https://github.com/cloudapp3/vmflow
 
@@ -42,7 +39,7 @@ features:
   - icon: 📊
     title: Prometheus Metrics & Logs
     details: A /metrics endpoint plus structured text/JSON logging keep forwarding observable without extra wiring.
-    link: /api
+    link: /commands/ctl
   - icon: 🖥️
     title: TUI & Telegram Bot
     details: A terminal dashboard and an optional Telegram bot let you inspect and control rules from wherever you operate.
@@ -62,13 +59,12 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 Start the daemon:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
 Query it from another terminal:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl precheck
@@ -83,7 +79,7 @@ Use it when you need to:
 - forward TCP/UDP traffic between ports with per-rule limits
 - drive forwarding rules from your own desired-state or database
 - validate a forwarding config before applying it
-- expose rule stats and reload through a small local API
+- inspect rule stats and reload through the bundled CLI/TUI
 - embed forwarding into another Go service without pulling in a database or web UI
 
 ## Quick links
@@ -92,6 +88,5 @@ Use it when you need to:
 - [Installation](/guide/installation)
 - [Configuration](/guide/configuration)
 - [Command reference](/commands/)
-- [HTTP API](/api)
 - [Go Library](/library/)
 - [中文文档](/zh/)

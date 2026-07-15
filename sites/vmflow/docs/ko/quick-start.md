@@ -34,17 +34,16 @@ vmflow version
 예제 설정을 가져와 데몬을 시작합니다:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
-이 예제는 TCP `0.0.0.0:2201`을 `127.0.0.1:22`(SSH)로 포워딩합니다.
+번들 SSH 예제는 비활성화되어 있고 `127.0.0.1:2201`에서 수신합니다. 활성화 전에 검토하세요.
 
 ## 3. 쿼리
 
-다른 터미널에서 CLI를 로컬 컨트롤 API(기본값 `127.0.0.1:19090`)로 향하게 합니다:
+다른 터미널에서 번들 CLI로 로컬 데몬을 조회합니다:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl metrics

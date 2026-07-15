@@ -13,14 +13,14 @@ vmflow is at a practical v0.1-style MVP. The forwarding path, rule lifecycle, lo
 - [x] UDP forwarding
 - [x] `ApplySnapshot`
 - [x] daemon + CLI
-- [x] local control API
+- [x] local CLI/TUI management
 - [x] YAML config
 
 ## v0.2 — in progress
 
 - [x] Prometheus metrics
 - [x] better structured logging
-- [x] control API authentication
+- [x] management authentication
 - [x] rule precheck
 - [ ] graceful drain
 - [ ] Windows / macOS manual verification

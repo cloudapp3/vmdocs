@@ -107,60 +107,60 @@ function alternateLinks(path: string): any[] {
 // --- per-locale UI (nav / editLink / footer / sidebar) -----------------
 const LOCALE_UI = {
   en: {
-    nav: { guide: 'Guide', cli: 'CLI', api: 'HTTP API', library: 'Go Library', community: 'Community', docsRepo: 'Docs Repo', contributing: 'Contributing', changelog: 'Changelog', roadmap: 'Roadmap', privacy: 'Privacy Policy' },
+    nav: { guide: 'Guide', cli: 'CLI', library: 'Go Library', community: 'Community', docsRepo: 'Docs Repo', contributing: 'Contributing', changelog: 'Changelog', roadmap: 'Roadmap', privacy: 'Privacy Policy' },
     links: { guide: '/guide/quick-start', cli: '/commands/' },
     editLink: 'Edit this page on GitHub',
     footer: 'Released under the MIT License.',
     homeOgTitle: 'vmflow — pure-Go L4 port forwarding runtime & Go library',
-    sidebar: { title: 'Documentation', home: 'Home', quickStart: 'Quick Start', configuration: 'Configuration', cli: 'CLI', api: 'HTTP API' },
+    sidebar: { title: 'Documentation', home: 'Home', quickStart: 'Quick Start', configuration: 'Configuration', cli: 'CLI' },
   },
   zh: {
-    nav: { guide: '指南', cli: '命令行', api: 'HTTP API', library: 'Go 库', community: '社区', docsRepo: '文档仓库', contributing: '参与贡献', changelog: '更新日志', roadmap: '路线图', privacy: '隐私政策' },
+    nav: { guide: '指南', cli: '命令行', library: 'Go 库', community: '社区', docsRepo: '文档仓库', contributing: '参与贡献', changelog: '更新日志', roadmap: '路线图', privacy: '隐私政策' },
     links: { guide: '/zh/quick-start', cli: '/zh/commands' },
     editLink: '在 GitHub 上编辑此页',
     footer: '基于 MIT 协议发布。',
     homeOgTitle: 'vmflow — 纯 Go 的 L4 端口转发运行时与 Go 库',
-    sidebar: { title: '中文文档', home: '中文首页', quickStart: '快速开始', configuration: '配置', cli: '命令行', api: 'HTTP API' },
+    sidebar: { title: '中文文档', home: '中文首页', quickStart: '快速开始', configuration: '配置', cli: '命令行' },
   },
   ja: {
-    nav: { guide: 'ガイド', cli: 'コマンド', api: 'HTTP API', library: 'Go ライブラリ', community: 'コミュニティ', docsRepo: 'ドキュメントリポジトリ', contributing: '貢献する', changelog: '変更履歴', roadmap: 'ロードマップ', privacy: 'プライバシーポリシー' },
+    nav: { guide: 'ガイド', cli: 'コマンド', library: 'Go ライブラリ', community: 'コミュニティ', docsRepo: 'ドキュメントリポジトリ', contributing: '貢献する', changelog: '変更履歴', roadmap: 'ロードマップ', privacy: 'プライバシーポリシー' },
     links: { guide: '/ja/quick-start', cli: '/ja/commands' },
     editLink: 'GitHub でこのページを編集',
     footer: 'MIT ライセンスで公開。',
     homeOgTitle: 'vmflow — 純 Go の L4 ポート転送ランタイムと Go ライブラリ',
-    sidebar: { title: '日本語ドキュメント', home: '日本語トップ', quickStart: 'クイックスタート', configuration: '設定', cli: 'コマンド', api: 'HTTP API' },
+    sidebar: { title: '日本語ドキュメント', home: '日本語トップ', quickStart: 'クイックスタート', configuration: '設定', cli: 'コマンド' },
   },
   ru: {
-    nav: { guide: 'Руководство', cli: 'CLI', api: 'HTTP API', library: 'Библиотека Go', community: 'Сообщество', docsRepo: 'Репозиторий док.', contributing: 'Участие', changelog: 'Журнал изменений', roadmap: 'Дорожная карта', privacy: 'Политика конфиденциальности' },
+    nav: { guide: 'Руководство', cli: 'CLI', library: 'Библиотека Go', community: 'Сообщество', docsRepo: 'Репозиторий док.', contributing: 'Участие', changelog: 'Журнал изменений', roadmap: 'Дорожная карта', privacy: 'Политика конфиденциальности' },
     links: { guide: '/ru/quick-start', cli: '/ru/commands' },
     editLink: 'Редактировать на GitHub',
     footer: 'Выпускается по лицензии MIT.',
     homeOgTitle: 'vmflow — среду L4-перенаправления портов на чистом Go и библиотеку Go',
-    sidebar: { title: 'Документация', home: 'Главная', quickStart: 'Быстрый старт', configuration: 'Конфигурация', cli: 'CLI', api: 'HTTP API' },
+    sidebar: { title: 'Документация', home: 'Главная', quickStart: 'Быстрый старт', configuration: 'Конфигурация', cli: 'CLI' },
   },
   es: {
-    nav: { guide: 'Guía', cli: 'CLI', api: 'HTTP API', library: 'Biblioteca Go', community: 'Comunidad', docsRepo: 'Repositorio de docs', contributing: 'Contribuir', changelog: 'Cambios', roadmap: 'Hoja de ruta', privacy: 'Política de privacidad' },
+    nav: { guide: 'Guía', cli: 'CLI', library: 'Biblioteca Go', community: 'Comunidad', docsRepo: 'Repositorio de docs', contributing: 'Contribuir', changelog: 'Cambios', roadmap: 'Hoja de ruta', privacy: 'Política de privacidad' },
     links: { guide: '/es/quick-start', cli: '/es/commands' },
     editLink: 'Editar esta página en GitHub',
     footer: 'Publicado bajo la licencia MIT.',
     homeOgTitle: 'vmflow — entorno de reenvío de puertos L4 en Go puro y biblioteca Go',
-    sidebar: { title: 'Documentación', home: 'Inicio', quickStart: 'Inicio rápido', configuration: 'Configuración', cli: 'CLI', api: 'HTTP API' },
+    sidebar: { title: 'Documentación', home: 'Inicio', quickStart: 'Inicio rápido', configuration: 'Configuración', cli: 'CLI' },
   },
   'pt-BR': {
-    nav: { guide: 'Guia', cli: 'CLI', api: 'HTTP API', library: 'Biblioteca Go', community: 'Comunidade', docsRepo: 'Repositório de docs', contributing: 'Contribuir', changelog: 'Mudanças', roadmap: 'Roteiro', privacy: 'Política de privacidade' },
+    nav: { guide: 'Guia', cli: 'CLI', library: 'Biblioteca Go', community: 'Comunidade', docsRepo: 'Repositório de docs', contributing: 'Contribuir', changelog: 'Mudanças', roadmap: 'Roteiro', privacy: 'Política de privacidade' },
     links: { guide: '/pt-BR/quick-start', cli: '/pt-BR/commands' },
     editLink: 'Editar esta página no GitHub',
     footer: 'Publicado sob a licença MIT.',
     homeOgTitle: 'vmflow — runtime de encaminhamento de portas L4 em Go puro e biblioteca Go',
-    sidebar: { title: 'Documentação', home: 'Início', quickStart: 'Início rápido', configuration: 'Configuração', cli: 'CLI', api: 'HTTP API' },
+    sidebar: { title: 'Documentação', home: 'Início', quickStart: 'Início rápido', configuration: 'Configuração', cli: 'CLI' },
   },
   ko: {
-    nav: { guide: '가이드', cli: 'CLI', api: 'HTTP API', library: 'Go 라이브러리', community: '커뮤니티', docsRepo: '문서 저장소', contributing: '기여하기', changelog: '변경 이력', roadmap: '로드맵', privacy: '개인정보 처리방침' },
+    nav: { guide: '가이드', cli: 'CLI', library: 'Go 라이브러리', community: '커뮤니티', docsRepo: '문서 저장소', contributing: '기여하기', changelog: '변경 이력', roadmap: '로드맵', privacy: '개인정보 처리방침' },
     links: { guide: '/ko/quick-start', cli: '/ko/commands' },
     editLink: 'GitHub에서 이 페이지 편집',
     footer: 'MIT 라이선스로 배포됩니다.',
     homeOgTitle: 'vmflow — 순수 Go L4 포트 포워딩 런타임 및 Go 라이브러리',
-    sidebar: { title: '문서', home: '홈', quickStart: '빠른 시작', configuration: '설정', cli: 'CLI', api: 'HTTP API' },
+    sidebar: { title: '문서', home: '홈', quickStart: '빠른 시작', configuration: '설정', cli: 'CLI' },
   },
 } as const;
 
@@ -180,7 +180,6 @@ function navFor(code: string) {
   return [
     { text: s.nav.guide, link: s.links.guide },
     { text: s.nav.cli, link: s.links.cli },
-    { text: s.nav.api, link: '/api' },
     { text: s.nav.library, link: '/library/' },
     localeSwitcher(code),
     {
@@ -226,7 +225,6 @@ function localizedSidebars() {
         { text: s.sidebar.quickStart, link: `/${l.code}/quick-start` },
         { text: s.sidebar.configuration, link: `/${l.code}/configuration` },
         { text: s.sidebar.cli, link: `/${l.code}/commands` },
-        { text: s.sidebar.api, link: `/${l.code}/api` },
       ],
     }];
   }

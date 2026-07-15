@@ -1,59 +1,30 @@
 ---
 title: 部署
-description: 将 vmflow 作为守护进程在生产环境中运行——控制 API 暴露、认证、TLS/mTLS、日志、指标，以及原生服务设置。
+description: 在生产环境运行 vmflow，使用回环管理、日志、指标、SSH 访问和原生系统服务。
 ---
 
 # 部署
 
-vmflow 作为一个长期运行的守护进程运行，对外暴露一个本地控制 API。本页涵盖在主机上运行它的各种实际问题。
+vmflow 作为长期运行的转发进程工作。管理通道仅监听回环地址，运维操作使用内置 CLI/TUI。
 
-## 让控制 API 保持在回环地址
+## 本地管理
 
-默认的 `control_listen_addr` 是 `127.0.0.1:19090`。当 `auth.enabled: false` 时，控制 API 会把每个请求都视为匿名的 admin 级别调用方——这仅在回环地址上才安全。
-
-如果控制 API 绑定到非回环地址（`0.0.0.0`、`::`、非回环 IP，或 `:port`）且没有任何保护，守护进程会**拒绝启动**。这是一种 fail-closed（失败即关闭）设计：防止意外暴露一个未认证的远程控制端点。若要绑定到非回环地址，需满足以下任一条件：
-
-1. `auth.enabled: true` 且至少有一个令牌，**或者**
-2. 通过 `control_tls.client_ca_file` 启用双向 TLS（客户端必须出示证书），**或者**
-3. 向守护进程传入 `-insecure-allow-remote-control` 以明确确认风险。
-
-## 暴露到本机之外
-
-当你需要从另一台主机访问控制 API 时，请选择一种安全方案。
-
-### 方案 A——Bearer 令牌认证
+守护进程的内部管理通道固定绑定 `127.0.0.1`，配置中只设置本地端口：
 
 ```yaml
-control_listen_addr: 0.0.0.0:19090
-auth:
-  enabled: true
-  tokens:
-    - name: admin
-      token: <long-random-secret>
-      role: admin
-    - name: viewer
-      token: <another-random-secret>
-      role: viewer
+control_port: 19090
 ```
 
-任何会修改状态的调用（`reload`）请使用 `admin` 令牌。只读调用使用 `viewer` 令牌即可。
+受支持的管理入口是 `vmflow ctl` 和 `vmflow tui`。内部传输不作为公开集成 API。
 
-### 方案 B——TLS / 双向 TLS（推荐）
+## 远程管理
 
-在控制 API 本身终结 TLS，并且为了最强的安全姿态，要求客户端证书：
+通过 SSH 转发回环端口，然后继续使用本机 CLI/TUI：
 
-```yaml
-control_listen_addr: 0.0.0.0:19090
-control_tls:
-  cert_file: /etc/vmflow/server.pem
-  key_file:  /etc/vmflow/server.key
-  client_ca_file: /etc/vmflow/client-ca.pem   # mTLS — satisfies the startup check
-  min_version: "1.2"
+```bash
+ssh -N -L 19090:127.0.0.1:19090 user@server
+vmflow ctl rules
 ```
-
-随后客户端使用 `-tls-ca-file`、`-tls-client-cert`、`-tls-client-key` 连接（参见[通用客户端参数](./commands#common-client-flags)）。这是在 Cloudflare Tunnel 之后暴露控制 API 且不开放任何入站端口的推荐方式。参见 [HTTP API → TLS 与双向 TLS](./api#tls-and-mutual-tls)。
-
-另见 [HTTP API → 认证](./api#authentication)。
 
 ## 日志
 
@@ -69,7 +40,7 @@ log:
 
 ## 指标
 
-让 Prometheus 指向控制 API：
+让同一主机上的 Prometheus 抓取回环指标监听器：
 
 ```yaml
 scrape_configs:
@@ -79,11 +50,11 @@ scrape_configs:
     metrics_path: /metrics
 ```
 
-暴露的指标族参见 [HTTP API → Metrics](./api#get-metrics)。
+指标端点仅监听回环地址；请在同一主机运行 Prometheus，或通过 SSH tunnel 访问。
 
 ## 安全地重载
 
-配置变更通过 `POST /v1/reload`（或 `vmflow ctl reload`）进行。重载会先运行[预检](./precheck)，一旦出现任何错误就拒绝变更，使正在运行的规则保持不变。目前还没有优雅排空窗口——已连接到被删除/变更规则的现有连接不会被迁移。
+使用 `vmflow ctl reload` 应用配置变更。重载会先执行[预检](./precheck)，发现错误时不会部分应用。
 
 ## 作为原生服务运行
 
@@ -106,7 +77,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/vmflow daemon -config /etc/vmflow/config.yaml
+ExecStart=/usr/local/bin/vmflow -config /etc/vmflow/config.yaml
 ExecReload=/usr/local/bin/vmflow ctl reload
 Restart=on-failure
 RestartSec=3
@@ -127,6 +98,6 @@ sudo systemctl reload vmflow
 
 ## 当前限制
 
-- 统计数据**仅存于内存中**；没有内置的历史聚合。
+- 累计流量计数器可选择持久化；活动连接数和速率仍只属于当前进程。
 - 没有捆绑的 Web 仪表盘或多节点协调器。
-- release 归档中暂无官方 Docker 镜像（可使用原生服务安装，以及 `.deb`/`.rpm` 软件包）。
+- 目前不发布官方 Docker 镜像；如需开机启动，请使用内置的原生服务安装命令。

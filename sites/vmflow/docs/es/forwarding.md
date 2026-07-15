@@ -38,7 +38,7 @@ Cada regla en ejecución reporta contadores en tiempo real:
 - total de bytes de subida
 - total de bytes de bajada
 
-Los contadores viven solo en memoria. Para UDP, el recuento de conexiones es una aproximación tipo sesión. Léelos mediante [`GET /v1/stats`](./api#get-v1-stats) o las superficies `vmflow ctl stats` / TUI.
+Los contadores viven en memoria. En UDP, el número de conexiones aproxima las sesiones. Consúltalos con `vmflow ctl stats` o la TUI.
 
 ## Equivalencia de reglas
 

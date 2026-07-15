@@ -45,7 +45,7 @@ Solo se comparan los campos de ejecución (protocolo, dirección/puerto de escuc
 
 ## Recarga
 
-`POST /v1/reload` recarga el archivo de configuración y ejecuta `ApplySnapshot` con `ReplaceAll = true`. Ejecuta primero la [verificación previa](./precheck); ante cualquier error la recarga se rechaza y las reglas en ejecución quedan intactas.
+`vmflow ctl reload` recarga el archivo de configuración y ejecuta `ApplySnapshot` con `ReplaceAll = true`. Ejecuta primero la [verificación previa](./precheck); ante cualquier error la recarga se rechaza y las reglas en ejecución quedan intactas.
 
 ## Consultas de estado
 
@@ -55,5 +55,3 @@ Solo se comparan los campos de ejecución (protocolo, dirección/puerto de escuc
 | `Snapshot(id)` | Estado en vivo de una regla. |
 | `SnapshotAll()` | Estado en vivo de todas las reglas en ejecución. |
 | `StopAll()` | Detener todo (p. ej. al apagar). |
-
-Consulta [HTTP API](./api) para los equivalentes HTTP (`GET /v1/rules`, `GET /v1/stats`).

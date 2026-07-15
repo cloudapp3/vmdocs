@@ -45,7 +45,7 @@ Apenas campos de tempo de execução (protocolo, endereço/porta de escuta, ende
 
 ## Recarregar
 
-`POST /v1/reload` recarrega o arquivo de configuração e executa `ApplySnapshot` com `ReplaceAll = true`. Ele executa o [precheck](./precheck) primeiro; em caso de qualquer erro, o recarregamento é rejeitado e as regras em execução permanecem intactas.
+`vmflow ctl reload` recarrega o arquivo de configuração e executa `ApplySnapshot` com `ReplaceAll = true`. Ele executa o [precheck](./precheck) primeiro; em caso de qualquer erro, o recarregamento é rejeitado e as regras em execução permanecem intactas.
 
 ## Consultas de estado
 
@@ -55,5 +55,3 @@ Apenas campos de tempo de execução (protocolo, endereço/porta de escuta, ende
 | `Snapshot(id)` | Estado ativo de uma regra. |
 | `SnapshotAll()` | Estado ativo de todas as regras em execução. |
 | `StopAll()` | Para tudo (ex.: no desligamento). |
-
-Consulte [HTTP API](./api) para os equivalentes HTTP (`GET /v1/rules`, `GET /v1/stats`).

@@ -34,17 +34,16 @@ vmflow version
 Возьмите пример конфигурации и запустите демон:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
-В примере TCP `0.0.0.0:2201` перенаправляется на `127.0.0.1:22` (SSH).
+Встроенный пример SSH отключён и слушает `127.0.0.1:2201`; проверьте его перед включением.
 
 ## 3. Опрос
 
-Из другого терминала направьте CLI на локальный control API (по умолчанию `127.0.0.1:19090`):
+Из другого терминала опросите локальный демон встроенным CLI:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl metrics

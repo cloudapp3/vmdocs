@@ -5,7 +5,7 @@ description: O painel de terminal do vmflow — como iniciá-lo e alternar entre
 
 # Painel TUI
 
-O vmflow vem com uma interface de terminal para inspecionar um daemon em execução. Ele faz leituras da control API local, portanto mostra o estado das regras e os contadores de tráfego em tempo real.
+O vmflow inclui uma interface de terminal para consultar o estado das regras e os contadores de tráfego do daemon local.
 
 ## Como iniciá-lo
 
@@ -13,15 +13,13 @@ O vmflow vem com uma interface de terminal para inspecionar um daemon em execuç
 vmflow tui
 ```
 
-Aponte para um endereço de controle que não seja o padrão ou informe um token:
+Quando a autenticação estiver habilitada, informe um token de acesso:
 
 ```bash
-vmflow tui -addr http://127.0.0.1:19090 -token <token>
+vmflow tui -token <token>
 # or
 VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 ```
-
-O TUI aceita as mesmas flags de cliente do `ctl`, incluindo as flags de TLS/mTLS (`-tls-ca-file`, `-tls-client-cert`, `-tls-client-key`, `-tls-skip-verify`) e `-H` / `--header` para cabeçalhos de requisição personalizados.
 
 ## Visões
 

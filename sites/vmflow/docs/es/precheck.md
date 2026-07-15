@@ -13,7 +13,7 @@ La verificación previa valida una configuración **sin aplicarla**. Se ejecuta 
 vmflow ctl precheck
 ```
 
-O a través de la API: `GET|POST /v1/precheck`.
+Ejecuta `vmflow ctl precheck` para validar la configuración actual.
 
 ## Qué comprueba
 
@@ -49,7 +49,7 @@ La verificación previa produce una lista de hallazgos, cada uno de ellos un **e
 
 ## Cómo la usa la recarga
 
-`POST /v1/reload` ejecuta primero las mismas comprobaciones. Si `error_count > 0`, la recarga se rechaza y las reglas en ejecución quedan exactamente como estaban. Esto hace seguro enviar cambios de configuración mediante automatización: una configuración rota no puede aplicarse parcialmente.
+`vmflow ctl reload` ejecuta primero las mismas comprobaciones. Si `error_count > 0`, la recarga se rechaza y las reglas en ejecución quedan exactamente como estaban. Esto hace seguro enviar cambios de configuración mediante automatización: una configuración rota no puede aplicarse parcialmente.
 
 ::: warning Puertos locales
 La sonda de capacidad de bind abre brevemente un listener local. Si tu entorno bloquea la creación de sockets locales, la verificación previa (y por tanto la recarga) no puede validar completamente la capacidad de bind.

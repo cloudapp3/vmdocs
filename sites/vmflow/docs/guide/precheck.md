@@ -13,7 +13,7 @@ Precheck validates a configuration **without applying it**. It runs automaticall
 vmflow ctl precheck
 ```
 
-Or over the API: `GET|POST /v1/precheck`.
+Run `vmflow ctl precheck` to validate the current configuration.
 
 ## What it checks
 
@@ -49,7 +49,7 @@ Precheck produces a list of findings, each either an **error** or a **warning**.
 
 ## How reload uses it
 
-`POST /v1/reload` runs the same checks first. If `error_count > 0`, the reload is rejected and the running rules are left exactly as they were. This makes config edits safe to ship through automation: a broken config cannot partially apply.
+`vmflow ctl reload` runs the same checks first. If `error_count > 0`, the reload is rejected and the running rules are left exactly as they were. This makes config edits safe to ship through automation: a broken config cannot partially apply.
 
 ::: warning Local ports
 The port-bindability probe opens a local listener briefly. If your environment blocks local socket creation, precheck (and therefore reload) cannot fully validate bindability.

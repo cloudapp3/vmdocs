@@ -5,7 +5,7 @@ description: El panel de terminal de vmflow — iniciar, alternar entre las vist
 
 # Panel TUI
 
-vmflow incluye una interfaz de terminal para inspeccionar un daemon en ejecución. Lee de la API de control local, de modo que muestra el estado en vivo de las reglas y los contadores de tráfico.
+vmflow incluye una interfaz de terminal para consultar el estado de las reglas y los contadores de tráfico del daemon local.
 
 ## Iniciarlo
 
@@ -13,15 +13,13 @@ vmflow incluye una interfaz de terminal para inspeccionar un daemon en ejecució
 vmflow tui
 ```
 
-Apunta a una dirección de control distinta de la por defecto o pasa un token:
+Cuando la autenticación esté habilitada, pasa un token de acceso:
 
 ```bash
-vmflow tui -addr http://127.0.0.1:19090 -token <token>
+vmflow tui -token <token>
 # or
 VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 ```
-
-La TUI acepta las mismas flags de cliente que `ctl`, incluidas las flags TLS/mTLS (`-tls-ca-file`, `-tls-client-cert`, `-tls-client-key`, `-tls-skip-verify`) y `-H` / `--header` para cabeceras de petición personalizadas.
 
 ## Vistas
 

@@ -104,7 +104,7 @@ This avoids two competing sources of truth.
 ## HTTPS rules and certificates (disabled)
 
 ::: warning Disabled in current build
-HTTPS forwarding and ACME/certificate management are **not enabled**: `engine` rule validation rejects `http`/`https` protocols, the daemon does not start ACME, and the `/v1/certs*` routes and `certs` CLI subcommand are removed. The notes below describe the reserved interface for when it is re-enabled. Source is retained in `acme/`, `certstore/`, `certreview/`, `engine/https.go`, `engine/proxy.go`.
+HTTPS forwarding and ACME/certificate management are **not enabled**: `engine` rule validation rejects `http`/`https` protocols, the daemon does not start ACME, and the reserved certificate handlers and `certs` CLI subcommand are disabled. The notes below describe the reserved interface for when it is re-enabled. Source is retained in `acme/`, `certstore/`, `certreview/`, `engine/https.go`, `engine/proxy.go`.
 :::
 
 HTTPS rules require a certificate provider. The standalone daemon can use the built-in ACME manager. Embedded applications can inject their own provider:

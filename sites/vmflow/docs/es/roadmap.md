@@ -13,14 +13,14 @@ vmflow se encuentra en un MVP práctico estilo v0.1. La ruta de reenvío, el cic
 - [x] Reenvío UDP
 - [x] `ApplySnapshot`
 - [x] daemon + CLI
-- [x] API de control local
+- [x] gestión local mediante CLI/TUI
 - [x] Configuración YAML
 
 ## v0.2 — en curso
 
 - [x] Métricas de Prometheus
 - [x] Mejor logging estructurado
-- [x] Autenticación de la API de control
+- [x] Autenticación de gestión
 - [x] Verificación previa de reglas
 - [ ] Drenaje ordenado
 - [ ] Verificación manual en Windows / macOS

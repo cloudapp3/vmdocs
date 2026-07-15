@@ -1,6 +1,6 @@
 ---
 title: Configuração
-description: Referência de configuração YAML do vmflow — endereço de controle, TLS, logging, tokens de autenticação e regras de encaminhamento.
+description: Referência YAML do vmflow para gerenciamento local, logs, autenticação, estatísticas e regras.
 ---
 
 # Configuração
@@ -8,7 +8,7 @@ description: Referência de configuração YAML do vmflow — endereço de contr
 O vmflow é controlado por um único arquivo YAML. Passe-o ao daemon com `-config`:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
 Um reload relê este arquivo e aplica o novo estado desejado (veja [Regras e Ciclo de Vida](./rules)).
@@ -17,14 +17,13 @@ Um reload relê este arquivo e aplica o novo estado desejado (veja [Regras e Cic
 
 ```yaml
 version: 1
-control_listen_addr: 127.0.0.1:19090
+control_port: 19090
 
 log:
   level: info
   format: text # text or json
 
-# Enable auth (or set control_tls.client_ca_file for mTLS) before exposing
-# control_listen_addr outside localhost; otherwise the daemon refuses to start.
+# O gerenciamento sempre usa 127.0.0.1; configure somente a porta.
 # The CLI/TUI can pass the token with -token or VMFLOW_CONTROL_TOKEN.
 auth:
   enabled: false
@@ -52,33 +51,11 @@ rules:
 | Campo | Descrição |
 | --- | --- |
 | `version` | Versão do esquema de configuração. Atualmente `1`. |
-| `control_listen_addr` | Endereço de escuta da API de controle local. O padrão é `127.0.0.1:19090`; mantenha em loopback a menos que você habilite auth ou mTLS. |
-| `control_tls` | TLS / mTLS opcional para a API de controle (veja `control_tls` abaixo). |
+| `control_port` | Porta de gerenciamento local. Padrão `19090`; o host é sempre `127.0.0.1`. |
 | `log` | Logging estruturado — `level` e `format`. |
 | `auth` | Autenticação por bearer-token com papéis `admin` / `viewer`. |
 | `bot_token`, `bot_chat` | Bot do Telegram — veja [Bot do Telegram](./telegram-bot). |
 | `rules` | Regras de encaminhamento (veja `rules[]` abaixo). |
-
-## `control_tls`
-
-TLS (e TLS mútuo) opcional para a API de controle. O TLS fica ativo quando tanto `cert_file` quanto `key_file` estão definidos; definir `client_ca_file` habilita o TLS mútuo.
-
-```yaml
-control_tls:
-  cert_file: /etc/vmflow/server.pem
-  key_file: /etc/vmflow/server.key
-  client_ca_file: /etc/vmflow/client-ca.pem   # optional → mTLS
-  min_version: "1.2"                           # "1.2" (default) or "1.3"
-```
-
-| Campo | Descrição |
-| --- | --- |
-| `cert_file` | Caminho do certificado do servidor. |
-| `key_file` | Caminho da chave do servidor. |
-| `client_ca_file` | Bundle de CA para certificados de cliente. Definir isto habilita o **TLS mútuo** e satisfaz a verificação de segurança de inicialização fora de loopback. |
-| `min_version` | `1.2` (padrão) ou `1.3`. |
-
-Veja [API HTTP → TLS e TLS mútuo](./api#tls-and-mutual-tls). Os clientes usam `-tls-ca-file`, `-tls-client-cert`, `-tls-client-key` e `-tls-skip-verify` — veja [Flags comuns do cliente](./commands#common-client-flags).
 
 ## `log`
 
@@ -89,11 +66,11 @@ Veja [API HTTP → TLS e TLS mútuo](./api#tls-and-mutual-tls). Os clientes usam
 
 ## `auth`
 
-Autenticação por bearer-token para a API de controle. Veja [API HTTP](./api#authentication).
+Autenticação Bearer token para gerenciamento via CLI/TUI.
 
 | Campo | Descrição |
 | --- | --- |
-| `enabled` | Quando `false`, a API de controle trata as requisições como um chamador anônimo de nível admin — seguro apenas em loopback. |
+| `enabled` | Exige tokens configurados para as ferramentas locais de gerenciamento. |
 | `tokens[].name` | Rótulo para o token (não usado para autenticação). |
 | `tokens[].token` | A string do bearer token. |
 | `tokens[].role` | `admin` (leitura + escrita) ou `viewer` (somente leitura). |
@@ -123,10 +100,9 @@ Os protocolos `http` e `https` existem no código-fonte, mas estão desabilitado
 
 ## Outros campos
 
-Além das seções acima, a configuração aceita campos de bot do Telegram e de ACME/certificado. Os campos de bot e o `control_tls` estão **ativos**; os campos de ACME/certificado são reservados para quando o suporte a HTTPS for reativado e são ignorados atualmente.
+Além disso, a configuração aceita campos do bot do Telegram e campos reservados de ACME/certificados. Consulte [Telegram Bot](./telegram-bot) para os campos ativos.
 
 | Campo | Status |
 | --- | --- |
-| `control_tls` | Ativo — veja `control_tls` acima e [API HTTP](./api#tls-and-mutual-tls). |
 | `bot_token`, `bot_chat` | Ativo — veja [Bot do Telegram](./telegram-bot). |
 | `acme_*`, `cert_cache_dir`, `cert_review.*` | Reservado (ignorado no build atual). |

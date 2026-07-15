@@ -38,7 +38,7 @@ description: vmflow が TCP、UDP、tcp+udp トラフィックをどのように
 - アップロードバイト合計
 - ダウンロードバイト合計
 
-カウンタはメモリ内にのみ存在します。UDP の場合、接続数はセッション的な近似値です。これらは [`GET /v1/stats`](./api#get-v1-stats) または `vmflow ctl stats` / TUI の各画面から読み取れます。
+カウンターはメモリ上に保持されます。UDP の接続数はセッションの近似値です。`vmflow ctl stats` または TUI で確認してください。
 
 ## ルールの同値性
 

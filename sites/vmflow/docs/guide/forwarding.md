@@ -38,7 +38,7 @@ Every running rule reports real-time counters:
 - upload bytes total
 - download bytes total
 
-Counters live in memory only. For UDP, the connection count is a session-like approximation. Read them through [`GET /v1/stats`](../api#get-v1-stats) or the `vmflow ctl stats` / TUI surfaces.
+Counters live in memory. For UDP, the connection count is a session-like approximation. Read them through `vmflow ctl stats` or the TUI.
 
 ## Rule equivalence
 

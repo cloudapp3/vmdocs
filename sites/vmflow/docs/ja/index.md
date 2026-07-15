@@ -16,9 +16,6 @@ hero:
       text: CLI リファレンス
       link: ./commands
     - theme: alt
-      text: HTTP API
-      link: ./api
-    - theme: alt
       text: GitHub
       link: https://github.com/cloudapp3/vmflow
 
@@ -42,7 +39,7 @@ features:
   - icon: 📊
     title: Prometheus メトリクスとログ
     details: /metrics エンドポイントと構造化 text/JSON ロギングにより、追加の配線なしで転送の可観測性を確保。
-    link: ./api
+    link: ./ctl
   - icon: 🖥️
     title: TUI と Telegram ボット
     details: ターミナルダッシュボードとオプションの Telegram ボットで、どこからでもルールの確認と操作が可能。
@@ -62,13 +59,12 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 デーモンを起動します。
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
 別のターミナルからクエリします。
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl precheck
@@ -83,7 +79,7 @@ vmflow は、軽量なインプロセス L4 転送を必要とする開発者や
 - ポート間で TCP/UDP トラフィックを、ルールごとの制限付きで転送したい
 - 独自の desired-state やデータベースから転送ルールを駆動したい
 - 転送設定を適用する前に検証したい
-- 小さなローカル API でルールの統計とリロードを公開したい
+- 組み込みの CLI/TUI でルール統計を確認し、リロードしたい
 - データベースや Web UI を持ち込まずに、転送機能を別の Go サービスに組み込みたい
 
 ## クイックリンク
@@ -92,6 +88,5 @@ vmflow は、軽量なインプロセス L4 転送を必要とする開発者や
 - [インストール](./installation)
 - [設定](./configuration)
 - [コマンドリファレンス](./commands)
-- [HTTP API](./api)
 - [Go ライブラリ](./library)
 - [中文文档](/zh/)

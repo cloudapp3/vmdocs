@@ -31,7 +31,7 @@ vmflow 설치를 완전히 제거합니다. **계획 → 확인 → 실행** 흐
 | --- | --- |
 | 네이티브 서비스 | systemd unit / launchd plist / Windows Service를 중지하고 제거합니다. |
 | 설정 파일 | 플랫폼 기본 설정(현재 있다면 [`service`](./service) 참고). |
-| TLS / ACME 인증서 | **설정이 참조하는** 인증서 및 키 경로(`control_tls`, ACME/인증서 캐시 디렉터리). |
+| 외부 TLS / ACME 인증서 | vmflow 소유 저장소 외부의 인증서와 키 파일은 보존됩니다. |
 | 로그 디렉터리 | 예: `/var/log/vmflow`(Linux/macOS), `C:\ProgramData\vmflow\logs`(Windows). |
 | 자동 업데이트 캐시 | 업데이터 캐시 디렉터리. |
 | vmflow 바이너리 | 실행 중인 실행 파일로, 마지막에 제거됩니다. |

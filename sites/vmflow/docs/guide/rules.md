@@ -45,7 +45,7 @@ Only runtime fields (protocol, listen address/port, target address/port, speed l
 
 ## Reload
 
-`POST /v1/reload` reloads the config file and runs `ApplySnapshot` with `ReplaceAll = true`. It runs [precheck](./precheck) first; on any error the reload is rejected and running rules are untouched.
+`vmflow ctl reload` reloads the config file and runs `ApplySnapshot` with `ReplaceAll = true`. It runs [precheck](./precheck) first; on any error the reload is rejected and running rules are untouched.
 
 ## State queries
 
@@ -55,5 +55,3 @@ Only runtime fields (protocol, listen address/port, target address/port, speed l
 | `Snapshot(id)` | Live state for one rule. |
 | `SnapshotAll()` | Live state for all running rules. |
 | `StopAll()` | Stop everything (e.g. on shutdown). |
-
-See [HTTP API](../api) for the HTTP equivalents (`GET /v1/rules`, `GET /v1/stats`).

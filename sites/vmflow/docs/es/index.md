@@ -16,9 +16,6 @@ hero:
       text: Referencia CLI
       link: ./commands
     - theme: alt
-      text: HTTP API
-      link: ./api
-    - theme: alt
       text: GitHub
       link: https://github.com/cloudapp3/vmflow
 
@@ -42,7 +39,7 @@ features:
   - icon: 📊
     title: Métricas de Prometheus y logs
     details: Un endpoint /metrics más logs estructurados en formato text/JSON mantienen el reenvío observable sin configuración adicional.
-    link: ./api
+    link: ./ctl
   - icon: 🖥️
     title: TUI y bot de Telegram
     details: Un panel de terminal y un bot de Telegram opcional te permiten inspeccionar y controlar las reglas desde donde operes.
@@ -62,13 +59,12 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 Inicia el daemon:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
 Consúltalo desde otro terminal:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl precheck
@@ -83,7 +79,7 @@ vmflow está pensado para desarrolladores y operadores que necesitan reenvío L4
 - reenviar tráfico TCP/UDP entre puertos con límites por regla
 - gestionar las reglas de reenvío desde tu propio estado deseado o base de datos
 - validar una configuración de reenvío antes de aplicarla
-- exponer estadísticas de reglas y recarga mediante una pequeña API local
+- consultar estadísticas y recargar la configuración con la CLI/TUI incluidas
 - embeber el reenvío en otro servicio de Go sin incorporar una base de datos o una interfaz web
 
 ## Enlaces rápidos
@@ -92,6 +88,5 @@ vmflow está pensado para desarrolladores y operadores que necesitan reenvío L4
 - [Instalación](./installation)
 - [Configuración](./configuration)
 - [Referencia de comandos](./commands)
-- [HTTP API](./api)
 - [Biblioteca de Go](./library)
 - [中文文档](/zh/)

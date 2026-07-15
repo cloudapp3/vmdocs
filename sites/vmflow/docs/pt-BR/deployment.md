@@ -1,59 +1,30 @@
 ---
 title: Implantação
-description: Execute o vmflow como um daemon em produção — exposição da API de controle, autenticação, TLS/mTLS, logging, métricas e configuração de serviço nativo.
+description: Execute o vmflow com gerenciamento loopback, logs, métricas, SSH e serviço nativo.
 ---
 
 # Implantação
 
-O vmflow roda como um daemon de longa duração expondo uma API de controle local. Esta página aborda as preocupações práticas para executá-lo em um host.
+O vmflow funciona como processo de encaminhamento de longa duração. O gerenciamento permanece no loopback e usa a CLI/TUI incluída.
 
-## Mantenha a API de controle no loopback
+## Gerenciamento local
 
-O valor padrão de `control_listen_addr` é `127.0.0.1:19090`. Com `auth.enabled: false`, a API de controle trata toda requisição como um chamador anônimo de nível admin — isso só é seguro no loopback.
-
-O daemon **recusa a inicialização** se a API de controle estiver vinculada a um endereço não loopback (`0.0.0.0`, `::`, um IP não loopback, ou `:port`) sem proteção. Esse comportamento é fail-closed: evita expor acidentalmente um endpoint de controle remoto não autenticado. Para vincular fora do loopback, atenda a uma destas condições:
-
-1. `auth.enabled: true` com pelo menos um token, **ou**
-2. TLS mútuo via `control_tls.client_ca_file` (os clientes devem apresentar um certificado), **ou**
-3. passe `-insecure-allow-remote-control` ao daemon para reconhecer explicitamente o risco.
-
-## Expondo fora do localhost
-
-Quando você precisa acessar a API de controle a partir de outro host, escolha uma das opções seguras.
-
-### Opção A — autenticação por bearer token
+O canal interno de gerenciamento sempre é vinculado a `127.0.0.1`. A configuração define apenas a porta local:
 
 ```yaml
-control_listen_addr: 0.0.0.0:19090
-auth:
-  enabled: true
-  tokens:
-    - name: admin
-      token: <long-random-secret>
-      role: admin
-    - name: viewer
-      token: <another-random-secret>
-      role: viewer
+control_port: 19090
 ```
 
-Use o token `admin` para qualquer chamada que faça mutações (`reload`). Chamadas somente de leitura funcionam com um token `viewer`.
+As interfaces suportadas são `vmflow ctl` e `vmflow tui`. O transporte interno não é uma API pública de integração.
 
-### Opção B — TLS / TLS mútuo (recomendado)
+## Gerenciamento remoto
 
-Termine o TLS na própria API de controle e, para a postura mais forte, exija certificados de cliente:
+Encaminhe a porta loopback por SSH e use a CLI/TUI localmente:
 
-```yaml
-control_listen_addr: 0.0.0.0:19090
-control_tls:
-  cert_file: /etc/vmflow/server.pem
-  key_file:  /etc/vmflow/server.key
-  client_ca_file: /etc/vmflow/client-ca.pem   # mTLS — satisfies the startup check
-  min_version: "1.2"
+```bash
+ssh -N -L 19090:127.0.0.1:19090 user@server
+vmflow ctl rules
 ```
-
-Os clientes então se conectam com `-tls-ca-file`, `-tls-client-cert`, `-tls-client-key` (consulte [Flags comuns do cliente](./commands#common-client-flags)). Esta é a maneira recomendada de expor a API de controle por trás de um Cloudflare Tunnel sem portas de entrada. Consulte [HTTP API → TLS e TLS mútuo](./api#tls-and-mutual-tls).
-
-Consulte também [HTTP API → Autenticação](./api#authentication).
 
 ## Logging
 
@@ -69,7 +40,7 @@ log:
 
 ## Métricas
 
-Aponte o Prometheus para a API de controle:
+Configure o Prometheus no mesmo host para ler o listener de métricas loopback:
 
 ```yaml
 scrape_configs:
@@ -79,11 +50,9 @@ scrape_configs:
     metrics_path: /metrics
 ```
 
-Consulte [HTTP API → Métricas](./api#get-metrics) para as famílias de métricas expostas.
-
 ## Recarregar com segurança
 
-Alterações de configuração passam por `POST /v1/reload` (ou `vmflow ctl reload`). O recarregamento executa o [precheck](./precheck) primeiro e rejeita a alteração em caso de qualquer erro, deixando as regras em execução intactas. Ainda não há janela de drenagem graceful — conexões existentes com uma regra removida/alterada não são migradas.
+Use `vmflow ctl reload` para aplicar alterações. O [precheck](./precheck) roda primeiro e uma configuração inválida não é aplicada parcialmente.
 
 ## Executando como um serviço nativo
 
@@ -106,7 +75,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/vmflow daemon -config /etc/vmflow/config.yaml
+ExecStart=/usr/local/bin/vmflow -config /etc/vmflow/config.yaml
 ExecReload=/usr/local/bin/vmflow ctl reload
 Restart=on-failure
 RestartSec=3
@@ -127,6 +96,6 @@ Para uma remoção completa (serviço + binário + configuração + logs + certi
 
 ## Limitações atuais
 
-- As estatísticas são **somente em memória**; não há agregação histórica embutida.
+- Contadores acumulados podem ser persistidos; conexões ativas e taxas continuam locais ao processo.
 - Nenhum web dashboard ou coordenador multi-node embutido.
-- Ainda não há imagem Docker oficial no archive de release (instalação como serviço nativo, além de pacotes `.deb`/`.rpm`, estão disponíveis).
+- Ainda não há imagem Docker oficial; use o instalador de serviço nativo integrado para iniciar no boot.

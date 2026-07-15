@@ -19,13 +19,13 @@ Registra `vmflow` como servicio nativo del SO que **arranca en el boot** y **se 
 | macOS | daemon launchd | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | gestionado vía `services.msc` / `sc.exe` |
 
-El servicio simplemente ejecuta `vmflow daemon` bajo el supervisor de la plataforma. En Linux y macOS el supervisor envía `SIGTERM` para detenerlo; en Windows el daemon detecta el Service Control Manager al arrancar y reporta el estado él mismo (no hay stdout disponible, de modo que `-log-file` es obligatorio).
+El servicio simplemente ejecuta `vmflow` bajo el supervisor de la plataforma. En Linux y macOS el supervisor envía `SIGTERM` para detenerlo; en Windows el daemon detecta el Service Control Manager y reporta el estado. Como el SCM no tiene stdout, los logs usan `C:\ProgramData\vmflow\logs\vmflow.log` por defecto.
 
 ## Acciones
 
 | Acción | Descripción |
 | --- | --- |
-| `install` | Genera la unidad/plist (o registra el Windows Service), la **habilita** y la **arranca** ahora. Requiere root en Linux/macOS, administrador en Windows. |
+| `install` | Valida la configuración, crea o actualiza la unidad/plist/Windows Service, la **habilita** y la **arranca**. Al repetirlo, actualiza y reinicia el servicio existente. Requiere root en Linux/macOS, administrador en Windows. |
 | `uninstall` | Detiene y elimina el servicio. Los archivos de configuración y de log se conservan. |
 | `status` | Imprime el estado actual del servicio. |
 
@@ -33,10 +33,11 @@ El servicio simplemente ejecuta `vmflow daemon` bajo el supervisor de la platafo
 
 | Flag | Por defecto | Descripción |
 | --- | --- | --- |
-| `-config` | ruta de plataforma¹ | Ruta del archivo de configuración con el que se ejecuta el servicio. La configuración debe existir ya. |
+| `-config` | ruta de plataforma¹ | Ruta de la configuración del servicio. Debe ser válida y estar protegida, bajo propiedad de root/admin. |
 | `-user` | `root` _(systemd)_ | Ejecuta la unidad como este usuario; se crea como usuario del sistema si no existe. Solo Linux. |
-| `-log-file` | _(stdout)_ | Redirige aquí los logs del daemon. Se pasa como `-log-file` en Linux/Windows; define las rutas de captura de launchd en macOS. Prácticamente **obligatorio en Windows**. |
-| `-extra-args` | _(ninguna)_ | Flags extra que se añaden literalmente a la línea de comandos del daemon, p. ej. `"-control-listen 0.0.0.0:19090"`. |
+| `-log-file` | valor de plataforma | Sobrescribe el destino de logs. Linux usa stdout/journald, macOS rutas de launchd y Windows `C:\ProgramData\vmflow\logs\vmflow.log`. |
+| `--control-port` | valor de configuración | Sobrescribe el puerto de gestión local; el host sigue siendo `127.0.0.1`. |
+| `--extra-arg` | _(ninguno)_ | Añade un futuro flag como `--extra-arg=-flag=value`; se puede repetir. Los flags actuales deben usar sus opciones dedicadas. |
 | `-binary` | ejecutable actual | Ruta al binario de vmflow. Para `install` debe ser una **ruta absoluta** propiedad de root/admin en una ubicación de confianza. |
 
 ¹ Rutas de configuración por defecto: Linux `/etc/vmflow/config.yaml`, macOS `/usr/local/etc/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
@@ -50,8 +51,8 @@ sudo vmflow service install
 # 2. point the service at a specific config and run it as a dedicated user
 sudo vmflow service install -config /etc/vmflow/config.yaml -user vmflow
 
-# 3. bind the control API off-loopback (auth/mTLS still required — see Deployment)
-sudo vmflow service install -extra-args "-control-listen 0.0.0.0:19090"
+# 3. opcionalmente cambia el puerto de gestión loopback
+sudo vmflow service install --control-port 19100
 
 # 4. check / remove
 vmflow service status
@@ -60,7 +61,7 @@ sudo vmflow service uninstall
 
 ## Notas de seguridad
 
-- Para `install`, el binario debe resolver a una ruta absoluta, propiedad de root/admin, en una ubicación de instalación de confianza; de lo contrario la instalación se rechaza. Esto evita que un usuario con menos privilegios sustituya el binario tras una instalación privilegiada.
-- Vincular la API de control fuera de loopback sigue sujeto a la [verificación de seguridad de arranque](./daemon#startup-safety) del daemon: habilita `auth` o mTLS, o el servicio entrará en un crash-loop.
+- Para `install`, el binario y la configuración deben resolver a rutas absolutas propiedad de root/admin en ubicaciones de confianza; de lo contrario se rechaza. La configuración se analiza antes de cambiar el servicio.
+- El listener de gestión siempre se enlaza a `127.0.0.1`; el acceso remoto usa un túnel SSH.
 
 Para un desmontaje completo (servicio + binario + configuración + logs + certificados), usa [`vmflow uninstall`](./uninstall) en su lugar.

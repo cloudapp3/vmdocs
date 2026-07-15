@@ -31,7 +31,7 @@ Los elementos se eliminan en este orden (primero el servicio, el binario en ejec
 | --- | --- |
 | Servicio nativo | Detiene y elimina la unidad systemd / plist de launchd / Windows Service. |
 | Archivo de configuración | La configuración por defecto de plataforma (consulta [`service`](./service)), si está presente. |
-| Certificados TLS / ACME | Rutas de certificado y clave **referenciadas por la configuración** (`control_tls`, directorios de caché ACME/cert). |
+| Certificados TLS / ACME externos | Se conservan los certificados y claves fuera del almacenamiento propiedad de vmflow. |
 | Directorios de log | p. ej. `/var/log/vmflow` (Linux/macOS), `C:\ProgramData\vmflow\logs` (Windows). |
 | Caché de autoactualización | El directorio de caché del actualizador. |
 | Binario de vmflow | El ejecutable en ejecución, eliminado en último lugar. |

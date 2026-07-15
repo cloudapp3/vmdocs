@@ -1,15 +1,15 @@
 ---
 title: Referencia de comandos
-description: Referencia de la CLI de vmflow — subcomandos daemon, ctl, tui, version, update, service, uninstall y sus alias.
+description: Referencia CLI de vmflow para foreground, ctl, tui, version, update, service y uninstall.
 ---
 
 # Referencia de comandos
 
-vmflow es un único binario con siete subcomandos. Los alias se muestran en la tabla siguiente.
+vmflow es un único binario con ejecución foreground y seis subcomandos.
 
 | Comando | Alias | Propósito |
 | --- | --- | --- |
-| [`daemon`](./daemon) | `d` | Ejecuta el daemon de reenvío. |
+| `vmflow` | - | Ejecuta el runtime de reenvío en foreground. |
 | [`ctl`](./ctl) | `c` | Consulta y controla un daemon en ejecución. |
 | [`tui`](./tui) | `t` | Panel de terminal. |
 | [`version`](./version) | `v` | Imprime los metadatos de build. |
@@ -17,19 +17,15 @@ vmflow es un único binario con siete subcomandos. Los alias se muestran en la t
 | [`service`](./service) | `svc` | Registra como servicio nativo del SO (arranque en boot). |
 | [`uninstall`](./uninstall) | `remove`, `rm` | Desinstalación con un solo comando y limpieza. |
 
-## Flags comunes de cliente {#common-client-flags}
+## Parámetros comunes de gestión {#common-client-flags}
 
-`ctl` y `tui` son clientes de la [API de control](./api) y comparten estas flags:
+Los comandos `ctl` y `tui` se conectan al daemon local.
 
-| Flag | Variable de entorno | Por defecto | Descripción |
+| Parámetro | Variable | Por defecto | Descripción |
 | --- | --- | --- | --- |
-| `-addr` | _(ninguna)_ | `http://127.0.0.1:19090` | URL base de la API de control. |
-| `-token` | `VMFLOW_CONTROL_TOKEN` | _(ninguna)_ | Bearer token cuando auth está habilitado. |
-| `-tls-ca-file` | `VMFLOW_TLS_CA_FILE` | _(ninguna)_ | Bundle de CA para verificar el certificado del servidor de la API de control (CAs privadas/autofirmadas). |
-| `-tls-client-cert` | `VMFLOW_TLS_CLIENT_CERT` | _(ninguna)_ | Certificado de cliente para mTLS (obligatorio cuando el servidor define `control_tls.client_ca_file`). |
-| `-tls-client-key` | `VMFLOW_TLS_CLIENT_KEY` | _(ninguna)_ | Clave de cliente para mTLS (se usa con `-tls-client-cert`). |
-| `-tls-skip-verify` | `VMFLOW_TLS_INSECURE` (`1`/`true`) | `false` | Omite la verificación del certificado del servidor (peligroso, solo para depuración). |
-| `-H` / `--header` | `VMFLOW_HEADERS` (separadas por `;`) | _(ninguna)_ | Cabecera de petición extra como `Name: Value` (repetible). |
+| `-token` | `VMFLOW_CONTROL_TOKEN` | _(ninguno)_ | Bearer token cuando la autenticación está habilitada. |
+
+Para gestión remota usa el túnel SSH descrito en [Gestión local](./api).
 
 ## Notas
 

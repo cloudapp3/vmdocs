@@ -5,7 +5,7 @@ description: vmflow 터미널 대시보드 — 시작하고, Dashboard·Rules·D
 
 # TUI 대시보드
 
-vmflow는 실행 중인 데몬을 살펴보는 터미널 UI를 제공합니다. 로컬 컨트롤 API에서 읽어오므로 라이브 규칙 상태와 트래픽 카운터를 보여줍니다.
+vmflow는 로컬 데몬의 규칙 상태와 트래픽 카운터를 확인하는 터미널 UI를 제공합니다.
 
 ## 시작하기
 
@@ -13,15 +13,13 @@ vmflow는 실행 중인 데몬을 살펴보는 터미널 UI를 제공합니다. 
 vmflow tui
 ```
 
-기본이 아닌 컨트롤 주소를 가리키거나 토큰을 전달하세요:
+인증을 활성화한 경우 액세스 토큰을 전달하세요:
 
 ```bash
-vmflow tui -addr http://127.0.0.1:19090 -token <token>
+vmflow tui -token <token>
 # or
 VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 ```
-
-TUI는 `ctl`과 동일한 클라이언트 플래그를 받으며, TLS/mTLS 플래그(`-tls-ca-file`, `-tls-client-cert`, `-tls-client-key`, `-tls-skip-verify`)와 커스텀 요청 헤더를 위한 `-H` / `--header`도 포함됩니다.
 
 ## 보기
 

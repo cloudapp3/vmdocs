@@ -13,14 +13,14 @@ vmflow는 실용적인 v0.1 스타일의 MVP 단계입니다. 포워딩 경로, 
 - [x] UDP 포워딩
 - [x] `ApplySnapshot`
 - [x] daemon + CLI
-- [x] 로컬 컨트롤 API
+- [x] 로컬 CLI/TUI 관리
 - [x] YAML 설정
 
 ## v0.2 — 진행 중
 
 - [x] Prometheus 메트릭
 - [x] 향상된 구조화 로깅
-- [x] 컨트롤 API 인증
+- [x] 관리 인증
 - [x] 규칙 사전 점검
 - [ ] graceful drain
 - [ ] Windows / macOS 수동 검증

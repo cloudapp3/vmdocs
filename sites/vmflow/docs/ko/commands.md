@@ -1,15 +1,15 @@
 ---
 title: 명령어 참조
-description: vmflow CLI 참조 — daemon, ctl, tui, version, update, service, uninstall 하위 명령어와 별칭.
+description: foreground, ctl, tui, version, update, service, uninstall을 위한 vmflow CLI 참조입니다.
 ---
 
 # 명령어 참조
 
-vmflow는 일곱 개의 하위 명령어를 가진 단일 바이너리입니다. 별칭은 아래 표에 나와 있습니다.
+vmflow는 포그라운드 실행과 여섯 개의 하위 명령을 제공하는 단일 바이너리입니다.
 
 | 명령어 | 별칭 | 용도 |
 | --- | --- | --- |
-| [`daemon`](./daemon) | `d` | 포워딩 데몬을 실행합니다. |
+| `vmflow` | - | 포워딩 런타임을 포그라운드로 실행합니다. |
 | [`ctl`](./ctl) | `c` | 실행 중인 데몬을 조회하고 제어합니다. |
 | [`tui`](./tui) | `t` | 터미널 대시보드입니다. |
 | [`version`](./version) | `v` | 빌드 메타데이터를 출력합니다. |
@@ -17,19 +17,15 @@ vmflow는 일곱 개의 하위 명령어를 가진 단일 바이너리입니다.
 | [`service`](./service) | `svc` | 네이티브 OS 서비스로 등록합니다(부팅 시 시작). |
 | [`uninstall`](./uninstall) | `remove`, `rm` | 정리를 포함한 원커맨드 제거입니다. |
 
-## 공통 클라이언트 플래그 {#common-client-flags}
+## 공통 관리 플래그 {#common-client-flags}
 
-`ctl`과 `tui`는 [컨트롤 API](./api)의 클라이언트이며 다음 플래그를 공유합니다:
+번들 `ctl`과 `tui`는 로컬 데몬에 연결합니다.
 
 | 플래그 | 환경 변수 | 기본값 | 설명 |
 | --- | --- | --- | --- |
-| `-addr` | _(없음)_ | `http://127.0.0.1:19090` | 컨트롤 API 기본 URL입니다. |
-| `-token` | `VMFLOW_CONTROL_TOKEN` | _(없음)_ | auth가 활성화되었을 때의 Bearer 토큰입니다. |
-| `-tls-ca-file` | `VMFLOW_TLS_CA_FILE` | _(없음)_ | 컨트롤 API 서버 인증서를 검증하기 위한 CA 번들입니다(사설/자체 서명 CA). |
-| `-tls-client-cert` | `VMFLOW_TLS_CLIENT_CERT` | _(없음)_ | mTLS용 클라이언트 인증서입니다(서버가 `control_tls.client_ca_file`을 설정할 때 필요). |
-| `-tls-client-key` | `VMFLOW_TLS_CLIENT_KEY` | _(없음)_ | mTLS용 클라이언트 키입니다(`-tls-client-cert`와 함께 사용). |
-| `-tls-skip-verify` | `VMFLOW_TLS_INSECURE` (`1`/`true`) | `false` | 서버 인증서 검증을 건너뜁니다(위험, 디버그 전용). |
-| `-H` / `--header` | `VMFLOW_HEADERS` (`;`로 구분) | _(없음)_ | `Name: Value` 형식의 추가 요청 헤더입니다(반복 가능). |
+| `-token` | `VMFLOW_CONTROL_TOKEN` | _(없음)_ | 인증을 활성화한 경우의 Bearer token입니다. |
+
+원격 관리는 [로컬 관리](./api)의 SSH 터널을 사용하세요.
 
 ## 참고
 

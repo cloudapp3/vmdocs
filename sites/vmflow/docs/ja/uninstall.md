@@ -31,7 +31,7 @@ vmflow インストールの完全な削除を行います。**計画 → 確認
 | --- | --- |
 | ネイティブサービス | systemd ユニット / launchd plist / Windows サービスを停止して削除します。 |
 | 設定ファイル | [`service`](./service) のプラットフォームデフォルト設定（存在する場合）。 |
-| TLS / ACME 証明書 | **設定で参照されている**証明書とキーのパス（`control_tls`、ACME/証明書キャッシュディレクトリ）。 |
+| 外部 TLS / ACME 証明書 | vmflow 管理外の証明書とキーファイルは保持されます。 |
 | ログディレクトリ | 例: `/var/log/vmflow`（Linux/macOS）、`C:\ProgramData\vmflow\logs`（Windows）。 |
 | 自己更新キャッシュ | アップデータのキャッシュディレクトリ。 |
 | vmflow バイナリ | 実行中の実行ファイル。最後に削除されます。 |

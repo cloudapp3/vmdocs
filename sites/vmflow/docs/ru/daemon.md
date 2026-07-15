@@ -1,39 +1,27 @@
 ---
-title: vmflow daemon
-description: Запуск демона перенаправления vmflow — путь к конфигурации, адрес прослушивания control API и флаги безопасности при запуске.
+title: vmflow
+description: Справочник CLI vmflow — foreground, ctl, tui, version, update, service и uninstall.
 ---
 
-# vmflow daemon
+# vmflow
 
 ```bash
-vmflow daemon -config ./examples/config.yaml [-control-listen 127.0.0.1:19090]
+vmflow -config ./examples/config.yaml [-control-port 19090]
 ```
 
-Псевдоним: `vmflow d`.
-
-Демон загружает файл конфигурации, запускает control API и применяет правила как снимок. Затем он работает до прерывания (`SIGINT` / `SIGTERM` — так его останавливают systemd и launchd).
+Режим foreground загружает конфигурацию, запускает внутренний канал управления только на loopback, применяет снимок правил и работает до `SIGINT` или `SIGTERM`.
 
 ## Флаги
 
 | Флаг | По умолчанию | Описание |
 | --- | --- | --- |
 | `-config` | _(обязательный)_ | Путь к файлу конфигурации YAML. |
-| `-control-listen` | _(из конфигурации)_ | Переопределяет адрес прослушивания control API (`control_listen_addr` в конфигурации, по умолчанию `127.0.0.1:19090`). |
-| `-insecure-allow-remote-control` | `false` | **Опасно:** разрешает привязку control API на адресе, отличном от loopback, без аутентификации. См. [Развёртывание](./deployment). |
+| `-control-port` | _(из конфигурации)_ | Переопределяет loopback-порт управления. |
 | `-log-file` | _(stdout)_ | Писать журналы в этот файл вместо stdout (полезно под сервис-менеджером; обязательно на Windows). |
-
-## Безопасность при запуске {#startup-safety}
-
-Демон отказывается запускаться, когда control API привязан к адресу, отличному от loopback (`0.0.0.0`, `::`, не-loopback IP или `:port`), без аутентификации, поскольку это открыло бы неаутентифицированную конечную точку удалённого управления. Чтобы всё же запустить, выполните одно из:
-
-- привяжитесь к `127.0.0.1` (по умолчанию),
-- включите `auth` в конфигурации,
-- включите mutual TLS (`control_tls.client_ca_file`), либо
-- передайте `-insecure-allow-remote-control`, чтобы подтвердить понимание риска.
 
 ## Поведение во время выполнения
 
 - При запуске правила применяются через снимок (`ReplaceAll`). См. [Правила и жизненный цикл](./rules).
-- Control API предоставляет [health, rules, stats, precheck, reload, metrics](./api).
-- `POST /v1/reload` (или `vmflow ctl reload`) перечитывает конфигурацию и повторно применяет её после [предпроверки](./precheck).
+- Поддерживаемые средства управления: `vmflow ctl` и `vmflow tui`.
+
 - О запуске в качестве управляемой службы, стартующей при загрузке, см. [`vmflow service`](./service).

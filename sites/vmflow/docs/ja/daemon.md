@@ -1,39 +1,27 @@
 ---
-title: vmflow daemon
-description: vmflow 転送デーモンを実行する — 設定パス、コントロールリッスンアドレス、起動時安全フラグ。
+title: vmflow
+description: foreground、ctl、tui、version、update、service、uninstall の vmflow CLI リファレンス。
 ---
 
-# vmflow daemon
+# vmflow
 
 ```bash
-vmflow daemon -config ./examples/config.yaml [-control-listen 127.0.0.1:19090]
+vmflow -config ./examples/config.yaml [-control-port 19090]
 ```
 
-エイリアス: `vmflow d`。
-
-デーモンは設定ファイルを読み込み、コントロール API を開始し、ルールをスナップショットとして適用します。その後、中断されるまで（`SIGINT` / `SIGTERM`。これは systemd や launchd が停止させる方法でもあります）サービスを提供し続けます。
+フォアグラウンド実行は設定を読み込み、ループバック専用の内部管理チャネルを開始し、ルールをスナップショットとして適用して `SIGINT` / `SIGTERM` まで動作します。
 
 ## フラグ
 
 | フラグ | デフォルト | 説明 |
 | --- | --- | --- |
 | `-config` | _(必須)_ | YAML 設定ファイルのパス。 |
-| `-control-listen` | _(設定から)_ | コントロール API のリッスンアドレスを上書きします（設定内の `control_listen_addr`、デフォルトは `127.0.0.1:19090`）。 |
-| `-insecure-allow-remote-control` | `false` | **危険:** 認証なしでコントロール API を非ループバックアドレスにバインドすることを許可します。[デプロイメント](./deployment)を参照してください。 |
+| `-control-port` | _(設定値)_ | ループバック管理ポートを上書きします。 |
 | `-log-file` | _(標準出力)_ | 標準出力の代わりにログをこのファイルに書き出します（サービスマネージャ配下で有用。Windows では必須）。 |
-
-## 起動時の安全性 {#startup-safety}
-
-認証なしでコントロール API が非ループバックアドレス（`0.0.0.0`、`::`、非ループバックの IP、または `:port`）にバインドされている場合、デーモンは起動を拒否します。これは認証されていないリモート制御エンドポイントを公開することになるからです。それでも起動するには、次のいずれかを行ってください：
-
-- `127.0.0.1` にバインドする（デフォルト）、
-- 設定で `auth` を有効にする、
-- 相互 TLS（`control_tls.client_ca_file`）を有効にする、または
-- リスクを承認するために `-insecure-allow-remote-control` を渡す。
 
 ## ランタイムの挙動
 
 - 起動時、ルールはスナップショット（`ReplaceAll`）経由で適用されます。[ルールとライフサイクル](./rules)を参照してください。
-- コントロール API は[ヘルス、ルール、統計、プレチェック、リロード、メトリクス](./api)を公開します。
-- `POST /v1/reload`（または `vmflow ctl reload`）は設定を再読み込みし、[プレチェック](./precheck)の後に再適用します。
+- サポートされる管理手段は `vmflow ctl` と `vmflow tui` です。
+
 - 管理された起動時サービスとして実行するには、[`vmflow service`](./service) を参照してください。

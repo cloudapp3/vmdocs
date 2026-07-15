@@ -1,45 +1,36 @@
 ---
 title: vmflow ctl
-description: Опрос и управление работающим демоном vmflow — health, rules, stats, metrics, precheck, reload.
+description: Опрос и управление vmflow через поддерживаемый CLI.
 ---
 
 # vmflow ctl
 
 ```bash
-vmflow ctl [-addr http://127.0.0.1:19090] [-token TOKEN] <subcommand>
+vmflow ctl [-token TOKEN] <subcommand>
 ```
 
 Псевдоним: `vmflow c`.
 
-`ctl` — тонкий клиент над [control API](./api). Он обращается к демону по адресу `-addr` и аутентифицируется через `-token` (или `VMFLOW_CONTROL_TOKEN`), если включена аутентификация. Полный набор общих клиентских флагов — включая TLS/mTLS и пользовательские заголовки — приведён в разделе [Общие клиентские флаги](./commands#common-client-flags).
+`ctl` — поддерживаемый командный интерфейс локального демона. При аутентификации используйте `-token` или `VMFLOW_CONTROL_TOKEN`.
 
 ## Подкоманды
 
-| Подкоманда | Вызывает | Описание |
-| --- | --- | --- |
-| `health` | `GET /healthz` | Состояние демона и количество работающих правил. |
-| `rules` | `GET /v1/rules` | Список работающих правил. |
-| `stats` | `GET /v1/stats` | Счётчики трафика по каждому правилу (снимок в памяти). |
-| `metrics` | `GET /metrics` | Текстовое представление Prometheus. |
-| `precheck` | `POST /v1/precheck` | Проверка текущей конфигурации без применения. |
-| `reload` | `POST /v1/reload` | Перезагрузка конфигурации и повторное применение после предпроверки. |
+| Подкоманда | Описание |
+| --- | --- |
+| `rules` | Список работающих правил. |
+| `stats` | Счётчики трафика по правилам. |
+| `metrics` | Метрики Prometheus в текстовом формате. |
+| `precheck` | Проверка конфигурации без применения. |
+| `reload` | Перезагрузка после предпроверки. |
 
 ## Примеры
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
+vmflow ctl precheck
 vmflow ctl reload
 vmflow ctl -token change-me reload
-
-# against a TLS-protected control API using a private CA and mTLS client cert
-vmflow ctl -addr https://10.0.0.5:19090 \
-  -tls-ca-file ca.pem -tls-client-cert client.pem -tls-client-key client.key \
-  reload
-
-# send an extra header (e.g. a Cloudflare Access service token)
-vmflow ctl -H "CF-Access-Client-Id: xxx" -H "CF-Access-Client-Secret: yyy" reload
 ```
 
 ::: tip

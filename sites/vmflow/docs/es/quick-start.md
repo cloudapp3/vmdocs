@@ -34,17 +34,16 @@ Consulta [Instalación](./installation) para `--version`, la verificación de ch
 Toma la configuración de ejemplo e inicia el daemon:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
-El ejemplo reenvía el TCP `0.0.0.0:2201` a `127.0.0.1:22` (SSH).
+El ejemplo SSH incluido está deshabilitado y escucha en `127.0.0.1:2201`; revísalo antes de activarlo.
 
 ## 3. Consultarlo
 
-Desde otro terminal, apunta la CLI a la API de control local (por defecto `127.0.0.1:19090`):
+Desde otro terminal, consulta el daemon local con la CLI incluida:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl metrics

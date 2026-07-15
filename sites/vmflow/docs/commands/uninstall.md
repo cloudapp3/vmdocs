@@ -31,7 +31,7 @@ Items are removed in this order (service first, the running binary last, so a st
 | --- | --- |
 | Native service | Stops and removes the systemd unit / launchd plist / Windows Service. |
 | Config file | The platform default config (see [`service`](./service)), if present. |
-| TLS / ACME certificates | Cert and key paths **referenced by the config** (`control_tls`, ACME/cert cache dirs). |
+| External TLS / ACME certificates | Certificate and key files referenced outside vmflow-owned storage are preserved. |
 | Log directories | e.g. `/var/log/vmflow` (Linux/macOS), `C:\ProgramData\vmflow\logs` (Windows). |
 | Self-update cache | The updater cache directory. |
 | vmflow binary | The running executable, removed last. |

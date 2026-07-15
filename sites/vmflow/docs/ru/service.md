@@ -19,13 +19,13 @@ vmflow service (install|uninstall|status) [flags]
 | macOS | launchd daemon | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | управляется через `services.msc` / `sc.exe` |
 
-Служба просто запускает `vmflow daemon` под супервизором платформы. На Linux и macOS супервизор посылает `SIGTERM` для остановки; на Windows демон определяет Service Control Manager при запуске и сообщает состояние сам (stdout недоступен, поэтому обязателен `-log-file`).
+Служба запускает `vmflow` под супервизором платформы. На Linux и macOS супервизор посылает `SIGTERM`; на Windows демон определяет Service Control Manager и сообщает состояние. У SCM нет stdout, поэтому журнал по умолчанию находится в `C:\ProgramData\vmflow\logs\vmflow.log`.
 
 ## Действия
 
 | Действие | Описание |
 | --- | --- |
-| `install` | Генерирует unit/plist (или регистрирует Windows Service), **включает** его и **запускает** сейчас. Требует root на Linux/macOS, права администратора на Windows. |
+| `install` | Проверяет конфигурацию, создаёт или обновляет unit/plist/Windows Service, **включает** и сразу **запускает** службу. Повторный запуск обновляет и перезапускает существующую службу. Требует root на Linux/macOS, права администратора на Windows. |
 | `uninstall` | Останавливает и удаляет службу. Файлы конфигурации и журналов остаются на месте. |
 | `status` | Выводит текущее состояние службы. |
 
@@ -33,10 +33,11 @@ vmflow service (install|uninstall|status) [flags]
 
 | Флаг | По умолчанию | Описание |
 | --- | --- | --- |
-| `-config` | путь платформы¹ | Путь к файлу конфигурации, с которым работает служба. Конфигурация должна уже существовать. |
+| `-config` | путь платформы¹ | Путь к конфигурации службы. Она должна быть корректной и находиться в защищённом месте, принадлежащем root/admin. |
 | `-user` | `root` _(systemd)_ | Запускать unit от имени этого пользователя; при отсутствии создаётся как системный пользователь. Только Linux. |
-| `-log-file` | _(stdout)_ | Перенаправляет журналы демона сюда. Передаётся как `-log-file` на Linux/Windows; задаёт пути захвата launchd на macOS. Фактически **обязателен на Windows**. |
-| `-extra-args` | _(нет)_ | Дополнительные флаги, дословно добавляемые в командную строку демона, например `"-control-listen 0.0.0.0:19090"`. |
+| `-log-file` | значение платформы | Переопределяет путь журнала. Linux использует stdout/journald, macOS пути launchd, Windows — `C:\ProgramData\vmflow\logs\vmflow.log`. |
+| `--control-port` | значение конфигурации | Переопределяет локальный порт управления; адрес остаётся `127.0.0.1`. |
+| `--extra-arg` | _(нет)_ | Добавляет будущий флаг в виде `--extra-arg=-flag=value`; параметр можно повторять. Для существующих флагов используйте отдельные опции. |
 | `-binary` | текущий исполняемый файл | Путь к бинарному файлу vmflow. Для `install` это должен быть **абсолютный путь**, принадлежащий root/admin в доверенном расположении. |
 
 ¹ Пути конфигурации по умолчанию: Linux `/etc/vmflow/config.yaml`, macOS `/usr/local/etc/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
@@ -50,8 +51,8 @@ sudo vmflow service install
 # 2. point the service at a specific config and run it as a dedicated user
 sudo vmflow service install -config /etc/vmflow/config.yaml -user vmflow
 
-# 3. bind the control API off-loopback (auth/mTLS still required — see Deployment)
-sudo vmflow service install -extra-args "-control-listen 0.0.0.0:19090"
+# 3. при необходимости измените loopback-порт управления
+sudo vmflow service install --control-port 19100
 
 # 4. check / remove
 vmflow service status
@@ -60,7 +61,7 @@ sudo vmflow service uninstall
 
 ## Замечания по безопасности
 
-- Для `install` путь к бинарному файлу должен разрешаться в абсолютный, принадлежащий root/admin путь в доверенном расположении установки; иначе установка отвергается. Это не позволяет менее привилегированному пользователю подменить бинарный файл после привилегированной установки.
-- Привязка control API к адресу, отличному от loopback, по-прежнему подчиняется [проверке безопасности при запуске](./daemon#startup-safety) демона — включите `auth` или mTLS, иначе служба уйдёт в цикл падений.
+- Для `install` бинарный файл и конфигурация должны разрешаться в абсолютные пути, принадлежащие root/admin и находящиеся в доверенных местах. Конфигурация разбирается до изменения службы.
+- Слушатель управления всегда привязан к `127.0.0.1`; для удалённого доступа используется SSH-туннель.
 
 Для полного удаления (служба + бинарный файл + конфигурация + журналы + сертификаты) используйте [`vmflow uninstall`](./uninstall).

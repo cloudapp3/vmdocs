@@ -38,7 +38,7 @@ Toda regra em execução relata contadores em tempo real:
 - total de bytes de upload
 - total de bytes de download
 
-Os contadores existem apenas em memória. Para UDP, a contagem de conexões é uma aproximação do tipo sessão. Leia-os por meio de [`GET /v1/stats`](./api#get-v1-stats) ou das interfaces `vmflow ctl stats` / TUI.
+Os contadores ficam em memória. Em UDP, conexões aproximam sessões. Consulte com `vmflow ctl stats` ou pela TUI.
 
 ## Equivalência de regras
 

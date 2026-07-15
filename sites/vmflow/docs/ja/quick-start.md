@@ -34,17 +34,16 @@ vmflow version
 サンプル設定を用意してデーモンを起動します。
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
-このサンプルは、TCP の `0.0.0.0:2201` を `127.0.0.1:22`（SSH）へ転送します。
+組み込み SSH 例は無効で `127.0.0.1:2201` を使用します。有効化前に確認してください。
 
 ## 3. クエリする
 
-別のターミナルから、CLI をローカルのコントロール API（デフォルトは `127.0.0.1:19090`）に向けて実行します。
+別のターミナルから組み込み CLI でローカルデーモンを照会します。
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl metrics

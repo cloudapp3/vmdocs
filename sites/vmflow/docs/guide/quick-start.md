@@ -34,17 +34,16 @@ See [Installation](./installation) for `--version`, checksum verification, and b
 Grab the sample config and start the daemon:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
-The sample forwards TCP `0.0.0.0:2201` to `127.0.0.1:22` (SSH).
+The bundled SSH example is disabled and listens on `127.0.0.1:2201`; review it before enabling.
 
 ## 3. Query it
 
-From another terminal, point the CLI at the local control API (default `127.0.0.1:19090`):
+From another terminal, query the local daemon with the bundled CLI:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl metrics

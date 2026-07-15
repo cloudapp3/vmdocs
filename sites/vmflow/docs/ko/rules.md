@@ -45,7 +45,7 @@ description: vmflow 포워딩 규칙 관리 — 단일 규칙 작업, 증분 dif
 
 ## 리로드
 
-`POST /v1/reload`는 설정 파일을 다시 읽고 `ReplaceAll = true`로 `ApplySnapshot`을 실행합니다. 먼저 [사전 검사](./precheck)를 실행하며, 오류가 있으면 리로드가 거부되고 실행 중인 규칙은 그대로 유지됩니다.
+`vmflow ctl reload`는 설정 파일을 다시 읽고 `ReplaceAll = true`로 `ApplySnapshot`을 실행합니다. 먼저 [사전 검사](./precheck)를 실행하며, 오류가 있으면 리로드가 거부되고 실행 중인 규칙은 그대로 유지됩니다.
 
 ## 상태 쿼리
 
@@ -55,5 +55,3 @@ description: vmflow 포워딩 규칙 관리 — 단일 규칙 작업, 증분 dif
 | `Snapshot(id)` | 단일 규칙의 실시간 상태. |
 | `SnapshotAll()` | 실행 중인 모든 규칙의 실시간 상태. |
 | `StopAll()` | 모두 중지(예: 종료 시). |
-
-HTTP에 해당하는 것은(`GET /v1/rules`, `GET /v1/stats`) [HTTP API](./api)를 참고하세요.

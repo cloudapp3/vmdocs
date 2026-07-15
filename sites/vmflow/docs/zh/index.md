@@ -16,9 +16,6 @@ hero:
       text: CLI 参考
       link: ./commands
     - theme: alt
-      text: HTTP API
-      link: ./api
-    - theme: alt
       text: GitHub
       link: https://github.com/cloudapp3/vmflow
 
@@ -42,7 +39,7 @@ features:
   - icon: 📊
     title: Prometheus 指标与日志
     details: /metrics 端点加上结构化的 text/JSON 日志，让转发无需额外接线即可被观测。
-    link: ./api
+    link: ./ctl
   - icon: 🖥️
     title: TUI 与 Telegram bot
     details: 终端仪表盘和可选的 Telegram bot，让你可以在任何操作位置查看并控制规则。
@@ -62,13 +59,12 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 启动守护进程：
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
 在另一个终端中查询它：
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl precheck
@@ -83,7 +79,7 @@ vmflow 面向需要轻量、进程内 L4 转发的开发者和运维人员——
 - 在端口之间转发 TCP/UDP 流量，并为每条规则设置限制
 - 从你自己的期望状态或数据库驱动转发规则
 - 在应用转发配置之前先校验它
-- 通过一个小巧的本地 API 暴露规则统计和重载能力
+- 通过内置 CLI/TUI 查看规则统计并执行重载
 - 把转发能力嵌入到另一个 Go 服务中，而无需引入数据库或 Web UI
 
 ## 快速链接
@@ -92,6 +88,5 @@ vmflow 面向需要轻量、进程内 L4 转发的开发者和运维人员——
 - [安装](./installation)
 - [配置](./configuration)
 - [命令参考](./commands)
-- [HTTP API](./api)
 - [Go 库](./library)
 - [英文文档](/)

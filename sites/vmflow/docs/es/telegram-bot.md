@@ -20,7 +20,7 @@ bot_chat: <chat-id>
 
 ## Autorización
 
-El bot está bloqueado al único chat configurado en `bot_chat`: ignora los mensajes y las callback queries de cualquier otro chat. Ten en cuenta que el bot se comunica con el motor en proceso **directamente**, no a través de la API de control, de modo que la auth de la API de control es irrelevante para él. Exponer la API de control fuera de loopback sigue teniendo sus propias reglas (consulta [Despliegue](./deployment)).
+El bot solo responde al chat `bot_chat`. Configura `bot_control_token` con un admin token de `auth.tokens` para habilitar escritura; sin él es de solo lectura. Las solicitudes permanecen dentro del proceso.
 
 ## Comandos
 
@@ -30,20 +30,17 @@ El bot está bloqueado al único chat configurado en `bot_chat`: ignora los mens
 | `/status` | Recuento de reglas en ejecución, conexiones totales y totales de subida/bajada. |
 | `/rules` | Lista las reglas en ejecución en una tabla (nombre, proto, listen→target, conns, up/down). |
 | `/detail <id>` | Muestra la configuración y el tráfico en vivo de una regla. |
-| `/reload` | Pide recargar; al confirmar **detiene todas las reglas** (ver nota más abajo). |
+| `/reload` | Recarga la configuración desde disco tras confirmar. |
 | `/stop <id>` | Detiene una regla concreta por ID (pide confirmación). |
-| `/start_rule <id>` | Pide iniciar una regla (ver nota más abajo). |
+| `/start_rule <id>` | Habilita e inicia una regla tras confirmar. |
 
 Las acciones destructivas piden confirmación mediante botones en línea antes de surtir efecto.
 
-::: warning Limitaciones de `/reload` y `/start_rule`
-- `/reload` **no** vuelve a leer la configuración. Al confirmar llama a `StopAll()` y responde: _"✅ All rules stopped. Use control API /v1/reload for full config reload."_ Para aplicar realmente los cambios de configuración, ejecuta `vmflow ctl reload` (o `POST /v1/reload`) contra la API de control.
-- `/start_rule` es un stub: al confirmar responde con una pista para usar la API de control `/v1/reload`, porque volver a aplicar una sola regla necesita la configuración completa de la regla, que el bot no retiene.
-
-`/stop <id>`, en cambio, funciona por completo: detiene la regla indicada de inmediato.
+::: tip
+Las escrituras del bot usan el mismo precheck, aplicación transaccional, rollback y control de concurrencia que la TUI. Los conflictos solicitan reintentar.
 :::
 
 ## Notas
 
-- Esta integración es opcional y best-effort; no sustituye a la API de control para recargas en producción.
+- La integración es opcional; CLI/TUI siguen siendo las interfaces principales.
 - El bot comparte el proceso del daemon, de modo que un reinicio del daemon también reinicia el bot.

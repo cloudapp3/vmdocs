@@ -16,9 +16,6 @@ hero:
       text: Referência da CLI
       link: ./commands
     - theme: alt
-      text: API HTTP
-      link: ./api
-    - theme: alt
       text: GitHub
       link: https://github.com/cloudapp3/vmflow
 
@@ -42,7 +39,7 @@ features:
   - icon: 📊
     title: Métricas e Logs do Prometheus
     details: Um endpoint /metrics e logs estruturados em texto/JSON mantêm o encaminhamento observável sem configuração adicional.
-    link: ./api
+    link: ./ctl
   - icon: 🖥️
     title: TUI e Bot do Telegram
     details: Um dashboard de terminal e um bot opcional do Telegram permitem inspecionar e controlar regras de onde quer que você opere.
@@ -62,13 +59,12 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 Inicie o daemon:
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
 Consulte-o a partir de outro terminal:
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl precheck
@@ -83,7 +79,7 @@ Use-o quando precisar:
 - encaminhar tráfego TCP/UDP entre portas com limites por regra
 - gerenciar regras de encaminhamento a partir do seu próprio estado desejado ou banco de dados
 - validar uma configuração de encaminhamento antes de aplicá-la
-- expor estatísticas de regras e reload por meio de uma pequena API local
+- consultar estatísticas e recarregar a configuração pela CLI/TUI incluída
 - embutir encaminhamento em outro serviço Go sem incluir um banco de dados ou uma interface web
 
 ## Links rápidos
@@ -92,6 +88,5 @@ Use-o quando precisar:
 - [Instalação](./installation)
 - [Configuração](./configuration)
 - [Referência de comandos](./commands)
-- [API HTTP](./api)
 - [Biblioteca Go](./library)
 - [中文文档](/zh/)

@@ -34,17 +34,16 @@ vmflow version
 获取示例配置并启动守护进程：
 
 ```bash
-vmflow daemon -config ./examples/config.yaml
+vmflow -config ./examples/config.yaml
 ```
 
-该示例会把 TCP `0.0.0.0:2201` 转发到 `127.0.0.1:22`（SSH）。
+内置 SSH 示例默认禁用并监听 `127.0.0.1:2201`，启用前请先检查配置。
 
 ## 3. 查询它
 
-在另一个终端中，让 CLI 指向本地控制 API（默认 `127.0.0.1:19090`）：
+在另一个终端中，使用内置 CLI 查询本机守护进程：
 
 ```bash
-vmflow ctl health
 vmflow ctl rules
 vmflow ctl stats
 vmflow ctl metrics

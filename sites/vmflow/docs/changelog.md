@@ -11,23 +11,21 @@ All notable user-facing changes to `vmflow` are documented here.
 
 ### Added
 
-- Control-plane TLS and mutual TLS on the control API via `control_tls` (`cert_file`, `key_file`, optional `client_ca_file` for mTLS, `min_version`). Client flags `-tls-ca-file` / `-tls-client-cert` / `-tls-client-key` / `-tls-skip-verify` (and `VMFLOW_TLS_*` env). mTLS satisfies the non-loopback startup safety check.
-- Repeatable client header flag `-H` / `--header` (and `VMFLOW_HEADERS` env, semicolon-separated) on `vmflow ctl`/`tui` and the legacy clients — e.g. to send Cloudflare Access service tokens.
 - `vmflow service (install|uninstall|status)` — register vmflow as a native OS service that starts at boot and restarts on crash (systemd / launchd / Windows Service).
 - `vmflow uninstall [--dry-run]` — one-command teardown that removes the service, binary, config, logs, TLS/ACME certificates, and self-update cache.
-- New end-user guide `docs/USAGE.md` and the `docs/behind-cloudflare.md` runbook (expose the control API behind Cloudflare Tunnel + Access with zero inbound ports).
 
 ### Security
 
-- **Breaking:** the daemon now refuses to start when the control API is bound to a non-loopback address without `auth.enabled` or mTLS (`control_tls.client_ca_file`). Previously this only logged a warning. Bind to `127.0.0.1`, enable auth, enable mTLS, or pass `--insecure-allow-remote-control` to opt back in.
+- **Breaking:** daemon management now always binds to `127.0.0.1`. Configure only `control_port`; loopback `control_listen_addr` values are accepted for one migration release, while non-loopback values are rejected. Use an SSH tunnel for remote CLI/TUI access.
 - Per-connection TCP `idle_timeout` (default 5 minutes) and force-closing of forwarded connections on Stop/reload.
 - Auth-failure rate limiting: a peer IP that fails auth 10 times within one minute is throttled with HTTP `429` and locked out for one minute.
 - Self-update hardening (random temp file + `Lstat`), redaction of internal paths from logs, and `install.sh --no-same-owner`.
 
 ### Changed
 
-- "Admin" → "Control" rename of the API surface: config key `admin_listen_addr` → `control_listen_addr`, env var `VMFLOW_ADMIN_TOKEN` → `VMFLOW_CONTROL_TOKEN`, and metric prefix `vmflow_admin_*` → `vmflow_control_*`. (Auth roles remain `admin` / `viewer`.)
-- Native service registration is now built in; the hand-written systemd unit is no longer the only option. Releases also produce `.deb` / `.rpm` packages.
+- The supported management surface is the bundled CLI/TUI. Its loopback transport is internal and has no external compatibility promise.
+- Native service registration is now built in; the hand-written systemd unit is no longer the only option. Releases use portable archives and the installer rather than distro-specific system packages.
+- Service installation now parses and validates the protected config before changing OS state. Linux unit updates restart immediately and roll back the previous unit/state on failure; macOS restores the previous plist and loaded state when bootstrap fails; Windows uses native SCM APIs for quoted arguments, updates existing services, enables recovery for crash and non-crash failures, and waits for application readiness before reporting success.
 
 ## v0.1.1
 
@@ -42,7 +40,7 @@ All notable user-facing changes to `vmflow` are documented here.
 - Unified `vmflow` binary with `daemon`, `ctl`, `tui`, and `version` subcommands.
 - TCP, UDP, and `tcp+udp` forwarding rules.
 - Rule lifecycle management with full snapshot apply and reload support.
-- Local control API for health, rules, stats, precheck, reload, and metrics.
+- Local CLI/TUI management for health, rules, stats, precheck, reload, and metrics.
 - Bearer-token auth with viewer/admin roles.
 - Structured text/JSON logging.
 - Prometheus-compatible `/metrics` endpoint.

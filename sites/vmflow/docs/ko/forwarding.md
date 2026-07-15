@@ -38,7 +38,7 @@ description: vmflow가 TCP, UDP, tcp+udp 트래픽을 포워딩하는 방식 —
 - 업로드 바이트 총합
 - 다운로드 바이트 총합
 
-카운터는 메모리에만 존재합니다. UDP의 경우 연결 수는 세션과 비슷한 근사치입니다. [`GET /v1/stats`](./api#get-v1-stats)나 `vmflow ctl stats` / TUI 화면으로 읽을 수 있습니다.
+카운터는 메모리에 유지됩니다. UDP 연결 수는 세션 수의 근사치입니다. `vmflow ctl stats` 또는 TUI에서 확인하세요.
 
 ## 규칙 동등성
 

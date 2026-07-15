@@ -13,14 +13,14 @@ O vmflow está em um MVP prático no estilo v0.1. O caminho de encaminhamento, o
 - [x] Encaminhamento UDP
 - [x] `ApplySnapshot`
 - [x] daemon + CLI
-- [x] API de controle local
+- [x] gerenciamento local por CLI/TUI
 - [x] Configuração YAML
 
 ## v0.2 — em andamento
 
 - [x] Métricas do Prometheus
 - [x] Logs estruturados melhores
-- [x] Autenticação da API de controle
+- [x] Autenticação de gerenciamento
 - [x] Precheck de regras
 - [ ] Drenagem suave (graceful drain)
 - [ ] Verificação manual no Windows / macOS
