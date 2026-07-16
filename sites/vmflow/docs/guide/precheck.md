@@ -1,6 +1,6 @@
 ---
 title: Precheck
-description: Validate a vmflow configuration before applying it — duplicate IDs, listener conflicts, port bindability, and DNS resolution.
+description: Validate a vmflow configuration before applying it — source IP policies, duplicate IDs, listener conflicts, port bindability, and DNS resolution.
 ---
 
 # Precheck
@@ -22,6 +22,9 @@ Precheck produces a list of findings, each either an **error** or a **warning**.
 | Check | Severity | Notes |
 | --- | --- | --- |
 | Rule model validation | error | Malformed rule fields. |
+| Source IP policy | error | Invalid mode, hostname, malformed/empty entry, empty active list, or more than 256 entries. |
+| `source_ip_duplicate` | warning | An entry resolves to the same address or CIDR as an earlier entry. |
+| `source_ip_redundant` | warning | An entry is already covered by a broader CIDR in the same list. |
 | `duplicate_rule_id` | error | Same ID appears more than once in the snapshot. |
 | Listener conflict | error | Two rules claim the same `listen_addr:port`. |
 | Port bindability | error | Actually tries to bind the listen port to confirm it is available. |

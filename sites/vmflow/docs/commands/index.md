@@ -1,17 +1,18 @@
 ---
 title: Command Reference
-description: vmflow CLI reference for foreground runtime, ctl, tui, version, update, service, and uninstall.
+description: vmflow CLI reference for foreground runtime, ctl, tui, mcp, version, update, service, and uninstall.
 ---
 
 # Command Reference
 
-vmflow is a single binary with a foreground runtime and six subcommands. Aliases are shown below.
+vmflow is a single binary with a foreground runtime and seven subcommands. Aliases are shown below.
 
 | Command | Alias | Purpose |
 | --- | --- | --- |
 | `vmflow` | - | Run the forwarding runtime in the foreground. |
 | [`ctl`](./ctl) | `c` | Query and control a running daemon. |
 | [`tui`](./tui) | `t` | Terminal dashboard. |
+| [`mcp`](./mcp) | - | Read-only stdio MCP server for a running local daemon. |
 | [`version`](./version) | `v` | Print build metadata. |
 | [`update`](./update) | `u` | Check for or install a newer release. |
 | [`service`](./service) | `svc` | Register as a native OS service (boot startup). |
@@ -19,7 +20,7 @@ vmflow is a single binary with a foreground runtime and six subcommands. Aliases
 
 ## Common management flags
 
-The bundled `ctl` and `tui` commands connect to the local daemon.
+The bundled `ctl`, `tui`, and `mcp` commands connect to the local daemon.
 
 | Flag | Env var | Default | Description |
 | --- | --- | --- | --- |

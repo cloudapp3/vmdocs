@@ -11,6 +11,7 @@ All notable user-facing changes to `vmflow` are documented here.
 
 ### Added
 
+- `vmflow mcp` - read-only stdio MCP tools for daemon status, forwarding rules, traffic statistics, and current-config precheck without exposing a new network listener.
 - `vmflow service (install|uninstall|status)` — register vmflow as a native OS service that starts at boot and restarts on crash (systemd / launchd / Windows Service).
 - `vmflow uninstall [--dry-run]` — one-command teardown that removes the service, binary, config, logs, TLS/ACME certificates, and self-update cache.
 
@@ -23,7 +24,7 @@ All notable user-facing changes to `vmflow` are documented here.
 
 ### Changed
 
-- The supported management surface is the bundled CLI/TUI. Its loopback transport is internal and has no external compatibility promise.
+- The supported management surface is the bundled CLI/TUI and read-only MCP adapter. Its loopback transport is internal and has no external compatibility promise.
 - Native service registration is now built in; the hand-written systemd unit is no longer the only option. Releases use portable archives and the installer rather than distro-specific system packages.
 - Service installation now parses and validates the protected config before changing OS state. Linux unit updates restart immediately and roll back the previous unit/state on failure; macOS restores the previous plist and loaded state when bootstrap fails; Windows uses native SCM APIs for quoted arguments, updates existing services, enables recovery for crash and non-crash failures, and waits for application readiness before reporting success.
 

@@ -1,6 +1,6 @@
 ---
 title: Precheck
-description: Valide uma configuração do vmflow antes de aplicá-la — IDs duplicados, conflitos de listener, vinculabilidade de porta e resolução de DNS.
+description: Valide uma configuração do vmflow antes de aplicá-la — políticas de IP de origem, IDs duplicados, conflitos de listener, vinculabilidade de porta e resolução de DNS.
 ---
 
 # Precheck
@@ -22,6 +22,9 @@ O precheck produz uma lista de achados, cada um sendo um **erro** ou um **aviso*
 | Verificação | Severidade | Observações |
 | --- | --- | --- |
 | Validação do modelo de regra | error | Campos de regra malformados. |
+| Política de IP de origem | error | Modo inválido, nome de host, entrada inválida ou vazia, lista ativa vazia ou mais de 256 entradas. |
+| `source_ip_duplicate` | warning | Uma entrada é resolvida para o mesmo endereço ou CIDR de uma entrada anterior. |
+| `source_ip_redundant` | warning | Uma entrada já está coberta por um CIDR mais amplo na mesma lista. |
 | `duplicate_rule_id` | error | O mesmo ID aparece mais de uma vez no snapshot. |
 | Conflito de listener | error | Duas regras reivindicam o mesmo `listen_addr:port`. |
 | Vinculabilidade de porta | error | De fato tenta vincular a porta de escuta para confirmar que está disponível. |

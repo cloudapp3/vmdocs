@@ -1,6 +1,6 @@
 ---
 title: 预检
-description: 在应用 vmflow 配置之前先校验它——重复 ID、监听器冲突、端口可绑定性，以及 DNS 解析。
+description: 在应用 vmflow 配置之前先校验它——来源 IP 策略、重复 ID、监听器冲突、端口可绑定性以及 DNS 解析。
 ---
 
 # 预检
@@ -22,6 +22,9 @@ vmflow ctl precheck
 | 检查项 | 严重级别 | 说明 |
 | --- | --- | --- |
 | 规则模型校验 | error | 格式错误的规则字段。 |
+| 来源 IP 策略 | error | 模式非法、使用域名、地址错误/为空、启用的列表为空或超过 256 项。 |
+| `source_ip_duplicate` | warning | 某项规范化后与之前的 IP 或 CIDR 重复。 |
+| `source_ip_redundant` | warning | 某项已被同一列表中的更大 CIDR 覆盖。 |
 | `duplicate_rule_id` | error | 同一个 ID 在快照中出现多次。 |
 | 监听器冲突 | error | 两条规则占用了同一个 `listen_addr:port`。 |
 | 端口可绑定性 | error | 实际尝试绑定监听端口以确认其可用。 |

@@ -40,7 +40,7 @@ For each rule, apply produces one action:
 …and a summary: `Applied`, `Stopped`, `Failed`, `Total`.
 
 ::: tip What counts as "changed"?
-Only runtime fields (protocol, listen address/port, target address/port, speed limit, max conn, `idle_timeout`, enabled) are compared. Editing `remark` or timestamps does **not** restart a rule.
+Only runtime fields (protocol, listen address/port, target address/port, speed limit, max conn, `idle_timeout`, source IP mode/effective entries, enabled) are compared. Editing `remark`, timestamps, or only reordering equivalent source CIDRs does **not** restart a rule. A real source-policy change restarts the rule and closes its established TCP connections and UDP sessions.
 :::
 
 ## Reload

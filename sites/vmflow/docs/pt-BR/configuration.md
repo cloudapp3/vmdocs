@@ -1,6 +1,6 @@
 ---
 title: Configuração
-description: Referência YAML do vmflow para gerenciamento local, logs, autenticação, estatísticas e regras.
+description: Referência YAML do vmflow para gerenciamento local, logs, autenticação, estatísticas, regras de encaminhamento e políticas de acesso por IP de origem.
 ---
 
 # Configuração
@@ -43,6 +43,11 @@ rules:
     enabled: true
     speed_limit: 0
     max_conn: 0
+    source_ip_mode: allowlist
+    source_ips:
+      - 203.0.113.8
+      - 198.51.100.0/24
+      - 2001:db8:100::/48
     remark: example
 ```
 
@@ -92,7 +97,17 @@ Cada entrada descreve uma regra de encaminhamento.
 | `speed_limit` | Limite de taxa por conexão em bytes/seg (`0` = ilimitado). |
 | `max_conn` | Máximo de conexões concorrentes (`0` = ilimitado). Novas conexões acima do limite são fechadas. |
 | `idle_timeout` | Timeout de inatividade por conexão em segundos (`0` = padrão de 5 minutos). Alterá-lo reinicia a regra. |
+| `source_ip_mode` | Modo de admissão por IP de origem: `off`, `allowlist` ou `denylist`. Se omitido, usa `off`. |
+| `source_ips` | Endereços IPv4/IPv6 literais ou CIDRs usados pelo modo selecionado. Máximo de 256 entradas por regra. |
 | `remark` | Nota de formato livre. |
+
+## Política de acesso por IP de origem
+
+`allowlist` aceita somente origens que correspondam a `source_ips`. `denylist` rejeita as origens correspondentes e aceita as demais. Uma lista de permissão ou bloqueio ativa deve conter pelo menos uma entrada; nomes de host, endereços inválidos, entradas vazias e listas com mais de 256 entradas são rejeitados.
+
+O TCP verifica o peer do socket antes de consumir `max_conn` ou conectar ao destino. O UDP verifica antes de criar uma sessão ou consumir os limites de sessões UDP da regra ou globais. Alterar o modo ou o conjunto efetivo de entradas reinicia a regra e fecha conexões TCP e sessões UDP existentes, aplicando a nova política imediatamente.
+
+A política vê o peer real do socket. Atrás de NAT ou proxy L4, ele pode ser o endereço do gateway ou do proxy, e não o do cliente original. O vmflow não confia em cabeçalhos HTTP encaminhados nem em metadados de PROXY protocol. Use um firewall de nuvem, security group ou firewall do host como primeira camada contra ataques de alto volume.
 
 ::: tip
 Os protocolos `http` e `https` existem no código-fonte, mas estão desabilitados no build atual. Eles são rejeitados pela validação. Veja a [referência de encaminhamento](./forwarding).

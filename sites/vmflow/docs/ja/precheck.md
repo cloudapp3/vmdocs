@@ -1,6 +1,6 @@
 ---
 title: プレチェック
-description: vmflow の設定を適用する前に検証する — 重複 ID、リスナーの衝突、ポートのバインド可否、DNS 解決。
+description: vmflow の設定を適用する前に検証する — 送信元 IP ポリシー、重複 ID、リスナーの衝突、ポートのバインド可否、DNS 解決。
 ---
 
 # プレチェック
@@ -22,6 +22,9 @@ vmflow ctl precheck
 | 検査 | 重要度 | 備考 |
 | --- | --- | --- |
 | ルールモデルの検証 | error | 不正なルールフィールド。 |
+| 送信元 IP ポリシー | error | 不正なモード、ホスト名、不正または空のエントリ、空の有効リスト、または 256 件を超えるリスト。 |
+| `source_ip_duplicate` | warning | 以前のエントリと同じアドレスまたは CIDR に解決されるエントリ。 |
+| `source_ip_redundant` | warning | 同じリスト内のより広い CIDR にすでに包含されているエントリ。 |
 | `duplicate_rule_id` | error | 同じ ID がスナップショット内に複数回出現する。 |
 | リスナーの衝突 | error | 2 つのルールが同じ `listen_addr:port` を要求している。 |
 | ポートのバインド可否 | error | リッスンポートを実際にバインドして利用可能かを確認する。 |

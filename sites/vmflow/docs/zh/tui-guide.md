@@ -1,11 +1,11 @@
 ---
 title: TUI 仪表盘
-description: vmflow 终端仪表盘——启动它，并在 Dashboard、Rules 和 Detail 视图之间切换。
+description: 在 vmflow 终端 UI 中查看和管理规则、来源 IP 策略、计数器、预检与应用操作。
 ---
 
 # TUI 仪表盘
 
-vmflow 自带一个终端 UI，用于查看本机守护进程的实时规则状态和流量计数器。
+vmflow 自带一个终端 UI，用于查看和管理本机守护进程的已配置规则与实时流量计数器。
 
 ## 启动它
 
@@ -28,8 +28,14 @@ VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 | 视图 | 显示内容 |
 | --- | --- |
 | **Dashboard** | 整体健康状态、运行中规则数、运行时长。 |
-| **Rules** | 运行中规则列表及其实时计数器；支持按名称筛选规则。 |
-| **Detail** | 所选规则的详情。 |
+| **Rules** | 包含禁用规则在内的已配置规则、实时计数器、暂存改动，以及宽屏下的 `OPEN` / `ALLOW n` / `DENY n` 摘要。 |
+| **Detail** | 所选规则的设置、来源 IP 条目、流量和累计 `IP Denied` 计数。 |
+
+## 规则管理
+
+使用已认证的 `admin` token 可以创建、编辑、复制、启停和删除规则。`viewer` token 以及未启用认证的会话为只读。在 Rules 视图中，使用 <kbd>n</kbd>/<kbd>e</kbd>/<kbd>c</kbd> 创建、编辑或复制，<kbd>Space</kbd> 启停，<kbd>d</kbd> 删除，<kbd>P</kbd> 预检，<kbd>A</kbd> 应用已验证的草稿。
+
+编辑器中的 `Source IP mode` 可选 `OFF`、`ALLOWLIST` 或 `DENYLIST`；在 `Source IPs / CIDRs` 中用逗号分隔 IPv4/IPv6 字面地址和 CIDR。草稿必须先通过预检才能应用，现有 revision/ETag 流程会阻止过期编辑器覆盖更新后的配置。
 
 ## 何时使用它
 

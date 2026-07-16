@@ -1,6 +1,6 @@
 ---
 title: Configuration
-description: vmflow YAML configuration reference for local management, logging, authentication, statistics, and forwarding rules.
+description: vmflow YAML configuration reference for local management, logging, authentication, statistics, forwarding rules, and source IP access policies.
 ---
 
 # Configuration
@@ -43,6 +43,11 @@ rules:
     enabled: true
     speed_limit: 0
     max_conn: 0
+    source_ip_mode: allowlist
+    source_ips:
+      - 203.0.113.8
+      - 198.51.100.0/24
+      - 2001:db8:100::/48
     remark: example
 ```
 
@@ -92,7 +97,17 @@ Each entry describes one forwarding rule.
 | `speed_limit` | Per-connection rate limit in bytes/sec (`0` = unlimited). |
 | `max_conn` | Max concurrent connections (`0` = unlimited). New connections over the cap are closed. |
 | `idle_timeout` | Per-connection idle timeout in seconds (`0` = default 5 minutes). Changing it restarts the rule. |
+| `source_ip_mode` | Source admission mode: `off`, `allowlist`, or `denylist`. Omitted means `off`. |
+| `source_ips` | Literal IPv4/IPv6 addresses or CIDRs used by the selected mode. Maximum 256 entries. |
 | `remark` | Free-form note. |
+
+## Source IP access policy
+
+`allowlist` accepts only peers that match `source_ips`. `denylist` rejects matching peers and accepts the rest. A configured allowlist or denylist must contain at least one entry; hostnames, malformed addresses, empty entries, and lists over 256 entries are rejected.
+
+TCP checks the socket peer before consuming `max_conn` or dialing the target. UDP checks it before creating a session or consuming per-rule and manager-wide capacity. Changing the mode or effective entries restarts the rule and closes its established TCP connections and UDP sessions so the new policy applies immediately.
+
+The policy sees the actual socket peer. Behind NAT or a Layer 4 proxy, that may be the gateway or proxy address rather than the original client. vmflow does not trust forwarded HTTP headers or PROXY protocol metadata. Use a cloud firewall, security group, or host firewall as the first layer for volumetric attack filtering.
 
 ::: tip
 `http` and `https` protocols exist in the source but are disabled in the current build. They are rejected by validation. See the [forwarding reference](./forwarding).

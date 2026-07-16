@@ -1,17 +1,18 @@
 ---
 title: Referencia de comandos
-description: Referencia CLI de vmflow para foreground, ctl, tui, version, update, service y uninstall.
+description: Referencia CLI de vmflow para foreground, ctl, tui, mcp, version, update, service y uninstall.
 ---
 
 # Referencia de comandos
 
-vmflow es un único binario con ejecución foreground y seis subcomandos.
+vmflow es un único binario con ejecución foreground y siete subcomandos.
 
 | Comando | Alias | Propósito |
 | --- | --- | --- |
 | `vmflow` | - | Ejecuta el runtime de reenvío en foreground. |
 | [`ctl`](./ctl) | `c` | Consulta y controla un daemon en ejecución. |
 | [`tui`](./tui) | `t` | Panel de terminal. |
+| [`mcp`](./mcp) | - | Servidor MCP stdio de solo lectura para un daemon local en ejecución. |
 | [`version`](./version) | `v` | Imprime los metadatos de build. |
 | [`update`](./update) | `u` | Comprueba o instala una release más reciente. |
 | [`service`](./service) | `svc` | Registra como servicio nativo del SO (arranque en boot). |
@@ -19,7 +20,7 @@ vmflow es un único binario con ejecución foreground y seis subcomandos.
 
 ## Parámetros comunes de gestión {#common-client-flags}
 
-Los comandos `ctl` y `tui` se conectan al daemon local.
+Los comandos `ctl`, `tui` y `mcp` se conectan al daemon local.
 
 | Parámetro | Variable | Por defecto | Descripción |
 | --- | --- | --- | --- |

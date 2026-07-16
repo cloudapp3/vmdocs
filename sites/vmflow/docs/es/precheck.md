@@ -1,6 +1,6 @@
 ---
 title: Verificación previa
-description: Valida una configuración de vmflow antes de aplicarla — IDs duplicados, conflictos de listener, capacidad de bind de puertos y resolución DNS.
+description: Valida una configuración de vmflow antes de aplicarla — políticas de IP de origen, IDs duplicados, conflictos de listener, capacidad de bind de puertos y resolución DNS.
 ---
 
 # Verificación previa
@@ -22,6 +22,9 @@ La verificación previa produce una lista de hallazgos, cada uno de ellos un **e
 | Comprobación | Severidad | Notas |
 | --- | --- | --- |
 | Validación del modelo de regla | error | Campos de regla mal formados. |
+| Política de IP de origen | error | Modo no válido, nombre de host, entrada no válida o vacía, lista activa vacía o más de 256 entradas. |
+| `source_ip_duplicate` | advertencia | Una entrada se resuelve a la misma dirección o CIDR que una entrada anterior. |
+| `source_ip_redundant` | advertencia | Una entrada ya está cubierta por un CIDR más amplio de la misma lista. |
 | `duplicate_rule_id` | error | El mismo ID aparece más de una vez en la instantánea. |
 | Conflicto de listener | error | Dos reglas reclaman el mismo `listen_addr:port`. |
 | Capacidad de bind del puerto | error | Realmente intenta hacer bind del puerto de escucha para confirmar que está disponible. |

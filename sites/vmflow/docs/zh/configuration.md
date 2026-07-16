@@ -1,6 +1,6 @@
 ---
 title: 配置
-description: vmflow YAML 配置参考，涵盖本地管理、日志、认证、统计和转发规则。
+description: vmflow YAML 配置参考，涵盖本地管理、日志、认证、统计、转发规则和来源 IP 访问策略。
 ---
 
 # 配置
@@ -43,6 +43,11 @@ rules:
     enabled: true
     speed_limit: 0
     max_conn: 0
+    source_ip_mode: allowlist
+    source_ips:
+      - 203.0.113.8
+      - 198.51.100.0/24
+      - 2001:db8:100::/48
     remark: example
 ```
 
@@ -92,7 +97,17 @@ rules:
 | `speed_limit` | 每连接的速率限制，单位为 bytes/sec（`0` = 不限制）。 |
 | `max_conn` | 最大并发连接数（`0` = 不限制）。超过上限的新连接会被关闭。 |
 | `idle_timeout` | 每连接的空闲超时，单位为秒（`0` = 默认 5 分钟）。修改此项会重启该规则。 |
+| `source_ip_mode` | 来源 IP 准入模式：`off`、`allowlist` 或 `denylist`；省略时为 `off`。 |
+| `source_ips` | 当前模式使用的 IPv4/IPv6 字面地址或 CIDR；每条规则最多 256 项。 |
 | `remark` | 自由格式的备注。 |
+
+## 来源 IP 访问策略
+
+`allowlist` 只接受命中 `source_ips` 的来源；`denylist` 拒绝命中的来源并允许其余来源。启用白名单或黑名单时至少需要一项；域名、错误地址、空项以及超过 256 项的列表都会被拒绝。
+
+TCP 会在占用 `max_conn` 和连接目标端之前检查 socket 对端；UDP 会在创建会话、占用单规则或全局 UDP 配额之前检查。修改模式或有效条目会重启该规则，并关闭既有 TCP 连接和 UDP 会话，使新策略立即生效。
+
+策略看到的是真实 socket 对端。经过 NAT 或四层代理时，它可能是网关或代理地址，而不是原始客户端。vmflow 不信任 HTTP 转发头或 PROXY protocol 元数据。应继续使用云防火墙、安全组或主机防火墙作为流量攻击的第一层防护。
 
 ::: tip
 `http` 和 `https` 协议在源码中存在，但在当前构建中被禁用。它们会在校验时被拒绝。参见[转发参考](./forwarding)。

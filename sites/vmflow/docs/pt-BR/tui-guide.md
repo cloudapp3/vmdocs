@@ -1,11 +1,11 @@
 ---
 title: Painel TUI
-description: O painel de terminal do vmflow — como iniciá-lo e alternar entre as visões Dashboard, Rules e Detail.
+description: Consulte e gerencie regras do vmflow, políticas de IP de origem, contadores, precheck e operações de aplicação pela interface de terminal.
 ---
 
 # Painel TUI
 
-O vmflow inclui uma interface de terminal para consultar o estado das regras e os contadores de tráfego do daemon local.
+O vmflow inclui uma interface de terminal para consultar e gerenciar as regras configuradas e os contadores de tráfego em tempo real do daemon local.
 
 ## Como iniciá-lo
 
@@ -28,8 +28,14 @@ Pressione <kbd>Tab</kbd> para alternar entre as visões:
 | Visão | Mostra |
 | --- | --- |
 | **Dashboard** | Saúde geral, contagem de regras em execução, tempo de atividade. |
-| **Rules** | A lista de regras em execução com contadores em tempo real; oferece suporte à filtragem de regras por nome. |
-| **Detail** | Detalhes da regra selecionada. |
+| **Rules** | Regras configuradas, incluindo as desativadas, contadores em tempo real, alterações preparadas e um resumo de acesso `OPEN` / `ALLOW n` / `DENY n` em terminais largos. |
+| **Detail** | Configurações da regra selecionada, entradas de IP de origem, tráfego e o contador cumulativo `IP Denied`. |
+
+## Gerenciamento de regras
+
+Um token `admin` autenticado pode criar, editar, copiar, ativar, desativar e excluir regras. Tokens viewer e sessões sem autenticação são somente leitura. Na visão Rules, use <kbd>n</kbd>/<kbd>e</kbd>/<kbd>c</kbd> para criar, editar ou copiar; <kbd>Space</kbd> para alternar; <kbd>d</kbd> para excluir; <kbd>P</kbd> para executar o precheck e <kbd>A</kbd> para aplicar o rascunho validado.
+
+O editor oferece `Source IP mode` como `OFF`, `ALLOWLIST` ou `DENYLIST`. Informe endereços IPv4/IPv6 literais e CIDRs separados por vírgulas em `Source IPs / CIDRs`. O precheck deve ser aprovado antes da aplicação; o fluxo existente de revision/ETag impede que um editor desatualizado sobrescreva uma configuração mais recente.
 
 ## Quando usar
 

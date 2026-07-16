@@ -1,11 +1,11 @@
 ---
 title: TUI Dashboard
-description: The vmflow terminal dashboard — start it, switch between Dashboard, Rules, and Detail views.
+description: Inspect and manage vmflow rules, source IP policies, counters, precheck, and apply operations from the terminal UI.
 ---
 
 # TUI Dashboard
 
-vmflow ships with a terminal UI for inspecting the live rule state and traffic counters of the local daemon.
+vmflow ships with a terminal UI for inspecting and managing the configured rules and live traffic counters of the local daemon.
 
 ## Start it
 
@@ -28,8 +28,14 @@ Press <kbd>Tab</kbd> to cycle between views:
 | View | Shows |
 | --- | --- |
 | **Dashboard** | Overall health, running rule count, uptime. |
-| **Rules** | The list of running rules with live counters; supports filtering rules by name. |
-| **Detail** | Detail for the selected rule. |
+| **Rules** | Configured rules, including disabled rules, live counters, staged changes, and an `OPEN` / `ALLOW n` / `DENY n` access summary on wide terminals. |
+| **Detail** | Selected-rule settings, source IP entries, traffic, and the cumulative `IP Denied` counter. |
+
+## Rule management
+
+An authenticated `admin` token can create, edit, copy, toggle, and delete rules. Viewer tokens and sessions without authentication are read-only. In the Rules view, use <kbd>n</kbd>/<kbd>e</kbd>/<kbd>c</kbd> to create, edit, or copy; <kbd>Space</kbd> to toggle; <kbd>d</kbd> to delete; <kbd>P</kbd> to precheck; and <kbd>A</kbd> to apply the validated draft.
+
+The editor exposes `Source IP mode` as `OFF`, `ALLOWLIST`, or `DENYLIST`. Enter literal IPv4/IPv6 addresses and CIDRs in `Source IPs / CIDRs`, separated by commas. Precheck must pass before apply; the existing revision/ETag flow prevents a stale editor from overwriting a newer configuration.
 
 ## When to use it
 
