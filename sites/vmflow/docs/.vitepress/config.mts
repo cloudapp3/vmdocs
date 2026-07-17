@@ -285,11 +285,11 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#14b8a6' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: siteTitle }],
-    ['meta', { property: 'og:image', content: `${siteUrl}/og-image.png` }],
+    ['meta', { property: 'og:image', content: `${siteUrl}/og-image-v2.png` }],
     ['meta', { property: 'og:image:width', content: '1200' }],
     ['meta', { property: 'og:image:height', content: '630' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
+    ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image-v2.png` }],
     ['link', { rel: 'icon', href: '/favicon.svg' }],
   ],
 

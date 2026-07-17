@@ -24,14 +24,14 @@ const reject = () => {
 
 <template>
   <Transition name="consent">
-    <div v-if="show" class="consent-banner" role="dialog" :aria-label="msgs.ariaLabel.value">
+    <div v-if="show" class="consent-banner" role="dialog" :aria-label="msgs.ariaLabel">
       <p class="consent-text">
-        {{ msgs.before.value }}
-        <a href="/privacy">{{ msgs.privacy.value }}</a>{{ msgs.after.value }}
+        {{ msgs.before }}
+        <a href="/privacy">{{ msgs.privacy }}</a>{{ msgs.after }}
       </p>
       <div class="consent-actions">
-        <button class="btn btn-reject" @click="reject">{{ msgs.reject.value }}</button>
-        <button class="btn btn-accept" @click="accept">{{ msgs.accept.value }}</button>
+        <button class="btn btn-reject" @click="reject">{{ msgs.reject }}</button>
+        <button class="btn btn-accept" @click="accept">{{ msgs.accept }}</button>
       </div>
     </div>
   </Transition>
@@ -53,7 +53,7 @@ const reject = () => {
   padding: 14px 18px;
   background: var(--vp-c-bg);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: var(--vp-shadow-2);
 }
 .consent-text {
