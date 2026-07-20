@@ -1,0 +1,35 @@
+# tgbot
+
+> tgbot is a lightweight, strongly typed Telegram Bot API SDK for Go. Its runtime uses only the Go standard library.
+
+## Documentation
+
+### English
+
+- Home: https://tgbot.bestcheapvps.org/
+- Quick start: https://tgbot.bestcheapvps.org/guide/quick-start
+- SDK client: https://tgbot.bestcheapvps.org/sdk/client
+- Long polling: https://tgbot.bestcheapvps.org/updates/long-polling
+- Webhooks: https://tgbot.bestcheapvps.org/updates/webhook
+- ext routing: https://tgbot.bestcheapvps.org/ext/
+- Errors: https://tgbot.bestcheapvps.org/reference/errors
+- API coverage: https://tgbot.bestcheapvps.org/reference/api-coverage
+
+### Simplified Chinese
+
+- Home: https://tgbot.bestcheapvps.org/zh/
+- Quick start: https://tgbot.bestcheapvps.org/zh/guide/quick-start
+- SDK client: https://tgbot.bestcheapvps.org/zh/sdk/client
+- Long polling: https://tgbot.bestcheapvps.org/zh/updates/long-polling
+- Webhooks: https://tgbot.bestcheapvps.org/zh/updates/webhook
+- ext routing: https://tgbot.bestcheapvps.org/zh/ext/
+- Errors: https://tgbot.bestcheapvps.org/zh/reference/errors
+- API coverage: https://tgbot.bestcheapvps.org/zh/reference/api-coverage
+
+## Authoritative sources
+
+- Source: https://github.com/cloudapp3/tgbot
+- Go reference: https://pkg.go.dev/github.com/cloudapp3/tgbot
+- Official Telegram Bot API: https://core.telegram.org/bots/api
+
+The latest tagged tgbot release is the stable contract. Pages marked as next-release documentation may describe unreleased work and must not be treated as a stable API guarantee.

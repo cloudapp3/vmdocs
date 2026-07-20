@@ -16,7 +16,12 @@
     "docs:dev:vmflow": "vitepress dev sites/vmflow/docs",
     "docs:build:vmflow": "vitepress build sites/vmflow/docs && pnpm check:i18n:vmflow",
     "docs:preview:vmflow": "vitepress preview sites/vmflow/docs --host 0.0.0.0",
-    "check:i18n:vmflow": "node sites/vmflow/docs/.vitepress/check-hreflang.mjs"
+    "check:i18n:vmflow": "node sites/vmflow/docs/.vitepress/check-hreflang.mjs",
+    "docs:dev:tgbot": "vitepress dev sites/tgbot/docs",
+    "docs:build:tgbot": "vitepress build sites/tgbot/docs && pnpm check:seo:tgbot",
+    "docs:preview:tgbot": "vitepress preview sites/tgbot/docs --host 0.0.0.0",
+    "check:seo:tgbot": "node sites/tgbot/docs/.vitepress/check-hreflang.mjs",
+    "check:i18n:tgbot": "node sites/tgbot/docs/.vitepress/check-hreflang.mjs"
   },
   "devDependencies": {
     "@types/node": "25.9.3",

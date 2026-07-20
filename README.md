@@ -1,62 +1,70 @@
 # vmdocs
 
-Monorepo documentation source for vminfo and future bestcheapvps.org subdomain docs sites.
+Documentation monorepo for the cloudapp3 projects published on bestcheapvps.org subdomains.
 
-- Live site: https://vminfo.bestcheapvps.org
-- Source project: https://github.com/cloudapp3/vminfo
-- Docs repo: https://github.com/cloudapp3/vmdocs
+| Project | Live documentation | Source |
+| --- | --- | --- |
+| vminfo | https://vminfo.bestcheapvps.org | https://github.com/cloudapp3/vminfo |
+| vmbench | https://vmbench.bestcheapvps.org | https://github.com/cloudapp3/vmbench |
+| vmflow | https://vmflow.bestcheapvps.org | https://github.com/cloudapp3/vmflow |
+| tgbot | https://tgbot.bestcheapvps.org | https://github.com/cloudapp3/tgbot |
+
+## Repository layout
+
+Each site owns its VitePress config, Markdown, theme overrides, and public assets:
+
+```text
+sites/<project>/docs/
+```
+
+Dependencies and site-specific scripts live at the repository root. Build output stays isolated under `sites/<project>/docs/.vitepress/dist` and is not committed.
 
 ## Local development
 
-```bash
-pnpm install
-pnpm docs:dev:vminfo
-pnpm docs:build:vminfo
-pnpm docs:preview:vminfo
-```
-
-Compatibility aliases are also available for the current default site:
+Install the pinned dependencies:
 
 ```bash
-pnpm docs:dev
-pnpm docs:build
-pnpm docs:preview
+corepack enable
+pnpm install --frozen-lockfile
 ```
 
-## What lives here
+Use the project-specific commands:
 
-- vminfo docs source in `sites/vminfo/docs/`
-- vminfo Cloudflare Pages output at `sites/vminfo/docs/.vitepress/dist`
-- shared dependencies and build scripts at the repository root
-- room for future docs sites under `sites/<project>/docs/`
+| Project | Development | Build | Preview |
+| --- | --- | --- | --- |
+| vminfo | `pnpm docs:dev:vminfo` | `pnpm docs:build:vminfo` | `pnpm docs:preview:vminfo` |
+| vmbench | `pnpm docs:dev:vmbench` | `pnpm docs:build:vmbench` | `pnpm docs:preview:vmbench` |
+| vmflow | `pnpm docs:dev:vmflow` | `pnpm docs:build:vmflow` | `pnpm docs:preview:vmflow` |
+| tgbot | `pnpm docs:dev:tgbot` | `pnpm docs:build:tgbot` | `pnpm docs:preview:tgbot` |
 
-## Deploy the vminfo docs site
+The compatibility aliases `docs:dev`, `docs:build`, and `docs:preview` continue to target vminfo.
 
-The public vminfo documentation site is deployed from this repository. These
-settings are for documentation maintainers; they are not instructions for
-deploying the vminfo application itself.
+## Cloudflare Pages
 
-### Cloudflare Pages settings
+Create one Pages project per documentation site. Use the repository root `/`, Node 22, and the matching site command and output path.
+
+For tgbot:
 
 | Setting | Value |
 | --- | --- |
-| Framework preset | VitePress or None |
-| Build command | `pnpm docs:build:vminfo` |
-| Build output directory | `sites/vminfo/docs/.vitepress/dist` |
+| Production branch | `main` |
+| Build command | `pnpm docs:build:tgbot` |
+| Build output directory | `sites/tgbot/docs/.vitepress/dist` |
 | Root directory | `/` |
-| Node.js version | 20 or newer |
+| Node.js version | `22` |
 
-If the Pages project needs to install dependencies during the build, use:
+When the Pages project needs an explicit install step, use:
 
 ```bash
-corepack enable && pnpm install --frozen-lockfile && pnpm docs:build:vminfo
+corepack enable && pnpm install --frozen-lockfile && pnpm docs:build:tgbot
 ```
 
-Add the custom domain in the Cloudflare Pages project before creating or
-changing its DNS record. The production site uses
-`https://vminfo.bestcheapvps.org/` at the domain root, so the VitePress config
-does not set `base`. A future subpath deployment such as
-`https://example.com/vminfo/` would require `base: "/vminfo/"` instead.
+The site is published at the custom-domain root, so VitePress does not set `base`. Add the custom domain in Pages before changing DNS.
 
-Do not commit `sites/*/docs/.vitepress/dist/`; Cloudflare Pages must publish the
-fresh output produced by the build command.
+Before launch, confirm that `tgbot.bestcheapvps.org` resolves to the Pages project
+and serves HTTPS. In Cloudflare, add a host-based redirect from the production
+`*.pages.dev` hostname to `https://tgbot.bestcheapvps.org` while preserving the
+path and query string. If the default hostname must remain reachable, apply an
+`X-Robots-Tag: noindex` response-header rule to that hostname only. Do not put
+that directive in `sites/tgbot/docs/public/_headers`, because the same static
+file is also served from the canonical custom domain.
