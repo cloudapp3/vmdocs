@@ -5,39 +5,40 @@ description: 安装 vmflow，并在两分钟内运行你的第一条 TCP 转发�
 
 # 快速开始
 
-本指南将安装 `vmflow` 二进制文件，用一个示例配置启动守护进程，并通过 CLI 查询它。
+本指南会安装当前 vmflow 预发布版及其共置配置，启动守护进程，并通过 CLI 查询它。
 
 ## 1. 安装
 
-安装最新的预编译二进制文件（Linux/macOS）：
+为当前 shell 安装 `v0.2.0-rc.4`（Linux/macOS）：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash
-```
-
-希望全局安装：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | sudo bash -s -- --dir /usr/local/bin
+VMFLOW_BIN_DIR="$(
+  curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+)" \
+  && [ -n "$VMFLOW_BIN_DIR" ] \
+  && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
+  && [ -x "$VMFLOW_BIN_DIR/vmflow" ] \
+  && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
 验证：
 
 ```bash
-vmflow version
+vmflow version -json
 ```
 
-关于 `--version`、校验和验证以及从源码构建，参见[安装](./installation)。
+需要时，安装器还会为后续受支持的 shell 会话配置 PATH。系统级 `--system` 安装、目录选择、校验和验证及源码构建参见[安装](./installation)。
 
 ## 2. 启动守护进程
 
-获取示例配置并启动守护进程：
+使用安装在二进制旁的 `config.yaml` 启动守护进程：
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-内置 SSH 示例默认禁用并监听 `127.0.0.1:2201`，启用前请先检查配置。
+共置配置是运行时默认配置。内置 SSH 示例默认禁用并监听 `127.0.0.1:2201`，启用该规则前请先检查配置。
 
 ## 3. 查询它
 
@@ -60,9 +61,11 @@ vmflow tui
 
 ## 5. 编辑配置后重载
 
-编辑 `examples/config.yaml`，然后应用新的期望状态：
+打开解析后可执行文件旁的配置，然后应用新的期望状态：
 
 ```bash
+VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
+"${EDITOR:-vi}" "$VMFLOW_CONFIG"
 vmflow ctl reload
 ```
 

@@ -5,13 +5,19 @@ description: ローカル管理、ログ、認証、統計、転送ルール、�
 
 # 設定
 
-vmflow は単一の YAML ファイルで駆動します。`-config` でデーモンに渡します。
+vmflow は単一の YAML ファイルで駆動します。デフォルトでは解決済み実行ファイルの隣にある `config.yaml` を読み込みます。
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-リロード時にはこのファイルを再読み込みし、新しい desired-state を適用します（[ルールとライフサイクル](./rules)を参照）。
+必要な場合はパスを明示して上書きできます。
+
+```bash
+vmflow -config /path/to/config.yaml
+```
+
+リロード時には現在有効な設定パスを再読み込みし、新しい desired-state を適用します（[ルールとライフサイクル](./rules)を参照）。
 
 ## 完全な例
 

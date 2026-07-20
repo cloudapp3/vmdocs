@@ -51,7 +51,7 @@ type LandingCopy = {
 };
 
 const english: LandingCopy = {
-  heroEyebrow: 'v0.2.0-rc.3 · Prerelease',
+  heroEyebrow: 'v0.2.0-rc.4 · Prerelease',
   heroTitle: 'Keep TCP/UDP forwarding under control.',
   heroBody:
     'A pure-Go L4 forwarding runtime for servers and control planes. Run TCP, UDP, and tcp+udp rules from one binary, operate them in a real TUI, and give local AI read-only visibility through MCP.',
@@ -103,14 +103,14 @@ const english: LandingCopy = {
     'Install as a systemd service, launchd daemon, or Windows Service. Release archives include SHA-256 checksums for every supported build.',
   finalTitle: 'Try the current MCP-enabled prerelease.',
   finalBody:
-    'Pin the version so the installer fetches v0.2.0-rc.3. The unversioned installer currently follows the latest stable release.',
+    'Pin the version so the installer fetches v0.2.0-rc.4. The unversioned installer currently follows the latest stable release.',
   copyLabel: 'Copy command',
   copiedLabel: 'Copied',
   prereleaseNote: 'Prerelease software. Review the configuration and firewall before exposing a forwarding port.',
 };
 
 const chinese: LandingCopy = {
-  heroEyebrow: 'v0.2.0-rc.3 · 预发布版',
+  heroEyebrow: 'v0.2.0-rc.4 · 预发布版',
   heroTitle: '让 TCP/UDP 转发保持可控。',
   heroBody:
     '面向服务器与控制面的纯 Go L4 转发运行时。用一个二进制运行 TCP、UDP 与 tcp+udp 规则，在真实 TUI 中管理，并通过本地只读 MCP 让 AI 看见运行状态。',
@@ -154,17 +154,17 @@ const chinese: LandingCopy = {
   platformTitle: '一个二进制，接入系统原生服务生命周期。',
   platformBody: '作为 systemd、launchd 或 Windows Service 运行。每个受支持的发布包都提供 SHA-256 校验。',
   finalTitle: '试用当前支持 MCP 的预发布版。',
-  finalBody: '请固定版本，让安装器获取 v0.2.0-rc.3；不带版本的安装命令当前仍跟随最新稳定版。',
+  finalBody: '请固定版本，让安装器获取 v0.2.0-rc.4；不带版本的安装命令当前仍跟随最新稳定版。',
   copyLabel: '复制命令',
   copiedLabel: '已复制',
   prereleaseNote: '这是预发布软件。对外开放任何转发端口前，请先检查配置与防火墙。',
 };
 
 const japanese: Partial<LandingCopy> = {
-  heroEyebrow: 'v0.2.0-rc.3 · プレリリース',
+  heroEyebrow: 'v0.2.0-rc.4 · プレリリース',
   heroTitle: 'トラフィック転送を確実に制御。',
   heroBody: 'TCP、UDP、tcp+udp に対応し、接続元ポリシー、リアルタイム統計、TUI、ローカルの読み取り専用 MCP を備えた pure-Go L4 フォワーダーです。',
-  installCta: 'RC.3 を試す',
+  installCta: 'RC.4 を試す',
   docsCta: 'ドキュメントを見る',
   releaseCta: 'Release を見る',
   facts: [
@@ -198,17 +198,17 @@ const japanese: Partial<LandingCopy> = {
   platformTitle: '1 つのバイナリ、OS ネイティブのサービス。',
   platformBody: 'Linux の systemd、macOS の launchd、Windows Service として運用できます。',
   finalTitle: 'MCP 対応の現行プレリリースを試す。',
-  finalBody: 'インストーラーが v0.2.0-rc.3 を取得するよう、バージョンを固定してください。',
+  finalBody: 'インストーラーが v0.2.0-rc.4 を取得するよう、バージョンを固定してください。',
   copyLabel: 'コマンドをコピー',
   copiedLabel: 'コピー済み',
   prereleaseNote: 'プレリリースです。転送ポートを公開する前に設定とファイアウォールを確認してください。',
 };
 
 const russian: Partial<LandingCopy> = {
-  heroEyebrow: 'v0.2.0-rc.3 · prerelease',
+  heroEyebrow: 'v0.2.0-rc.4 · prerelease',
   heroTitle: 'Перенаправляйте трафик под контролем.',
   heroBody: 'L4-форвардер на чистом Go для TCP, UDP и tcp+udp с политиками источников, статистикой, TUI и локальным MCP только для чтения.',
-  installCta: 'Попробовать RC.3',
+  installCta: 'Попробовать RC.4',
   docsCta: 'Открыть документацию',
   releaseCta: 'Открыть Release',
   facts: [
@@ -242,17 +242,17 @@ const russian: Partial<LandingCopy> = {
   platformTitle: 'Один бинарник, нативный сервис ОС.',
   platformBody: 'Запускайте через systemd, launchd или Windows Service.',
   finalTitle: 'Попробуйте prerelease с поддержкой MCP.',
-  finalBody: 'Зафиксируйте версию, чтобы установщик загрузил v0.2.0-rc.3.',
+  finalBody: 'Зафиксируйте версию, чтобы установщик загрузил v0.2.0-rc.4.',
   copyLabel: 'Копировать команду',
   copiedLabel: 'Скопировано',
   prereleaseNote: 'Это prerelease. Проверьте конфигурацию и межсетевой экран до открытия порта.',
 };
 
 const spanish: Partial<LandingCopy> = {
-  heroEyebrow: 'v0.2.0-rc.3 · versión preliminar',
+  heroEyebrow: 'v0.2.0-rc.4 · versión preliminar',
   heroTitle: 'Reenvía tráfico con control.',
   heroBody: 'Runtime L4 en Go puro para TCP, UDP y tcp+udp, con políticas de origen, estadísticas, TUI y MCP local de solo lectura.',
-  installCta: 'Probar RC.3',
+  installCta: 'Probar RC.4',
   docsCta: 'Ver documentación',
   releaseCta: 'Ver Release',
   facts: [
@@ -286,17 +286,17 @@ const spanish: Partial<LandingCopy> = {
   platformTitle: 'Un binario, servicio nativo del sistema.',
   platformBody: 'Ejecuta vmflow con systemd, launchd o Windows Service.',
   finalTitle: 'Prueba la versión preliminar con MCP.',
-  finalBody: 'Fija la versión para que el instalador descargue v0.2.0-rc.3.',
+  finalBody: 'Fija la versión para que el instalador descargue v0.2.0-rc.4.',
   copyLabel: 'Copiar comando',
   copiedLabel: 'Copiado',
   prereleaseNote: 'Es software preliminar. Revisa la configuración y el firewall antes de abrir un puerto.',
 };
 
 const portuguese: Partial<LandingCopy> = {
-  heroEyebrow: 'v0.2.0-rc.3 · pré-lançamento',
+  heroEyebrow: 'v0.2.0-rc.4 · pré-lançamento',
   heroTitle: 'Encaminhe tráfego com controle.',
   heroBody: 'Runtime L4 em Go puro para TCP, UDP e tcp+udp, com políticas de origem, estatísticas, TUI e MCP local somente leitura.',
-  installCta: 'Testar RC.3',
+  installCta: 'Testar RC.4',
   docsCta: 'Ver documentação',
   releaseCta: 'Ver Release',
   facts: [
@@ -330,17 +330,17 @@ const portuguese: Partial<LandingCopy> = {
   platformTitle: 'Um binário, serviço nativo do sistema.',
   platformBody: 'Execute com systemd, launchd ou Windows Service.',
   finalTitle: 'Teste o pré-lançamento com MCP.',
-  finalBody: 'Fixe a versão para o instalador baixar v0.2.0-rc.3.',
+  finalBody: 'Fixe a versão para o instalador baixar v0.2.0-rc.4.',
   copyLabel: 'Copiar comando',
   copiedLabel: 'Copiado',
   prereleaseNote: 'Software de pré-lançamento. Revise a configuração e o firewall antes de abrir uma porta.',
 };
 
 const korean: Partial<LandingCopy> = {
-  heroEyebrow: 'v0.2.0-rc.3 · 프리릴리스',
+  heroEyebrow: 'v0.2.0-rc.4 · 프리릴리스',
   heroTitle: '트래픽 전달을 명확하게 제어하세요.',
   heroBody: 'TCP, UDP, tcp+udp를 지원하고 소스 정책, 실시간 통계, TUI, 로컬 읽기 전용 MCP를 제공하는 pure-Go L4 런타임입니다.',
-  installCta: 'RC.3 사용해 보기',
+  installCta: 'RC.4 사용해 보기',
   docsCta: '문서 보기',
   releaseCta: 'Release 보기',
   facts: [
@@ -374,7 +374,7 @@ const korean: Partial<LandingCopy> = {
   platformTitle: '하나의 바이너리, 운영체제 기본 서비스.',
   platformBody: 'systemd, launchd 또는 Windows Service로 실행합니다.',
   finalTitle: 'MCP 지원 프리릴리스를 사용해 보세요.',
-  finalBody: '설치 프로그램이 v0.2.0-rc.3을 받도록 버전을 고정하세요.',
+  finalBody: '설치 프로그램이 v0.2.0-rc.4를 받도록 버전을 고정하세요.',
   copyLabel: '명령 복사',
   copiedLabel: '복사됨',
   prereleaseNote: '프리릴리스 소프트웨어입니다. 포트를 열기 전에 구성과 방화벽을 확인하세요.',
@@ -435,7 +435,7 @@ const copied = ref(false);
 let copiedTimer: ReturnType<typeof setTimeout> | undefined;
 
 const installCommand =
-  'curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.2.0-rc.3 --dir "$HOME/.local/bin"';
+  'curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.2.0-rc.4';
 
 function selectScreen(index: number) {
   activeScreen.value = index;
@@ -506,7 +506,7 @@ async function copyInstallCommand() {
           <a class="vmflow-button vmflow-button--ghost" :href="docsLink">{{ copy.docsCta }}</a>
           <a
             class="vmflow-text-link"
-            href="https://github.com/cloudapp3/vmflow/releases/tag/v0.2.0-rc.3"
+            href="https://github.com/cloudapp3/vmflow/releases/tag/v0.2.0-rc.4"
             target="_blank"
             rel="noreferrer"
           >{{ copy.releaseCta }} <span aria-hidden="true">↗</span></a>
@@ -693,7 +693,7 @@ async function copyInstallCommand() {
     <section id="install" class="vmflow-install">
       <div class="vmflow-shell vmflow-install__inner">
         <div>
-          <p class="vmflow-eyebrow">v0.2.0-rc.3</p>
+          <p class="vmflow-eyebrow">v0.2.0-rc.4</p>
           <h2>{{ copy.finalTitle }}</h2>
           <p>{{ copy.finalBody }}</p>
         </div>
@@ -707,7 +707,7 @@ async function copyInstallCommand() {
         <div class="vmflow-install__links">
           <a :href="docsLink">{{ copy.docsCta }} <span aria-hidden="true">→</span></a>
           <a href="https://github.com/cloudapp3/vmflow" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-          <a href="https://github.com/cloudapp3/vmflow/releases/tag/v0.2.0-rc.3" target="_blank" rel="noreferrer">Release <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/cloudapp3/vmflow/releases/tag/v0.2.0-rc.4" target="_blank" rel="noreferrer">Release <span aria-hidden="true">↗</span></a>
         </div>
         <p class="vmflow-install__note">{{ copy.prereleaseNote }}</p>
       </div>

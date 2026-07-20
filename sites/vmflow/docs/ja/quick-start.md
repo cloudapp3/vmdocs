@@ -5,39 +5,40 @@ description: vmflow をインストールし、2 分で最初の TCP 転送ル�
 
 # クイックスタート
 
-このガイドでは、`vmflow` バイナリをインストールし、サンプル設定でデーモンを起動し、CLI からクエリを実行します。
+このガイドでは、現行 vmflow プレリリースと隣接設定をインストールし、デーモンを起動して CLI から照会します。
 
 ## 1. インストール
 
-最新のビルド済みバイナリをインストールします（Linux/macOS）。
+現在のシェル向けに `v0.2.0-rc.4` をインストールします（Linux/macOS）。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash
-```
-
-グローバルインストールする場合は以下を実行します。
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | sudo bash -s -- --dir /usr/local/bin
+VMFLOW_BIN_DIR="$(
+  curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+)" \
+  && [ -n "$VMFLOW_BIN_DIR" ] \
+  && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
+  && [ -x "$VMFLOW_BIN_DIR/vmflow" ] \
+  && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
 確認します。
 
 ```bash
-vmflow version
+vmflow version -json
 ```
 
-リリースタグの指定（`--version`）、チェックサム検証、ソースからのビルドについては[インストール](./installation)を参照してください。
+必要な場合、インストーラは以後の対応シェルセッション用にも PATH を設定します。`--system` によるシステムインストール、ディレクトリ選択、チェックサム検証、ソースビルドは[インストール](./installation)を参照してください。
 
 ## 2. デーモンを起動する
 
-サンプル設定を用意してデーモンを起動します。
+インストール済みバイナリの隣に作成された `config.yaml` でデーモンを起動します。
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-組み込み SSH 例は無効で `127.0.0.1:2201` を使用します。有効化前に確認してください。
+隣接設定がランタイムのデフォルトです。組み込み SSH 例は無効で `127.0.0.1:2201` を使用します。ルールを有効にする前に設定を確認してください。
 
 ## 3. クエリする
 
@@ -60,9 +61,11 @@ vmflow tui
 
 ## 5. 設定編集後にリロードする
 
-`examples/config.yaml` を編集し、新しい desired-state を適用します。
+解決されたバイナリの隣にある設定を開き、新しい desired-state を適用します。
 
 ```bash
+VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
+"${EDITOR:-vi}" "$VMFLOW_CONFIG"
 vmflow ctl reload
 ```
 

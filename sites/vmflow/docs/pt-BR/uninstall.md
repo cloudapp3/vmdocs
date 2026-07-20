@@ -30,7 +30,7 @@ Os itens são removidos nesta ordem (o serviço primeiro, o binário em execuç�
 | Item | Observações |
 | --- | --- |
 | Serviço nativo | Interrompe e remove a unit do systemd / plist do launchd / Windows Service. |
-| Arquivo de configuração | A configuração padrão da plataforma (veja [`service`](./service)), se presente. |
+| Arquivos de configuração | A configuração padrão da plataforma (veja [`service`](./service)) e a configuração ao lado do binário pertencente ao instalador. Uma configuração ao lado pertencente ao usuário é preservada. |
 | Certificados TLS / ACME externos | Certificados e chaves fora do armazenamento do vmflow são preservados. |
 | Diretórios de log | ex. `/var/log/vmflow` (Linux/macOS), `C:\ProgramData\vmflow\logs` (Windows). |
 | Cache de autoatualização | O diretório de cache do atualizador. |
@@ -41,6 +41,19 @@ Se o binário pertence a um gerenciador de pacotes (`dpkg` / `rpm`), o `uninstal
 :::
 
 Caminhos protegidos (raízes do sistema, seu diretório home) nunca são removidos.
+
+## Instalações gerenciadas pelo instalador
+
+Para uma instalação de usuário criada pelo `install.sh`, prefira a desinstalação no nível do instalador:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+  | bash -s -- --uninstall
+```
+
+Ela delega para `vmflow uninstall` quando disponível e usa uma limpeza via shell para um binário antigo ou ausente. Após a remoção bem-sucedida do binário, também remove de `.zshrc`, `.bashrc` ou `.profile` o bloco PATH exato pertencente ao instalador. Linhas PATH semelhantes criadas pelo usuário, arquivos de inicialização com link simbólico e arquivos não graváveis não são alterados.
+
+Use `sudo bash -s -- --uninstall` apenas para uma instalação do sistema pertencente ao root. Passe `--dir PATH` junto com `--uninstall` ao remover um diretório personalizado escolhido explicitamente.
 
 ## Exemplos
 

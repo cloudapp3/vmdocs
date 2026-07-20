@@ -5,39 +5,40 @@ description: Установите vmflow и запустите первое пр
 
 # Быстрый старт
 
-Это руководство устанавливает бинарный файл `vmflow`, запускает демон с примером конфигурации и опрашивает его через CLI.
+Это руководство устанавливает текущий prerelease vmflow с соседней конфигурацией, запускает демон и опрашивает его через CLI.
 
 ## 1. Установка
 
-Установите последний готовый бинарный файл (Linux/macOS):
+Установите `v0.2.0-rc.4` для текущей оболочки (Linux/macOS):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash
-```
-
-Предпочитаете глобальную установку:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | sudo bash -s -- --dir /usr/local/bin
+VMFLOW_BIN_DIR="$(
+  curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+)" \
+  && [ -n "$VMFLOW_BIN_DIR" ] \
+  && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
+  && [ -x "$VMFLOW_BIN_DIR/vmflow" ] \
+  && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
 Проверка:
 
 ```bash
-vmflow version
+vmflow version -json
 ```
 
-См. [Установка](./installation) — про `--version`, проверку контрольных сумм и сборку из исходников.
+При необходимости инсталлятор также настраивает PATH для будущих сеансов поддерживаемых оболочек. Системная установка через `--system`, выбор каталога, проверка контрольных сумм и сборка из исходников описаны в разделе [Установка](./installation).
 
 ## 2. Запуск демона
 
-Возьмите пример конфигурации и запустите демон:
+Запустите демон с `config.yaml`, созданным рядом с установленным бинарником:
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-Встроенный пример SSH отключён и слушает `127.0.0.1:2201`; проверьте его перед включением.
+Соседняя конфигурация используется по умолчанию. Встроенный пример SSH отключён и слушает `127.0.0.1:2201`; проверьте конфигурацию перед включением правила.
 
 ## 3. Опрос
 
@@ -60,9 +61,11 @@ vmflow tui
 
 ## 5. Перезагрузка после правки конфигурации
 
-Отредактируйте `examples/config.yaml`, затем примените новое желаемое состояние:
+Откройте конфигурацию рядом с разрешённым бинарником, затем примените новое желаемое состояние:
 
 ```bash
+VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
+"${EDITOR:-vi}" "$VMFLOW_CONFIG"
 vmflow ctl reload
 ```
 

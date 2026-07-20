@@ -5,13 +5,19 @@ description: Referencia YAML de vmflow para gestión local, logs, autenticación
 
 # Configuración
 
-vmflow se rige por un único archivo YAML. Pásalo al daemon con `-config`:
+vmflow se rige por un único archivo YAML. Por defecto carga `config.yaml` junto al ejecutable resuelto:
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-Una recarga vuelve a leer este archivo y aplica el nuevo estado deseado (consulta [Reglas y ciclo de vida](./rules)).
+Sobrescribe la ruta cuando sea necesario:
+
+```bash
+vmflow -config /path/to/config.yaml
+```
+
+Una recarga vuelve a leer la ruta de configuración activa y aplica el nuevo estado deseado (consulta [Reglas y ciclo de vida](./rules)).
 
 ## Ejemplo completo
 

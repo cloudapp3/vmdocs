@@ -5,13 +5,19 @@ description: vmflow YAML 配置参考，涵盖本地管理、日志、认证、�
 
 # 配置
 
-vmflow 由单个 YAML 文件驱动。通过 `-config` 将其传递给守护进程：
+vmflow 由单个 YAML 文件驱动。默认读取解析后可执行文件旁的 `config.yaml`：
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-重载时会重新读取该文件并应用新的期望状态（参见[规则与生命周期](./rules)）。
+需要时可明确覆盖路径：
+
+```bash
+vmflow -config /path/to/config.yaml
+```
+
+重载时会重新读取当前生效的配置路径并应用新的期望状态（参见[规则与生命周期](./rules)）。
 
 ## 完整示例
 

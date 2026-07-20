@@ -30,7 +30,7 @@ vmflow 설치를 완전히 제거합니다. **계획 → 확인 → 실행** 흐
 | 항목 | 참고 |
 | --- | --- |
 | 네이티브 서비스 | systemd unit / launchd plist / Windows Service를 중지하고 제거합니다. |
-| 설정 파일 | 플랫폼 기본 설정(현재 있다면 [`service`](./service) 참고). |
+| 설정 파일 | 플랫폼 기본 설정([`service`](./service) 참고)과 설치 프로그램 소유의 바이너리 옆 설정입니다. 사용자 소유의 바이너리 옆 설정은 보존됩니다. |
 | 외부 TLS / ACME 인증서 | vmflow 소유 저장소 외부의 인증서와 키 파일은 보존됩니다. |
 | 로그 디렉터리 | 예: `/var/log/vmflow`(Linux/macOS), `C:\ProgramData\vmflow\logs`(Windows). |
 | 자동 업데이트 캐시 | 업데이터 캐시 디렉터리. |
@@ -41,6 +41,19 @@ vmflow 설치를 완전히 제거합니다. **계획 → 확인 → 실행** 흐
 :::
 
 보호된 경로(시스템 루트, 홈 디렉터리)는 절대 제거되지 않습니다.
+
+## 설치 프로그램이 관리하는 설치
+
+`install.sh`로 만든 사용자 설치는 설치 프로그램 수준의 제거를 권장합니다:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+  | bash -s -- --uninstall
+```
+
+지원되는 경우 `vmflow uninstall`에 위임하고, 오래되었거나 없는 바이너리는 셸 정리로 fallback합니다. 바이너리 정리가 성공한 뒤 `.zshrc`, `.bashrc` 또는 `.profile`에서 설치 프로그램 소유의 정확한 PATH 블록도 제거합니다. 비슷한 사용자 작성 PATH 줄, 심볼릭 링크 또는 쓰기 불가능한 시작 파일은 변경하지 않습니다.
+
+root 소유 시스템 설치를 제거할 때만 `sudo bash -s -- --uninstall`을 사용하세요. 명시적으로 선택한 사용자 지정 디렉터리를 제거할 때는 `--uninstall`과 함께 `--dir PATH`를 전달하세요.
 
 ## 예제
 

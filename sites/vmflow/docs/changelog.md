@@ -28,6 +28,23 @@ All notable user-facing changes to `vmflow` are documented here.
 - Native service registration is now built in; the hand-written systemd unit is no longer the only option. Releases use portable archives and the installer rather than distro-specific system packages.
 - Service installation now parses and validates the protected config before changing OS state. Linux unit updates restart immediately and roll back the previous unit/state on failure; macOS restores the previous plist and loaded state when bootstrap fails; Windows uses native SCM APIs for quoted arguments, updates existing services, enables recovery for crash and non-crash failures, and waits for application readiness before reporting success.
 
+## v0.2.0-rc.4
+
+### Added
+
+- `install.sh --system` for an explicit system-wide install with privilege escalation limited to target checks and writes.
+- `install.sh --no-modify-path` and `--print-install-dir` for controlled shell startup-file updates and machine-readable current-shell integration.
+
+### Changed
+
+- The installer is privilege-aware: it reuses conventional existing installs with colocated configs, selects root and user directories separately, and adds an idempotent PATH block only for automatic user installs.
+- Release extraction accepts both the current top-level `config.yaml` and the legacy `examples/config.yaml` archive layout. Existing colocated configs and forwarding rules are preserved during upgrades.
+- `install.sh --uninstall` delegates to the binary when available, falls back to shell cleanup for older or missing binaries, and removes only the exact installer-owned PATH block after binary cleanup succeeds.
+
+### Security
+
+- Installer option values, extracted binary/config file types, existing target paths, and privileged command paths receive explicit validation. Sudo authentication now happens before downloads, and the downloaded script no longer needs to run wholesale as root for a system install.
+
 ## v0.1.1
 
 ### Added

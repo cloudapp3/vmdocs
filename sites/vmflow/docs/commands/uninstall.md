@@ -30,7 +30,7 @@ Items are removed in this order (service first, the running binary last, so a st
 | Item | Notes |
 | --- | --- |
 | Native service | Stops and removes the systemd unit / launchd plist / Windows Service. |
-| Config file | The platform default config (see [`service`](./service)), if present. |
+| Config files | The platform default config (see [`service`](./service)) and installer-owned colocated config. An unowned colocated config is preserved. |
 | External TLS / ACME certificates | Certificate and key files referenced outside vmflow-owned storage are preserved. |
 | Log directories | e.g. `/var/log/vmflow` (Linux/macOS), `C:\ProgramData\vmflow\logs` (Windows). |
 | Self-update cache | The updater cache directory. |
@@ -41,6 +41,19 @@ If the binary is owned by a package manager (`dpkg` / `rpm`), `uninstall` prints
 :::
 
 Protected paths (system roots, your home directory) are never removed.
+
+## Installer-managed installations
+
+For a user installation created by `install.sh`, prefer the installer-level uninstall:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+  | bash -s -- --uninstall
+```
+
+It delegates to `vmflow uninstall` when supported and falls back to shell cleanup for an old or missing binary. After binary cleanup succeeds, it also removes the exact installer-owned PATH block from `.zshrc`, `.bashrc`, or `.profile`. Similar user-written PATH lines, symlinked startup files, and non-writable startup files are left untouched.
+
+Use `sudo bash -s -- --uninstall` only for a root-owned system installation. Pass `--dir PATH` with `--uninstall` when removing an explicitly selected custom directory.
 
 ## Examples
 

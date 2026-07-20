@@ -5,39 +5,40 @@ description: Install vmflow and run your first TCP forwarding rule in two minute
 
 # Quick Start
 
-This guide installs the `vmflow` binary, starts the daemon with a sample config, and queries it from the CLI.
+This guide installs the current vmflow prerelease with its colocated config, starts the daemon, and queries it from the CLI.
 
 ## 1. Install
 
-Install the latest prebuilt binary (Linux/macOS):
+Install `v0.2.0-rc.4` for the current shell (Linux/macOS):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash
-```
-
-Prefer a global install:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | sudo bash -s -- --dir /usr/local/bin
+VMFLOW_BIN_DIR="$(
+  curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+)" \
+  && [ -n "$VMFLOW_BIN_DIR" ] \
+  && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
+  && [ -x "$VMFLOW_BIN_DIR/vmflow" ] \
+  && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
 Verify:
 
 ```bash
-vmflow version
+vmflow version -json
 ```
 
-See [Installation](./installation) for `--version`, checksum verification, and building from source.
+The installer also configures PATH for future supported shell sessions when needed. See [Installation](./installation) for system-wide installation with `--system`, directory selection, checksum verification, and building from source.
 
 ## 2. Start the daemon
 
-Grab the sample config and start the daemon:
+Start the daemon with the `config.yaml` created beside the installed binary:
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-The bundled SSH example is disabled and listens on `127.0.0.1:2201`; review it before enabling.
+The colocated config is the runtime default. Its bundled SSH example is disabled and listens on `127.0.0.1:2201`; review the config before enabling the rule.
 
 ## 3. Query it
 
@@ -60,9 +61,11 @@ Press <kbd>Tab</kbd> to switch between the Dashboard, Rules, and Detail views. S
 
 ## 5. Reload after editing the config
 
-Edit `examples/config.yaml`, then apply the new desired state:
+Open the config beside the resolved binary, then apply the new desired state:
 
 ```bash
+VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
+"${EDITOR:-vi}" "$VMFLOW_CONFIG"
 vmflow ctl reload
 ```
 

@@ -6,7 +6,7 @@ description: foreground、ctl、tui、version、update、service、uninstall の
 # vmflow
 
 ```bash
-vmflow -config ./examples/config.yaml [-control-port 19090]
+vmflow [-config /path/to/config.yaml] [-control-port 19090]
 ```
 
 フォアグラウンド実行は設定を読み込み、ループバック専用の内部管理チャネルを開始し、ルールをスナップショットとして適用して `SIGINT` / `SIGTERM` まで動作します。
@@ -15,7 +15,7 @@ vmflow -config ./examples/config.yaml [-control-port 19090]
 
 | フラグ | デフォルト | 説明 |
 | --- | --- | --- |
-| `-config` | _(必須)_ | YAML 設定ファイルのパス。 |
+| `-config` | 解決済み vmflow バイナリの隣にある `config.yaml` | YAML 設定パスを上書きします。 |
 | `-control-port` | _(設定値)_ | ループバック管理ポートを上書きします。 |
 | `-log-file` | _(標準出力)_ | 標準出力の代わりにログをこのファイルに書き出します（サービスマネージャ配下で有用。Windows では必須）。 |
 

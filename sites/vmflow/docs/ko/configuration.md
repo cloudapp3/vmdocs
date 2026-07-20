@@ -5,13 +5,19 @@ description: 로컬 관리, 로깅, 인증, 통계, 포워딩 규칙, 소스 IP 
 
 # 설정
 
-vmflow는 단일 YAML 파일로 구동됩니다. `-config`로 데몬에 전달합니다:
+vmflow는 단일 YAML 파일로 구동됩니다. 기본적으로 해석된 실행 파일 옆의 `config.yaml`을 불러옵니다:
 
 ```bash
-vmflow -config ./examples/config.yaml
+vmflow
 ```
 
-리로드는 이 파일을 다시 읽고 새로운 desired state를 적용합니다([규칙과 라이프사이클](./rules) 참고).
+필요하면 경로를 명시적으로 재정의할 수 있습니다:
+
+```bash
+vmflow -config /path/to/config.yaml
+```
+
+리로드는 현재 활성 설정 경로를 다시 읽고 새로운 desired state를 적용합니다([규칙과 라이프사이클](./rules) 참고).
 
 ## 전체 예제
 

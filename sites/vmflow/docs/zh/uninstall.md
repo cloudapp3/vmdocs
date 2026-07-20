@@ -30,7 +30,7 @@ vmflow uninstall [--dry-run]
 | 项目 | 说明 |
 | --- | --- |
 | 原生服务 | 停止并移除 systemd unit / launchd plist / Windows Service。 |
-| 配置文件 | 平台默认配置（参见 [`service`](./service)），如果存在。 |
+| 配置文件 | 平台默认配置（参见 [`service`](./service)）以及安装器所有的共置配置。用户所有的共置配置会被保留。 |
 | 外部 TLS / ACME 证书 | vmflow 自有存储之外引用的证书和密钥文件会被保留。 |
 | 日志目录 | 例如 `/var/log/vmflow`（Linux/macOS）、`C:\ProgramData\vmflow\logs`（Windows）。 |
 | 自更新缓存 | 更新器的缓存目录。 |
@@ -41,6 +41,19 @@ vmflow uninstall [--dry-run]
 :::
 
 受保护路径（系统根目录、你的家目录）永远不会被移除。
+
+## 安装器管理的安装
+
+对于由 `install.sh` 创建的用户安装，优先使用安装器级卸载：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
+  | bash -s -- --uninstall
+```
+
+支持时，它会委托给 `vmflow uninstall`；二进制过旧或缺失时则回退到 shell 清理。二进制清理成功后，它还会从 `.zshrc`、`.bashrc` 或 `.profile` 中移除安装器所有的精确 PATH 块。相似的用户自定义 PATH 行、符号链接或不可写的启动文件均保持不变。
+
+只有卸载 root 所有的系统级安装时才使用 `sudo bash -s -- --uninstall`。卸载明确指定的自定义目录时，同时传入 `--dir PATH`。
 
 ## 示例
 

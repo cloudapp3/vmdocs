@@ -6,7 +6,7 @@ description: Справочник CLI vmflow — foreground, ctl, tui, version, 
 # vmflow
 
 ```bash
-vmflow -config ./examples/config.yaml [-control-port 19090]
+vmflow [-config /path/to/config.yaml] [-control-port 19090]
 ```
 
 Режим foreground загружает конфигурацию, запускает внутренний канал управления только на loopback, применяет снимок правил и работает до `SIGINT` или `SIGTERM`.
@@ -15,7 +15,7 @@ vmflow -config ./examples/config.yaml [-control-port 19090]
 
 | Флаг | По умолчанию | Описание |
 | --- | --- | --- |
-| `-config` | _(обязательный)_ | Путь к файлу конфигурации YAML. |
+| `-config` | `config.yaml` рядом с разрешённым бинарником vmflow | Переопределяет путь к YAML-конфигурации. |
 | `-control-port` | _(из конфигурации)_ | Переопределяет loopback-порт управления. |
 | `-log-file` | _(stdout)_ | Писать журналы в этот файл вместо stdout (полезно под сервис-менеджером; обязательно на Windows). |
 
