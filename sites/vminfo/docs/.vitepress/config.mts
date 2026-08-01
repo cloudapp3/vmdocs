@@ -11,7 +11,7 @@ import {
 
 const siteTitle = 'vminfo';
 const siteDescription =
-  'Cross-platform terminal system monitor with JSON output, a web dashboard, network diagnostics, and embeddable Go APIs.';
+  'Cross-platform terminal system monitor with JSON output, a web dashboard, read-only MCP tools, network diagnostics, and embeddable Go APIs.';
 
 const siteUrl = 'https://vminfo.bestcheapvps.org';
 
@@ -33,6 +33,7 @@ const translations: Record<string, Partial<Record<string, string>>> = {
   'commands/ps': { zh: 'zh/ps', ja: 'ja/ps', ru: 'ru/ps', es: 'es/ps', 'pt-BR': 'pt-BR/ps', ko: 'ko/ps' },
   'commands/kill': { zh: 'zh/kill', ja: 'ja/kill', ru: 'ru/kill', es: 'es/kill', 'pt-BR': 'pt-BR/kill', ko: 'ko/kill' },
   'commands/net': { zh: 'zh/net', ja: 'ja/net', ru: 'ru/net', es: 'es/net', 'pt-BR': 'pt-BR/net', ko: 'ko/net' },
+  'commands/mcp': { zh: 'zh/mcp' },
   'commands/update': { zh: 'zh/update', ja: 'ja/update', ru: 'ru/update', es: 'es/update', 'pt-BR': 'pt-BR/update', ko: 'ko/update' },
   'library/': { zh: 'zh/library', ja: 'ja/library', ru: 'ru/library', es: 'es/library', 'pt-BR': 'pt-BR/library', ko: 'ko/library' },
   'library/collect': { zh: 'zh/collect', ja: 'ja/collect', ru: 'ru/collect', es: 'es/collect', 'pt-BR': 'pt-BR/collect', ko: 'ko/collect' },
@@ -118,7 +119,7 @@ const LOCALE_UI = {
     links: { guide: '/guide/quick-start', commands: '/commands/', api: '/api', library: '/library/' },
     editLink: 'Edit this page on GitHub',
     footer: 'Released under the MIT License.',
-    homeOgTitle: 'vminfo — terminal system monitor, web dashboard & Go library',
+    homeOgTitle: 'vminfo — terminal system monitor, MCP server, web dashboard & Go library',
     sidebar: { title: 'Documentation', home: 'Home', gettingStarted: 'Getting Started', quickStart: 'Quick Start', installation: 'Installation', deployment: 'Deployment', platformSupport: 'Platform Support', using: 'Using vminfo', overview: 'Overview', webDashboard: 'Web Dashboard', tuiControls: 'TUI Controls', commands: 'Commands', api: 'HTTP API', library: 'Go Library', libraryHome: 'Library Usage', collect: 'Collect Metrics', embedTui: 'Embed TUI' },
   },
   zh: {
@@ -126,7 +127,7 @@ const LOCALE_UI = {
     links: { guide: '/zh/quick-start', commands: '/zh/commands', api: '/zh/api', library: '/zh/library' },
     editLink: '在 GitHub 上编辑此页',
     footer: '基于 MIT 协议发布。',
-    homeOgTitle: 'vminfo — 跨平台终端系统监控、Web 仪表盘与 Go 库',
+    homeOgTitle: 'vminfo — 跨平台终端系统监控、MCP、Web 仪表盘与 Go 库',
     sidebar: { title: '中文文档', home: '中文首页', gettingStarted: '入门', quickStart: '快速开始', installation: '安装', deployment: '部署', platformSupport: '平台支持', using: '使用 vminfo', overview: '概览', webDashboard: 'Web 仪表盘', tuiControls: 'TUI 控制', commands: '命令参考', api: 'HTTP API', library: 'Go 库', libraryHome: '库用法', collect: '采集指标', embedTui: '嵌入 TUI' },
   },
   ja: {
@@ -258,6 +259,7 @@ function localizedSidebars() {
           { text: 'ps', link: `${prefix}/ps` },
           { text: 'kill', link: `${prefix}/kill` },
           { text: 'net', link: `${prefix}/net` },
+          ...(l.code === 'zh' ? [{ text: 'mcp', link: `${prefix}/mcp` }] : []),
           { text: 'update', link: `${prefix}/update` },
           { text: s.sidebar.api, link: `${prefix}/api` },
         ],
@@ -460,6 +462,7 @@ export default defineConfig({
             { text: 'ps', link: '/commands/ps' },
             { text: 'kill', link: '/commands/kill' },
             { text: 'net', link: '/commands/net' },
+            { text: 'mcp', link: '/commands/mcp' },
             { text: 'update', link: '/commands/update' },
           ],
         },

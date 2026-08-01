@@ -7,6 +7,7 @@ description: Release notes and recent product changes for vminfo.
 
 ## Unreleased
 
+- Add `vminfo mcp`, a tools-only local MCP server over stdio with structured system snapshots, bounded Linux process queries, DNS/TCP/ping/IP diagnostics, version metadata, explicit privacy controls, and no destructive tools or network listener.
 - Require token authentication for every non-loopback web bind, reject empty or invalid web options, and document loopback, SSH-tunnel, reverse-proxy, and private-network deployment patterns.
 - Harden the web server with loopback Host validation against DNS rebinding, scheme/host/port same-origin checks for REST and WebSocket requests, secure auth cookies behind HTTPS proxies, bounded JSON network diagnostics, HTTP timeouts, and graceful client shutdown.
 - Harden CLI and TUI output against terminal control sequences from host and process data; add stricter PID, interval, port, timeout, probe-count, and flag-position validation across `summary`, `watch`, `ps`, `kill`, `--web`, and `net`.

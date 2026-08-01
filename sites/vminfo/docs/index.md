@@ -1,11 +1,11 @@
 ---
 layout: home
 titleTemplate: false
-description: vminfo is a cross-platform terminal system monitor and CLI for Linux, macOS, and Windows — live CPU, memory, disk, network, and process stats, JSON output, a web dashboard, and an embeddable Go library.
+description: vminfo is a cross-platform terminal system monitor and CLI for Linux, macOS, and Windows — live host metrics through a TUI, JSON, web dashboard, read-only MCP server, and embeddable Go library.
 hero:
   name: vminfo
-  text: Terminal system monitor, web dashboard, and Go library
-  tagline: Cross-platform host runtime visibility for Linux, macOS, and Windows — from TUI, JSON output, browser dashboard, or embeddable Go APIs.
+  text: Terminal system monitor, MCP server, web dashboard, and Go library
+  tagline: Cross-platform host visibility from one binary — through a TUI, JSON output, browser dashboard, read-only MCP tools, or embeddable Go APIs.
   image:
     src: /logo.svg
     alt: vminfo
@@ -16,6 +16,9 @@ hero:
     - theme: alt
       text: View Commands
       link: /commands/
+    - theme: alt
+      text: MCP Setup
+      link: /commands/mcp
     - theme: alt
       text: HTTP API
       link: /api
@@ -36,6 +39,10 @@ features:
     title: Themed Web Dashboard
     details: Start a read-only browser dashboard with REST and WebSocket endpoints and switchable themes.
     link: /guide/web-dashboard
+  - icon: 🤖
+    title: Read-only MCP Server
+    details: Let a trusted local MCP client inspect host health, Linux processes, and bounded network diagnostics.
+    link: /commands/mcp
   - icon: 🧩
     title: Embeddable Go APIs
     details: Import vminfo collection APIs or embed the interactive TUI into your own Go CLI.
@@ -81,6 +88,7 @@ Use it when you need to:
 - inspect CPU, memory, disk, network, load, and processes from a terminal
 - export machine-readable JSON for scripts and automation
 - open a browser dashboard on a server with `vminfo --web`
+- let a trusted MCP client inspect the host with `vminfo mcp`
 - embed host metrics collection into another Go tool
 - diagnose a single host without running a full monitoring platform
 
@@ -107,6 +115,7 @@ Not sure which layer you need? Use the [system monitoring tool comparison](/comp
 - [Installation](/guide/installation)
 - [Deployment](/guide/deployment)
 - [Command reference](/commands/)
+- [MCP server](/commands/mcp)
 - [HTTP API](/api)
 - [Go Library](/library/)
 - [Compare vminfo](/compare/)
