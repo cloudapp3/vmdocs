@@ -1,6 +1,6 @@
 ---
 title: vminfo vs Glances
-description: Compare vminfo and Glances for terminal monitoring, web and API access, JSON exports, remote operation, dependencies, and library integration.
+description: Compare vminfo and Glances for terminal monitoring, web and API access, MCP, JSON exports, remote operation, dependencies, and library integration.
 ---
 
 # vminfo vs Glances
@@ -14,22 +14,23 @@ vminfo and Glances both span terminal monitoring, machine-readable output, and b
 | Primary position | Local host diagnostics from one Go binary | Extensible cross-platform monitoring application |
 | Terminal UI | Built-in live overview and Linux process view | Built-in terminal monitoring with a plugin-oriented information model |
 | Web/API | Read-only dashboard, REST endpoints, and WebSocket stream | Web UI plus RESTful and XML-RPC interfaces in supported modes |
+| MCP | Built-in read-only local stdio tools | Optional MCP component with a broader plugin-oriented surface |
 | Machine-readable data | JSON snapshot, JSON Lines watch stream, command JSON | JSON/CSV exports, stdout JSON, APIs, and external export modules |
 | Remote model | Local-first; remote access through a protected web bind, reverse proxy, or SSH tunnel | Dedicated client/server discovery and remote monitoring modes |
 | Library | Public Go collection and TUI packages | Python library API |
-| Extension scope | Deliberately small and built in | Larger plugin/export ecosystem, including optional web and MCP components |
+| Extension scope | Deliberately small built-in CLI, Web/API, MCP, and Go library surfaces | Larger plugin/export ecosystem with optional components |
 
 ## Runtime and installation
 
-vminfo release artifacts are compiled Go binaries. The normal local workflow does not require Python, a database, a daemon, or optional web dependencies. Web mode is part of the same executable and starts only when requested.
+vminfo release artifacts are compiled Go binaries. The normal local workflow does not require Python, a database, a daemon, or optional web dependencies. Web and read-only stdio MCP modes are part of the same executable and start only when requested.
 
 Glances is written in Python and uses optional dependency groups for capabilities such as its Web UI/API, exports, graphs, and MCP server. It is widely packaged and can run locally, in a container, or in client/server mode. That larger surface is useful when you need integrations beyond a one-host diagnostic tool.
 
 Neither design is universally simpler. A standalone binary reduces runtime setup; a plugin ecosystem increases extension and export choices.
 
-## Terminal, web, and API workflows
+## Terminal, web, MCP, and API workflows
 
-Both projects provide a terminal view and a browser/API path. vminfo keeps its web server read-only and stateless: it publishes current snapshots, processes, health warnings, network diagnostics, and a live WebSocket stream. Non-loopback binds require a token, and remote access should use HTTPS through a reverse proxy or an SSH tunnel.
+Both projects provide terminal, browser/API, and MCP paths. vminfo keeps these surfaces read-only: the web server publishes current snapshots, processes, health warnings, network diagnostics, and a live WebSocket stream, while `vminfo mcp` exposes bounded local tools over stdio without a network listener. Non-loopback web binds require a token, and remote access should use HTTPS through a reverse proxy or an SSH tunnel.
 
 Glances documents Web UI, RESTful, XML-RPC, and client/server modes. It can discover remote Glances servers and export metrics to files or external time-series systems. Choose that model when multi-host or exporter workflows are central.
 
@@ -49,12 +50,12 @@ Glances offers more export modes, including stdout JSON and file/database export
 
 - you need client/server monitoring or server discovery
 - you want a broad set of plugins and export destinations
-- XML-RPC, REST, Web UI, containers, or MCP are part of the monitoring design
+- XML-RPC, remote client/server discovery, containers, or broad exporters are part of the monitoring design
 - your application integration is Python-first
 
 ## Choose vminfo when
 
-- you want one compiled binary for TUI, JSON, Web/API, and network diagnostics
+- you want one compiled binary for TUI, JSON, Web/API, MCP, and network diagnostics
 - local, on-demand inspection is more important than long-running remote collection
 - you need a small, explicit JSON contract for scripts or CI
 - your integration target is a Go CLI or service
@@ -70,6 +71,7 @@ Yes. Glances can serve as a broader remote/export layer while vminfo remains an 
 - [Glances documentation](https://glances.readthedocs.io/)
 - [vminfo web dashboard](/guide/web-dashboard)
 - [vminfo HTTP API](/api)
+- [vminfo MCP server](/commands/mcp)
 - [vminfo Go library](/library/)
 
-Facts last checked on **July 14, 2026**. This page does not claim that either project uses fewer resources; measure both on your own workload if that is a deciding factor.
+Facts last checked on **July 16, 2026**. This page does not claim that either project uses fewer resources; measure both on your own workload if that is a deciding factor.

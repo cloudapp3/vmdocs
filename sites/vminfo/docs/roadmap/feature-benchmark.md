@@ -66,8 +66,9 @@ vminfo should stay within these boundaries:
 
 ### P2: Useful, but not core
 
-7. **MCP server**
-   - Expose snapshot and process tools for AI assistants.
+7. **MCP server (implemented)**
+   - Keep the built-in stdio server read-only, bounded, and local-first.
+   - Treat any future remote transport as a separate security design decision.
 
 8. **Container identification**
    - Show Docker/containerd identifiers in `ps`, TUI, and Web views.

@@ -1,6 +1,6 @@
 # vminfo
 
-> vminfo is a cross-platform terminal system monitor for Linux, macOS, and Windows. One Go binary provides a live TUI, text and JSON output, a read-only web dashboard and HTTP API, network diagnostics, and embeddable Go packages.
+> vminfo is a cross-platform terminal system monitor for Linux, macOS, and Windows. One Go binary provides a live TUI, text and JSON output, a read-only web dashboard and HTTP API, a read-only local MCP server, network diagnostics, and embeddable Go packages.
 
 Canonical documentation: https://vminfo.bestcheapvps.org/
 Source repository: https://github.com/cloudapp3/vminfo
@@ -28,6 +28,7 @@ Windows and package-manager-ready Linux artifacts are available from GitHub Rele
 - `vminfo --web`: start the loopback-only web dashboard on port 20021.
 - `vminfo ps`: inspect processes on Linux.
 - `vminfo net dns|port|ping|ip`: run on-demand network diagnostics.
+- `vminfo mcp`: serve read-only host and network-diagnostic tools to a local MCP client over stdio.
 - `vminfo update --check`: check the latest GitHub Release.
 
 ## Authoritative documentation
@@ -38,6 +39,7 @@ Windows and package-manager-ready Linux artifacts are available from GitHub Rele
 - Platform support: https://vminfo.bestcheapvps.org/guide/platform-support
 - Command reference: https://vminfo.bestcheapvps.org/commands/
 - Network diagnostics: https://vminfo.bestcheapvps.org/commands/net
+- MCP server: https://vminfo.bestcheapvps.org/commands/mcp
 - Web dashboard: https://vminfo.bestcheapvps.org/guide/web-dashboard
 - HTTP API: https://vminfo.bestcheapvps.org/api
 - Go library: https://vminfo.bestcheapvps.org/library/
@@ -46,7 +48,8 @@ Windows and package-manager-ready Linux artifacts are available from GitHub Rele
 
 ## Scope and safety
 
-- TUI, `summary`, `watch`, and web mode are cross-platform. `ps` and `kill` are Linux-only.
+- TUI, `summary`, `watch`, web mode, and MCP host snapshots are cross-platform. `ps`, `kill`, and MCP process listing are Linux-only.
+- MCP mode uses local stdio only, exposes no destructive tools, and sends returned host data to the model configured by the client.
 - Local web mode binds to loopback by default. Every non-loopback bind requires a token.
 - The built-in web server uses HTTP. Use an HTTPS reverse proxy or SSH tunnel for remote access.
 - `net ip` contacts the configured IP lookup service only when the user invokes that command.

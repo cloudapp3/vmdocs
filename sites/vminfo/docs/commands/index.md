@@ -17,6 +17,7 @@ description: Overview of the vminfo CLI commands and common workflows.
 | `vminfo ps` | List local processes on Linux |
 | `vminfo kill <pid>` | Send SIGTERM to a Linux process |
 | `vminfo net` | Run network diagnostics (dns / port / ping / ip) |
+| `vminfo mcp` | Start the read-only local MCP server over stdio |
 | `vminfo update` | Check for or install a release update |
 | `vminfo --lang zh` | Switch the UI language |
 
@@ -48,6 +49,7 @@ vminfo net dns example.com
 vminfo net port example.com 443
 vminfo net ping example.com --tcp-port 443
 vminfo net ip
+vminfo mcp
 vminfo update
 vminfo update --check
 vminfo update --version v0.1.0
@@ -61,4 +63,5 @@ Use the pages below for full details:
 - [ps](/commands/ps)
 - [kill](/commands/kill)
 - [net](/commands/net)
+- [mcp](/commands/mcp)
 - [update](/commands/update)
