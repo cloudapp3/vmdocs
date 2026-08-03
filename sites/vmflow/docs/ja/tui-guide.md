@@ -27,15 +27,19 @@ VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 
 | ビュー | 表示内容 |
 | --- | --- |
-| **Dashboard** | 全体の健全性、実行中ルール数、稼働時間。 |
-| **Rules** | 無効なルールを含む設定済みルール、ライブカウンター、未適用の変更、ワイド端末での `OPEN` / `ALLOW n` / `DENY n` アクセス概要。 |
-| **Detail** | 選択したルールの設定、送信元 IP エントリ、トラフィック、累積 `IP Denied` カウンター。 |
+| **Dashboard** | 健全性、転送集計、稼働時間、接続先デーモンの Host Network NIC と RX/TX レート。 |
+| **Rules** | 設定済みルール、ライブトラフィックとクォータ状態、未適用変更、送信元アクセス概要。 |
+| **Detail** | 選択ルールの帯域/クォータ、送信元 IP、トラフィック、使用量、拒否カウンター。 |
 
 ## ルール管理
 
 認証済みの `admin` トークンでは、ルールの作成、編集、コピー、有効・無効の切り替え、削除ができます。viewer トークンおよび未認証セッションは読み取り専用です。Rules ビューでは、<kbd>n</kbd>/<kbd>e</kbd>/<kbd>c</kbd> で作成・編集・コピー、<kbd>Space</kbd> で切り替え、<kbd>d</kbd> で削除、<kbd>P</kbd> でプレチェック、<kbd>A</kbd> で検証済みドラフトを適用します。
 
 エディターの `Source IP mode` では `OFF`、`ALLOWLIST`、`DENYLIST` を選択できます。`Source IPs / CIDRs` には、IPv4/IPv6 のリテラルアドレスと CIDR をカンマ区切りで入力します。適用前にプレチェックが成功する必要があり、既存の revision/ETag フローによって古いエディターが新しい設定を上書きするのを防ぎます。
+
+基本エディターには共有レート、日次・月次クォータがあり、詳細設定には方向別 upload/download とクォータ timezone があります。適用時はルールを再起動しますが、同じ `rule_id` の使用量は保持します。
+
+Host Network は Dashboard 内です。<kbd>4</kbd> で移動し、<kbd>a</kbd> で有効な物理 NIC と全 NIC を切り替えます。値は SSH tunnel 越しでも接続先デーモンのホスト値で、vmflow クォータや速度テストではありません。
 
 ## いつ使うか
 

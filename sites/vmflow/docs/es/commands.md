@@ -5,17 +5,20 @@ description: Referencia CLI de vmflow para foreground, ctl, tui, mcp, version, u
 
 # Referencia de comandos
 
-vmflow es un único binario con ejecución foreground y siete subcomandos.
+vmflow es un único binario con comandos de configuración inicial, foreground explícito, estado, gestión, servicio y mantenimiento.
 
 | Comando | Alias | Propósito |
 | --- | --- | --- |
-| `vmflow` | - | Ejecuta el runtime de reenvío en foreground. |
+| `vmflow` | - | Muestra estado de config/daemon y el siguiente paso. |
+| `vmflow init` | - | Elige idioma y modo, y crea la primera regla validada y credenciales locales. |
+| [`vmflow run`](./daemon) | - | Ejecuta el reenvío en foreground con el config de usuario de la plataforma. |
+| `vmflow status` | - | Inspecciona ruta config, reglas, daemon y servicio nativo; admite `-json`. |
 | [`ctl`](./ctl) | `c` | Consulta y controla un daemon en ejecución. |
 | [`tui`](./tui) | `t` | Panel de terminal. |
 | [`mcp`](./mcp) | - | Servidor MCP stdio de solo lectura para un daemon local en ejecución. |
 | [`version`](./version) | `v` | Imprime los metadatos de build. |
 | [`update`](./update) | `u` | Comprueba o instala una release más reciente. |
-| [`service`](./service) | `svc` | Registra como servicio nativo del SO (arranque en boot). |
+| [`service`](./service) | `svc` | Instala, inicia, inspecciona o desinstala el servicio nativo. |
 | [`uninstall`](./uninstall) | `remove`, `rm` | Desinstalación con un solo comando y limpieza. |
 
 ## Parámetros comunes de gestión {#common-client-flags}

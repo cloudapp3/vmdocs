@@ -14,7 +14,7 @@ As releases usam archives portáveis em vez de pacotes `.deb` ou `.rpm` gerencia
 ```bash
 VMFLOW_BIN_DIR="$(
   curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+    | bash -s -- --version v0.3.0 --print-install-dir
 )" \
   && [ -n "$VMFLOW_BIN_DIR" ] \
   && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
@@ -22,7 +22,7 @@ VMFLOW_BIN_DIR="$(
   && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
-Esse comando fixa a versão de pré-lançamento atual e exporta o diretório selecionado no PATH do shell atual. Omita `--version v0.2.0-rc.4` para seguir a versão estável mais recente. Atualmente, o instalador sem versão resolve para `v0.1.1`, que não inclui o MCP nem as políticas de Source IP documentadas aqui.
+Esse comando fixa a versão estável `v0.3.0` e exporta o diretório selecionado no PATH do shell atual. Omita `--version v0.3.0` para seguir automaticamente a versão estável mais recente.
 
 ## Instalação no sistema
 
@@ -30,15 +30,15 @@ Instale em `/usr/local/bin` sem executar todo o script baixado como root:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-  | bash -s -- --version v0.2.0-rc.4 --system
+  | bash -s -- --version v0.3.0 --system
 ```
 
-Quando um usuário sem privilégios solicita `--system`, o instalador valida o sudo antes do download e o usa apenas para verificar e gravar no destino. A nova configuração ao lado do binário pertence ao root e usa o modo `0600`; use os comandos de verificação e inicialização com root/sudo exibidos pelo instalador.
+Quando um usuário sem privilégios solicita `--system`, o instalador valida o sudo antes do download e o usa apenas para verificar e gravar no destino. O instalador grava apenas o executável. Depois execute `vmflow init`, escolha serviço do sistema ou modo foreground e crie a configuração protegida correspondente.
 
 Para instalar outra release, altere a tag passada para `--version`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.2.0-rc.4
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.3.0
 ```
 
 ### Opções do instalador
@@ -56,13 +56,13 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 
 ### Diretório e PATH
 
-Sem `--dir`, o instalador primeiro reutiliza uma instalação convencional existente do vmflow que tenha uma configuração ao lado do binário. Uma nova instalação root usa `/usr/local/bin`. Para um usuário sem privilégios, ele prefere `~/.local/bin` ou `~/bin` quando já estão no PATH e, caso contrário, usa `~/.local/bin`.
+Sem `--dir`, o instalador primeiro reutiliza um executável normal do vmflow em um diretório convencional. Uma nova instalação root usa `/usr/local/bin`. Para um usuário sem privilégios, ele prefere `~/.local/bin` ou `~/bin` quando já estão no PATH e, caso contrário, usa `~/.local/bin`.
 
 Em uma instalação automática de usuário, o instalador adiciona quando necessário um único bloco PATH idempotente a `.zshrc`, `.bashrc` ou `.profile` e mostra o comando exato para recarregá-lo. Ele não pode alterar o shell atual; por isso, o comando recomendado captura `--print-install-dir` e o exporta imediatamente. Um `--dir` explícito ou `VMFLOW_INSTALL_DIR` nunca altera arquivos de inicialização do shell.
 
 ### Configuração e compatibilidade de archives
 
-O instalador baixa um archive do GitHub Release e verifica o `checksums.txt` com SHA-256 por padrão. Ele aceita tanto o `config.yaml` atual na raiz quanto o layout legado `examples/config.yaml`. A primeira instalação cria `config.yaml` ao lado do binário com modo `0600`; atualizações substituem apenas o binário e preservam a configuração e as regras de encaminhamento.
+O instalador baixa um archive do GitHub Release e verifica o `checksums.txt` com SHA-256 por padrão. O archive inclui `examples/config.yaml` apenas como referência; o instalador não o copia nem ativa. A instalação e as atualizações substituem somente o executável, preservando a configuração e as regras existentes.
 
 Para releases privados ou limites de taxa (rate limits) mais altos da API do GitHub, defina `GITHUB_TOKEN` ou `GH_TOKEN`.
 
@@ -91,12 +91,12 @@ vmflow version -json
 
 ## Atualizar o vmflow
 
-Depois de instalado a partir de uma release com tag (v0.1.1 ou posterior), o `vmflow` consegue se autoatualizar:
+Depois de instalado a partir de uma release com tag, o `vmflow` consegue se autoatualizar:
 
 ```bash
 vmflow update --check            # check for a newer release
 vmflow update                    # install the newest release
-vmflow update --version v0.2.0-rc.4 # instalar este pré-lançamento
+vmflow update --version v0.3.0 # instalar esta versão estável específica
 ```
 
 Consulte [`vmflow update`](./update) para detalhes, flags e notas por plataforma.

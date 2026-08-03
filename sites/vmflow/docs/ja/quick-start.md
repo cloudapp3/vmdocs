@@ -5,16 +5,16 @@ description: vmflow をインストールし、2 分で最初の TCP 転送ル�
 
 # クイックスタート
 
-このガイドでは、現行 vmflow プレリリースと隣接設定をインストールし、デーモンを起動して CLI から照会します。
+このガイドでは安定版 vmflow v0.3.0 をインストールし、`vmflow init` で検証済みの最初のルールを作成して、CLI からデーモンを照会します。
 
 ## 1. インストール
 
-現在のシェル向けに `v0.2.0-rc.4` をインストールします（Linux/macOS）。
+現在のシェル向けに `v0.3.0` をインストールします（Linux/macOS）。
 
 ```bash
 VMFLOW_BIN_DIR="$(
   curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+    | bash -s -- --version v0.3.0 --print-install-dir
 )" \
   && [ -n "$VMFLOW_BIN_DIR" ] \
   && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
@@ -30,15 +30,17 @@ vmflow version -json
 
 必要な場合、インストーラは以後の対応シェルセッション用にも PATH を設定します。`--system` によるシステムインストール、ディレクトリ選択、チェックサム検証、ソースビルドは[インストール](./installation)を参照してください。
 
-## 2. デーモンを起動する
+## 2. vmflow を初期化する
 
-インストール済みバイナリの隣に作成された `config.yaml` でデーモンを起動します。
+初回ウィザードを実行します。
 
 ```bash
-vmflow
+vmflow init
 ```
 
-隣接設定がランタイムのデフォルトです。組み込み SSH 例は無効で `127.0.0.1:2201` を使用します。ルールを有効にする前に設定を確認してください。
+最初に言語を選びます。`1` は English、`2` は簡体字中国語です。次に推奨のネイティブシステムサービス、現在のターミナルでの foreground、または保存のみを選択します。ウィザードは検証済みルールと認証済みローカル管理を作成し、選択したモードに合う system/user 設定パスへ保存します。
+
+システムサービスはインストール・有効化・起動まで行います。foreground は現在のターミナルを使用します。保存のみを選んだ場合は後で `vmflow run` を実行してください。
 
 ## 3. クエリする
 
@@ -61,11 +63,10 @@ vmflow tui
 
 ## 5. 設定編集後にリロードする
 
-解決されたバイナリの隣にある設定を開き、新しい desired-state を適用します。
+`vmflow status` で有効な設定パスを確認して編集し、新しい desired-state を適用します。
 
 ```bash
-VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
-"${EDITOR:-vi}" "$VMFLOW_CONFIG"
+vmflow status
 vmflow ctl reload
 ```
 
@@ -74,7 +75,7 @@ vmflow ctl reload
 ## 次のステップ
 
 - [設定](./configuration) — すべての YAML フィールドを解説
-- [転送エンジン](./forwarding) — プロトコル、速度制限、接続数キャップ
+- [転送エンジン](./forwarding) — プロトコル、共有帯域制限、日次・月次クォータ、接続数キャップ
 - [ルールとライフサイクル](./rules) — スナップショット適用と差分
 - [`vmflow service install`](./service) — vmflow を起動時のネイティブサービス（systemd / launchd / Windows サービス）として実行
 - [`vmflow uninstall`](./uninstall) — ワンコマンドでの完全削除（サービス、バイナリ、設定、ログ、証明書）

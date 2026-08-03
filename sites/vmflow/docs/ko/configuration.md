@@ -5,16 +5,16 @@ description: 로컬 관리, 로깅, 인증, 통계, 포워딩 규칙, 소스 IP 
 
 # 설정
 
-vmflow는 단일 YAML 파일로 구동됩니다. 기본적으로 해석된 실행 파일 옆의 `config.yaml`을 불러옵니다:
+vmflow는 단일 YAML 파일로 구동됩니다. `vmflow run`은 기본적으로 플랫폼 사용자 config 경로를 불러옵니다:
 
 ```bash
-vmflow
+vmflow run
 ```
 
 필요하면 경로를 명시적으로 재정의할 수 있습니다:
 
 ```bash
-vmflow -config /path/to/config.yaml
+vmflow run -config /path/to/config.yaml
 ```
 
 리로드는 현재 활성 설정 경로를 다시 읽고 새로운 desired state를 적용합니다([규칙과 라이프사이클](./rules) 참고).
@@ -23,11 +23,17 @@ vmflow -config /path/to/config.yaml
 
 ```yaml
 version: 1
+language: en
 control_port: 19090
+udp_max_sessions: 256
 
 log:
   level: info
   format: text # text or json
+
+stats:
+  persist: false
+  flush_interval: 60s
 
 # 관리는 항상 127.0.0.1에 바인딩되며 포트만 설정합니다.
 # The CLI/TUI can pass the token with -token or VMFLOW_CONTROL_TOKEN.
@@ -47,7 +53,14 @@ rules:
     target_addr: 127.0.0.1
     target_port: 22
     enabled: true
-    speed_limit: 0
+    bandwidth_limit:
+      rate: 100 Mbps
+    traffic_quota:
+      daily: 100 GB
+      monthly: 1 TB
+      timezone: Asia/Shanghai
+      action: block
+    speed_limit: 0 # 레거시 연결별 B/s 제한
     max_conn: 0
     source_ip_mode: allowlist
     source_ips:
@@ -114,6 +127,14 @@ CLI/TUI 관리를 위한 Bearer token 인증입니다.
 TCP는 `max_conn`을 소비하거나 대상에 연결하기 전에 소켓 피어를 검사합니다. UDP는 세션을 생성하거나 규칙별·전역 UDP 세션 한도를 소비하기 전에 검사합니다. 모드 또는 유효 항목 집합을 변경하면 규칙이 재시작되고 기존 TCP 연결과 UDP 세션이 닫히므로 새 정책이 즉시 적용됩니다.
 
 정책은 실제 소켓 피어를 확인합니다. NAT 또는 L4 프록시 뒤에서는 원래 클라이언트가 아니라 게이트웨이나 프록시의 주소일 수 있습니다. vmflow는 전달된 HTTP 헤더나 PROXY protocol 메타데이터를 신뢰하지 않습니다. 대규모 공격에 대한 첫 번째 방어 계층으로 클라우드 방화벽, security group 또는 호스트 방화벽을 사용하세요.
+
+## 공유 대역폭 제한과 트래픽 쿼터
+
+`bandwidth_limit`은 전체 `rule_id`의 합산 트래픽을 제한합니다. 같은 규칙의 모든 TCP 연결과 UDP 세션이 방향별 버킷을 공유하며 `tcp+udp`의 두 프로토콜도 공유합니다. 동일한 업로드·다운로드 제한에는 `rate`, 비대칭 제한에는 `upload`와 `download`를 사용합니다. 생략한 방향은 무제한이며 burst는 vmflow가 자동 계산합니다.
+
+`bps`/`Kbps`/`Mbps`/`Gbps`는 bit/s, `B/s`/`KB/s`/`MB/s`/`GB/s`/`KiB/s`/`MiB/s`는 byte/s이며 대소문자를 구분합니다. `traffic_quota.daily`와 `monthly`는 성공한 업로드 + 다운로드 payload를 합산합니다. 10진 `GB`/`TB`, 2진 `GiB`/`TiB`, IANA `timezone`을 지원합니다. `action`은 선택 사항이며 현재는 `block`만 지원합니다.
+
+쿼터는 `stats.persist: false`에서도 `quota-state.json`에 저장되며 재시작하거나 같은 `rule_id`를 다시 추가해도 초기화되지 않습니다. `language`는 `en` 또는 `zh-CN`만 허용합니다. DNS 설정은 없으며 시스템 resolver의 일시적 실패 후 `223.5.5.5:53`, `119.29.29.29:53` 순서로 시도합니다. `NXDOMAIN`은 fallback하지 않습니다.
 
 ::: tip
 `http`와 `https` 프로토콜은 소스에 존재하지만 현재 빌드에서는 비활성화되어 있습니다. 검증 단계에서 거부됩니다. [포워딩 참조](./forwarding)를 참고하세요.

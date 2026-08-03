@@ -77,7 +77,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/vmflow -config /etc/vmflow/config.yaml
+ExecStart=/usr/local/bin/vmflow run -config /etc/vmflow/config.yaml
 ExecReload=/usr/local/bin/vmflow ctl reload
 Restart=on-failure
 RestartSec=3

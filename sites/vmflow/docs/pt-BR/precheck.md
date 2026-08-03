@@ -28,7 +28,7 @@ O precheck produz uma lista de achados, cada um sendo um **erro** ou um **aviso*
 | `duplicate_rule_id` | error | O mesmo ID aparece mais de uma vez no snapshot. |
 | Conflito de listener | error | Duas regras reivindicam o mesmo `listen_addr:port`. |
 | Vinculabilidade de porta | error | De fato tenta vincular a porta de escuta para confirmar que está disponível. |
-| Resolução de DNS do alvo | error | O `target_addr` deve resolver. |
+| Resolução de DNS do alvo | error | Primeiro DNS do sistema; após erro transitório, `223.5.5.5:53` e `119.29.29.29:53`; `NXDOMAIN` definitivo não usa fallback. |
 | Configuração de domínio HTTPS | — | _Desativado no build atual_ (protocolos http/https são rejeitados). |
 | Endereço ACME HTTP-01 | — | _Desativado no build atual_ (subsistema ACME está desligado). |
 | Privilégio de porta baixa | warning | Vincular portas privilegiadas (<1024) geralmente requer permissões elevadas. |

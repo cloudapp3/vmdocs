@@ -6,7 +6,7 @@ description: Registra vmflow como servicio nativo del SO que arranca en el boot 
 # vmflow service
 
 ```bash
-vmflow service (install|uninstall|status) [flags]
+vmflow service (install|start|uninstall|status) [flags]
 ```
 
 Alias: `vmflow svc`.
@@ -19,13 +19,14 @@ Registra `vmflow` como servicio nativo del SO que **arranca en el boot** y **se 
 | macOS | daemon launchd | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | gestionado vía `services.msc` / `sc.exe` |
 
-El servicio simplemente ejecuta `vmflow` bajo el supervisor de la plataforma. En Linux y macOS el supervisor envía `SIGTERM` para detenerlo; en Windows el daemon detecta el Service Control Manager y reporta el estado. Como el SCM no tiene stdout, los logs usan `C:\ProgramData\vmflow\logs\vmflow.log` por defecto.
+El servicio ejecuta `vmflow run -config <path>` bajo el supervisor de la plataforma. En Linux y macOS el supervisor envía `SIGTERM` para detenerlo; en Windows el daemon detecta el Service Control Manager y reporta el estado. Como el SCM no tiene stdout, los logs usan `C:\ProgramData\vmflow\logs\vmflow.log` por defecto.
 
 ## Acciones
 
 | Acción | Descripción |
 | --- | --- |
 | `install` | Valida la configuración, crea o actualiza la unidad/plist/Windows Service, la **habilita** y la **arranca**. Al repetirlo, actualiza y reinicia el servicio existente. Requiere root en Linux/macOS, administrador en Windows. |
+| `start` | Inicia un servicio instalado pero detenido sin reescribir su definición ni config. |
 | `uninstall` | Detiene y elimina el servicio. Los archivos de configuración y de log se conservan. |
 | `status` | Imprime el estado actual del servicio. |
 
@@ -40,7 +41,7 @@ El servicio simplemente ejecuta `vmflow` bajo el supervisor de la plataforma. En
 | `--extra-arg` | _(ninguno)_ | Añade un futuro flag como `--extra-arg=-flag=value`; se puede repetir. Los flags actuales deben usar sus opciones dedicadas. |
 | `-binary` | ejecutable actual | Ruta al binario de vmflow. Para `install` debe ser una **ruta absoluta** propiedad de root/admin en una ubicación de confianza. |
 
-¹ Rutas de configuración por defecto: Linux `/etc/vmflow/config.yaml`, macOS `/usr/local/etc/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
+¹ Rutas de configuración por defecto: Linux `/etc/vmflow/config.yaml`, macOS `/Library/Application Support/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
 
 ## Ejemplos
 

@@ -28,7 +28,7 @@ vmflow ctl precheck
 | `duplicate_rule_id` | error | 同一个 ID 在快照中出现多次。 |
 | 监听器冲突 | error | 两条规则占用了同一个 `listen_addr:port`。 |
 | 端口可绑定性 | error | 实际尝试绑定监听端口以确认其可用。 |
-| 目标 DNS 解析 | error | `target_addr` 必须可解析。 |
+| 目标 DNS 解析 | error | 先用系统 DNS；瞬时错误依次尝试 `223.5.5.5:53`、`119.29.29.29:53`；明确的 `NXDOMAIN` 不 fallback。 |
 | HTTPS 域名配置 | — | _当前构建中已禁用_（http/https 协议会被拒绝）。 |
 | ACME HTTP-01 地址 | — | _当前构建中已禁用_（ACME 子系统处于关闭状态）。 |
 | 低端口特权 | warning | 绑定特权端口（<1024）通常需要提升权限。 |

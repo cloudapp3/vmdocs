@@ -40,7 +40,7 @@ description: 管理 vmflow 转发规则——单规则操作、带增量 diff �
 ……以及一个汇总：`Applied`、`Stopped`、`Failed`、`Total`。
 
 ::: tip 什么算作"发生了变化"？
-只有运行时字段（protocol、监听地址/端口、目标地址/端口、限速、max conn、`idle_timeout`、来源 IP 模式/有效条目、enabled）会被比较。修改 `remark`、时间戳或仅调整等价来源 CIDR 的顺序**不会**重启规则。来源策略真正变化时会重启规则，并关闭已有 TCP 连接和 UDP 会话。
+只有运行时字段（protocol、监听地址/端口、目标地址/端口、旧版限速、规则共享限速、流量配额、max conn、`idle_timeout`、来源 IP 模式/有效条目、enabled）会被比较。修改 `remark`、时间戳或仅调整等价来源 CIDR 的顺序**不会**重启规则。共享限速、配额或有效来源策略真正变化时会重启规则并关闭已有 TCP 连接和 UDP 会话；同一 `rule_id` 的配额用量会保留。
 :::
 
 ## 重载

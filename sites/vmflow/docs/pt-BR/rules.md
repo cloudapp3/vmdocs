@@ -40,7 +40,7 @@ Para cada regra, a aplicação produz uma ação:
 …e um resumo: `Applied`, `Stopped`, `Failed`, `Total`.
 
 ::: tip O que conta como "alterado"?
-Apenas campos de tempo de execução (protocolo, endereço/porta de escuta, endereço/porta de destino, limite de velocidade, máx. de conexões, `idle_timeout`, modo e entradas efetivas de IP de origem, enabled) são comparados. Editar `remark`, timestamps ou apenas reordenar CIDRs de origem equivalentes **não** reinicia uma regra. Uma alteração real da política de origem reinicia a regra e fecha conexões TCP e sessões UDP existentes.
+Apenas campos de runtime (protocolo, endereços/portas, speed limit legado, bandwidth compartilhado, traffic quota, máx. de conexões, `idle_timeout`, política Source IP e enabled) são comparados. Editar `remark`, timestamps ou reordenar CIDRs equivalentes **não** reinicia a regra. Alterar bandwidth, quota ou a política efetiva reinicia a regra e fecha conexões/sessões, mas preserva o uso da cota do mesmo `rule_id`.
 :::
 
 ## Recarregar

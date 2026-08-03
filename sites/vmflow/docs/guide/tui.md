@@ -27,15 +27,19 @@ Press <kbd>Tab</kbd> to cycle between views:
 
 | View | Shows |
 | --- | --- |
-| **Dashboard** | Overall health, running rule count, uptime. |
-| **Rules** | Configured rules, including disabled rules, live counters, staged changes, and an `OPEN` / `ALLOW n` / `DENY n` access summary on wide terminals. |
-| **Detail** | Selected-rule settings, source IP entries, traffic, and the cumulative `IP Denied` counter. |
+| **Dashboard** | Health, forwarding totals, uptime, and the connected daemon's Host Network interfaces and RX/TX rates. |
+| **Rules** | Configured rules, live traffic and quota status, staged changes, and access summaries. |
+| **Detail** | Selected-rule bandwidth/quota policy, source IP entries, traffic, quota usage, and denial counters. |
 
 ## Rule management
 
 An authenticated `admin` token can create, edit, copy, toggle, and delete rules. Viewer tokens and sessions without authentication are read-only. In the Rules view, use <kbd>n</kbd>/<kbd>e</kbd>/<kbd>c</kbd> to create, edit, or copy; <kbd>Space</kbd> to toggle; <kbd>d</kbd> to delete; <kbd>P</kbd> to precheck; and <kbd>A</kbd> to apply the validated draft.
 
 The editor exposes `Source IP mode` as `OFF`, `ALLOWLIST`, or `DENYLIST`. Enter literal IPv4/IPv6 addresses and CIDRs in `Source IPs / CIDRs`, separated by commas. Precheck must pass before apply; the existing revision/ETag flow prevents a stale editor from overwriting a newer configuration.
+
+Shared bandwidth rate plus daily and monthly quotas are in the basic editor. Directional upload/download limits and quota timezone are in advanced settings. Applying a changed policy restarts that rule, while current quota usage for the same `rule_id` remains intact.
+
+Host Network is part of Dashboard, not a separate view. Press <kbd>4</kbd> to jump to it and <kbd>a</kbd> to switch between active physical interfaces and all interfaces. The data always comes from the connected daemon, including through an SSH tunnel. Interface counters are host traffic, not vmflow rule quotas or a bandwidth test.
 
 ## When to use it
 

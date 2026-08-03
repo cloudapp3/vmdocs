@@ -5,16 +5,16 @@ description: Справочник YAML vmflow — локальное управ�
 
 # Конфигурация
 
-vmflow управляется единым YAML-файлом. По умолчанию загружается `config.yaml` рядом с разрешённым исполняемым файлом:
+vmflow управляется единым YAML-файлом. `vmflow run` по умолчанию загружает platform user config path:
 
 ```bash
-vmflow
+vmflow run
 ```
 
 При необходимости путь можно переопределить:
 
 ```bash
-vmflow -config /path/to/config.yaml
+vmflow run -config /path/to/config.yaml
 ```
 
 При перезагрузке активный путь конфигурации перечитывается и применяется новое желаемое состояние (см. [Правила и жизненный цикл](./rules)).
@@ -23,11 +23,17 @@ vmflow -config /path/to/config.yaml
 
 ```yaml
 version: 1
+language: en
 control_port: 19090
+udp_max_sessions: 256
 
 log:
   level: info
   format: text # text or json
+
+stats:
+  persist: false
+  flush_interval: 60s
 
 # Управление всегда привязано к 127.0.0.1; задаётся только порт.
 # The CLI/TUI can pass the token with -token or VMFLOW_CONTROL_TOKEN.
@@ -47,7 +53,14 @@ rules:
     target_addr: 127.0.0.1
     target_port: 22
     enabled: true
-    speed_limit: 0
+    bandwidth_limit:
+      rate: 100 Mbps
+    traffic_quota:
+      daily: 100 GB
+      monthly: 1 TB
+      timezone: Asia/Shanghai
+      action: block
+    speed_limit: 0 # старый лимит B/s на соединение
     max_conn: 0
     source_ip_mode: allowlist
     source_ips:
@@ -114,6 +127,14 @@ rules:
 TCP проверяет адрес socket peer до расходования лимита `max_conn` и соединения с целевым узлом. UDP выполняет проверку до создания сессии и расходования лимитов UDP-сессий правила или всего процесса. Изменение режима или эффективного набора записей перезапускает правило и закрывает существующие TCP-соединения и UDP-сессии, поэтому новая политика применяется сразу.
 
 Политика видит фактический адрес socket peer. За NAT или L4-прокси это может быть адрес шлюза или прокси, а не исходного клиента. vmflow не доверяет перенаправленным HTTP-заголовкам или метаданным PROXY protocol. Для первого уровня защиты от крупных атак используйте облачный firewall, security group или firewall узла.
+
+## Общие лимиты скорости и квоты трафика
+
+`bandwidth_limit` ограничивает суммарный трафик всего `rule_id`. Все TCP-соединения и UDP-сессии правила используют общие направленные корзины, включая оба протокола `tcp+udp`. `rate` задаёт одинаковые upload/download лимиты; для асимметрии используйте `upload` и `download`. Пропущенное направление не ограничено, burst vmflow рассчитывает автоматически.
+
+`bps`/`Kbps`/`Mbps`/`Gbps` означают bit/s, а `B/s`/`KB/s`/`MB/s`/`GB/s`/`KiB/s`/`MiB/s` — byte/s; регистр важен. `traffic_quota.daily` и `monthly` суммируют успешно переданные upload + download данные. Поддерживаются десятичные `GB`/`TB`, двоичные `GiB`/`TiB` и IANA `timezone`. `action` можно опустить; сейчас поддерживается только `block`.
+
+Квоты сохраняются в `quota-state.json` даже при `stats.persist: false` и не сбрасываются после перезапуска или повторного добавления того же `rule_id`. `language` принимает только `en` или `zh-CN`. DNS не настраивается: после временного сбоя системного резолвера используются `223.5.5.5:53`, затем `119.29.29.29:53`; ответ `NXDOMAIN` fallback не запускает.
 
 ::: tip
 Протоколы `http` и `https` присутствуют в исходниках, но отключены в текущей сборке. Они отклоняются при валидации. См. [справочник по перенаправлению](./forwarding).

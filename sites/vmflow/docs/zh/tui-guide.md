@@ -27,15 +27,19 @@ VMFLOW_CONTROL_TOKEN=<token> vmflow tui
 
 | 视图 | 显示内容 |
 | --- | --- |
-| **Dashboard** | 整体健康状态、运行中规则数、运行时长。 |
-| **Rules** | 包含禁用规则在内的已配置规则、实时计数器、暂存改动，以及宽屏下的 `OPEN` / `ALLOW n` / `DENY n` 摘要。 |
-| **Detail** | 所选规则的设置、来源 IP 条目、流量和累计 `IP Denied` 计数。 |
+| **Dashboard** | 健康状态、转发汇总、运行时长，以及所连接守护进程的 Host Network 网卡和收发速率。 |
+| **Rules** | 已配置规则、实时流量与配额状态、暂存改动和来源访问摘要。 |
+| **Detail** | 所选规则的限速/配额策略、来源 IP、流量、配额用量与拒绝计数。 |
 
 ## 规则管理
 
 使用已认证的 `admin` token 可以创建、编辑、复制、启停和删除规则。`viewer` token 以及未启用认证的会话为只读。在 Rules 视图中，使用 <kbd>n</kbd>/<kbd>e</kbd>/<kbd>c</kbd> 创建、编辑或复制，<kbd>Space</kbd> 启停，<kbd>d</kbd> 删除，<kbd>P</kbd> 预检，<kbd>A</kbd> 应用已验证的草稿。
 
 编辑器中的 `Source IP mode` 可选 `OFF`、`ALLOWLIST` 或 `DENYLIST`；在 `Source IPs / CIDRs` 中用逗号分隔 IPv4/IPv6 字面地址和 CIDR。草稿必须先通过预检才能应用，现有 revision/ETag 流程会阻止过期编辑器覆盖更新后的配置。
+
+基础编辑器包含规则共享速率、日配额和月配额；高级设置包含分方向上传/下载限速与配额时区。应用策略改动会重启该规则，但相同 `rule_id` 的当前配额用量会保留。
+
+Host Network 已合并在 Dashboard，而不是独立视图。按 <kbd>4</kbd> 跳转到该区域，按 <kbd>a</kbd> 在活动物理网卡与全部网卡之间切换。即使通过 SSH 隧道连接，数据也来自所连接的守护进程主机。网卡计数是整机流量，不是 vmflow 规则配额，也不是测速结果。
 
 ## 何时使用它
 

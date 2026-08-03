@@ -14,7 +14,7 @@ description: 権限を考慮したユーザー/システムインストール、
 ```bash
 VMFLOW_BIN_DIR="$(
   curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+    | bash -s -- --version v0.3.0 --print-install-dir
 )" \
   && [ -n "$VMFLOW_BIN_DIR" ] \
   && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
@@ -22,7 +22,7 @@ VMFLOW_BIN_DIR="$(
   && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
-このコマンドは現行プレリリースを固定し、選択されたディレクトリを現在のシェルの PATH に追加します。最新の安定版を使う場合は `--version v0.2.0-rc.4` を省略してください。現在、バージョンを省略すると `v0.1.1` が選ばれ、このドキュメントの MCP と Source IP ポリシーは含まれません。
+このコマンドは安定版 `v0.3.0` を固定し、選択されたディレクトリを現在のシェルの PATH に追加します。最新の安定版を自動的に追従する場合は `--version v0.3.0` を省略してください。
 
 ## システム全体へのインストール
 
@@ -30,15 +30,15 @@ VMFLOW_BIN_DIR="$(
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-  | bash -s -- --version v0.2.0-rc.4 --system
+  | bash -s -- --version v0.3.0 --system
 ```
 
-非 root ユーザーが `--system` を指定すると、インストーラはダウンロード前に sudo を検証し、対象の確認と書き込みだけに使用します。新しく作成された隣接設定は root 所有かつモード `0600` になります。インストーラが表示する root/sudo 用の確認・起動コマンドを使用してください。
+非 root ユーザーが `--system` を指定すると、インストーラはダウンロード前に sudo を検証し、対象の確認と書き込みだけに使用します。インストーラが書き込むのは実行ファイルだけです。その後 `vmflow init` を実行し、システムサービスまたはフォアグラウンドを選んで保護された設定を作成します。
 
 別のリリースを導入するには、`--version` に渡すタグを変更します。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.2.0-rc.4
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.3.0
 ```
 
 ### インストーラのオプション
@@ -56,13 +56,13 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 
 ### ディレクトリと PATH
 
-`--dir` を省略すると、まず隣接設定を持つ既存の標準的な vmflow インストール先を再利用します。新規の root インストールは `/usr/local/bin` を使用します。一般ユーザーでは、すでに PATH にある `~/.local/bin` または `~/bin` を優先し、それ以外は `~/.local/bin` にフォールバックします。
+`--dir` を省略すると、標準的なインストール先にある既存の通常 vmflow 実行ファイルを再利用します。新規の root インストールは `/usr/local/bin` を使用します。一般ユーザーでは、すでに PATH にある `~/.local/bin` または `~/bin` を優先し、それ以外は `~/.local/bin` にフォールバックします。
 
 自動ユーザーインストールでは、必要に応じて `.zshrc`、`.bashrc`、または `.profile` に冪等な PATH ブロックを一つ追加し、正確な再読み込みコマンドを表示します。現在のシェル自体は変更できないため、推奨コマンドでは `--print-install-dir` を取得して直ちに export します。`--dir` または `VMFLOW_INSTALL_DIR` を明示した場合、シェル起動ファイルは変更されません。
 
 ### 設定とアーカイブの互換性
 
-インストーラは GitHub Release アーカイブをダウンロードし、デフォルトで `checksums.txt` を SHA-256 検証します。現在のトップレベル `config.yaml` と、旧アーカイブの `examples/config.yaml` の両方に対応します。初回インストールではバイナリの隣にモード `0600` の `config.yaml` を作成し、アップグレードではバイナリだけを置き換えて既存設定と転送ルールを保持します。
+インストーラは GitHub Release アーカイブをダウンロードし、デフォルトで `checksums.txt` を SHA-256 検証します。アーカイブには参照用の `examples/config.yaml` が含まれますが、インストーラはコピーも有効化もしません。インストールと更新では実行ファイルだけを置き換えるため、既存設定と転送ルールは保持されます。
 
 プライベートリリースや GitHub API のレート制限を緩和したい場合は、`GITHUB_TOKEN` または `GH_TOKEN` を設定してください。
 
@@ -91,12 +91,12 @@ vmflow version -json
 
 ## vmflow の更新
 
-タグ付きリリース（v0.1.1 以降）からインストールしていれば、`vmflow` は自身を更新できます。
+タグ付きリリースからインストールしていれば、`vmflow` は自身を更新できます。
 
 ```bash
 vmflow update --check            # check for a newer release
 vmflow update                    # install the newest release
-vmflow update --version v0.2.0-rc.4 # 現行プレリリースをインストール
+vmflow update --version v0.3.0 # 指定した安定版をインストール
 ```
 
 詳細、フラグ、プラットフォームごとの注意事項は [`vmflow update`](./update) を参照してください。

@@ -28,7 +28,7 @@ Precheck produces a list of findings, each either an **error** or a **warning**.
 | `duplicate_rule_id` | error | Same ID appears more than once in the snapshot. |
 | Listener conflict | error | Two rules claim the same `listen_addr:port`. |
 | Port bindability | error | Actually tries to bind the listen port to confirm it is available. |
-| Target DNS resolution | error | The `target_addr` must resolve. |
+| Target DNS resolution | error | Uses the OS resolver first; transient failures retry `223.5.5.5:53` then `119.29.29.29:53`. Definitive `NXDOMAIN` does not fall back. |
 | HTTPS domain config | — | _Disabled in current build_ (http/https protocols are rejected). |
 | ACME HTTP-01 address | — | _Disabled in current build_ (ACME subsystem is off). |
 | Low-port privilege | warning | Binding privileged ports (<1024) usually needs elevated permissions. |

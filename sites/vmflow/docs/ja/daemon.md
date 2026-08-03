@@ -1,12 +1,12 @@
 ---
-title: vmflow
+title: vmflow run
 description: foreground、ctl、tui、version、update、service、uninstall の vmflow CLI リファレンス。
 ---
 
-# vmflow
+# vmflow run
 
 ```bash
-vmflow [-config /path/to/config.yaml] [-control-port 19090]
+vmflow run [-config /path/to/config.yaml] [-control-port 19090]
 ```
 
 フォアグラウンド実行は設定を読み込み、ループバック専用の内部管理チャネルを開始し、ルールをスナップショットとして適用して `SIGINT` / `SIGTERM` まで動作します。
@@ -15,9 +15,10 @@ vmflow [-config /path/to/config.yaml] [-control-port 19090]
 
 | フラグ | デフォルト | 説明 |
 | --- | --- | --- |
-| `-config` | 解決済み vmflow バイナリの隣にある `config.yaml` | YAML 設定パスを上書きします。 |
+| `-config` | platform user config | YAML 設定パスを上書きします。 |
 | `-control-port` | _(設定値)_ | ループバック管理ポートを上書きします。 |
-| `-log-file` | _(標準出力)_ | 標準出力の代わりにログをこのファイルに書き出します（サービスマネージャ配下で有用。Windows では必須）。 |
+| `-log-file` | _(標準出力)_ | 標準出力の代わりにログを書きます。サービスマネージャ配下で有用です。 |
+| `-service-name` | `vmflow` | Windows SCM の登録サービス名。Windows service mode 以外では無視。 |
 
 ## ランタイムの挙動
 

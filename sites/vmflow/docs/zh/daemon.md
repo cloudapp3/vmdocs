@@ -1,12 +1,12 @@
 ---
-title: vmflow
+title: vmflow run
 description: vmflow CLI 参考，涵盖前台运行、ctl、tui、version、update、service 和 uninstall。
 ---
 
-# vmflow
+# vmflow run
 
 ```bash
-vmflow [-config /path/to/config.yaml] [-control-port 19090]
+vmflow run [-config /path/to/config.yaml] [-control-port 19090]
 ```
 
 前台运行模式会加载配置、启动仅监听回环的内部管理通道，以快照方式应用规则，并持续运行到收到 `SIGINT` 或 `SIGTERM`。
@@ -15,9 +15,10 @@ vmflow [-config /path/to/config.yaml] [-control-port 19090]
 
 | 参数 | 默认值 | 说明 |
 | --- | --- | --- |
-| `-config` | 解析后 vmflow 二进制旁的 `config.yaml` | 覆盖 YAML 配置路径。 |
+| `-config` | platform user config | 覆盖 YAML 配置路径。 |
 | `-control-port` | _(取自配置)_ | 覆盖回环管理端口。 |
-| `-log-file` | _(stdout)_ | 将日志写入该文件而非 stdout（在服务管理器下很有用；在 Windows 上必填）。 |
+| `-log-file` | _(stdout)_ | 将日志写入该文件而非 stdout，适合服务管理器场景。 |
+| `-service-name` | `vmflow` | Windows SCM 注册的服务名称；非 Windows 服务模式会忽略。 |
 
 ## 运行时行为
 

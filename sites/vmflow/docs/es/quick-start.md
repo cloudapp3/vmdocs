@@ -5,16 +5,16 @@ description: Instala vmflow y ejecuta tu primera regla de reenvío TCP en dos mi
 
 # Inicio rápido
 
-Esta guía instala la versión preliminar actual de vmflow con su configuración colocada junto al binario, inicia el daemon y lo consulta desde la CLI.
+Esta guía instala vmflow v0.3.0 estable, crea la primera regla validada con `vmflow init` y consulta el daemon en ejecución desde la CLI.
 
 ## 1. Instalar
 
-Instala `v0.2.0-rc.4` para el shell actual (Linux/macOS):
+Instala `v0.3.0` para el shell actual (Linux/macOS):
 
 ```bash
 VMFLOW_BIN_DIR="$(
   curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+    | bash -s -- --version v0.3.0 --print-install-dir
 )" \
   && [ -n "$VMFLOW_BIN_DIR" ] \
   && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
@@ -30,15 +30,17 @@ vmflow version -json
 
 Cuando hace falta, el instalador también configura PATH para futuras sesiones de shells compatibles. Consulta [Instalación](./installation) para la instalación del sistema con `--system`, la selección del directorio, la verificación de checksums y la compilación desde el código fuente.
 
-## 2. Iniciar el daemon
+## 2. Inicializar vmflow
 
-Inicia el daemon con el `config.yaml` creado junto al binario instalado:
+Ejecuta el asistente de primer uso:
 
 ```bash
-vmflow
+vmflow init
 ```
 
-La configuración colocada junto al binario es el valor por defecto del runtime. El ejemplo SSH incluido está deshabilitado y escucha en `127.0.0.1:2201`; revisa la configuración antes de activar la regla.
+El idioma es la primera elección: `1` selecciona English y `2` chino simplificado. Después elige el servicio nativo recomendado, modo foreground en el terminal actual o guardar sin iniciar. El asistente crea una regla validada, activa la gestión local autenticada y escribe el config system/user correcto para el modo elegido.
+
+El modo servicio instala, habilita e inicia vmflow. Foreground ocupa el terminal actual. Si guardaste sin iniciar, ejecuta después `vmflow run`.
 
 ## 3. Consultarlo
 
@@ -61,11 +63,10 @@ Pulsa <kbd>Tab</kbd> para alternar entre las vistas Dashboard, Rules y Detail. C
 
 ## 5. Recargar tras editar la configuración
 
-Abre la configuración junto al binario resuelto y aplica el nuevo estado deseado:
+Consulta la ruta activa con `vmflow status`, edita ese archivo y aplica el nuevo estado:
 
 ```bash
-VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
-"${EDITOR:-vi}" "$VMFLOW_CONFIG"
+vmflow status
 vmflow ctl reload
 ```
 
@@ -74,7 +75,7 @@ La recarga ejecuta primero la [verificación previa](./precheck); si hay errores
 ## Qué sigue
 
 - [Configuración](./configuration) — todos los campos YAML explicados
-- [Motor de reenvío](./forwarding) — protocolos, límites de velocidad, topes de conexiones
+- [Motor de reenvío](./forwarding) — protocolos, bandwidth compartido, cuotas diarias/mensuales y topes de conexiones
 - [Reglas y ciclo de vida](./rules) — aplicación de instantánea y diff incremental
 - [`vmflow service install`](./service) — ejecuta vmflow como servicio nativo al arranque (systemd / launchd / Windows Service)
 - [`vmflow uninstall`](./uninstall) — desmontaje con un solo comando (servicio, binario, configuración, logs, certificados)

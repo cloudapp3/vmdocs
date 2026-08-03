@@ -40,7 +40,7 @@ description: vmflow 포워딩 규칙 관리 — 단일 규칙 작업, 증분 dif
 …그리고 요약: `Applied`, `Stopped`, `Failed`, `Total`.
 
 ::: tip "변경됨"의 기준은?
-런타임 필드(프로토콜, 리슨 주소/포트, 타겟 주소/포트, 속도 제한, 최대 연결 수, `idle_timeout`, 소스 IP 모드와 유효 항목, enabled)만 비교됩니다. `remark`, 타임스탬프 또는 동등한 소스 CIDR의 순서만 편집해도 규칙이 **재시작되지 않습니다**. 소스 정책이 실제로 변경되면 규칙이 재시작되고 기존 TCP 연결과 UDP 세션이 닫힙니다.
+런타임 필드(프로토콜, 주소/포트, 레거시 speed limit, 공유 bandwidth, traffic quota, 최대 연결 수, `idle_timeout`, Source IP 정책, enabled)만 비교합니다. `remark`, 타임스탬프 또는 동등한 CIDR 순서만 바꾸면 규칙을 **재시작하지 않습니다**. bandwidth, quota 또는 유효 소스 정책 변경은 규칙을 재시작하고 기존 연결/세션을 닫지만 같은 `rule_id`의 쿼터 사용량은 유지합니다.
 :::
 
 ## 리로드

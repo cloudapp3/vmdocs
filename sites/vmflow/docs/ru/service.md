@@ -6,7 +6,7 @@ description: Регистрация vmflow как нативной службы 
 # vmflow service
 
 ```bash
-vmflow service (install|uninstall|status) [flags]
+vmflow service (install|start|uninstall|status) [flags]
 ```
 
 Псевдоним: `vmflow svc`.
@@ -19,13 +19,14 @@ vmflow service (install|uninstall|status) [flags]
 | macOS | launchd daemon | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | управляется через `services.msc` / `sc.exe` |
 
-Служба запускает `vmflow` под супервизором платформы. На Linux и macOS супервизор посылает `SIGTERM`; на Windows демон определяет Service Control Manager и сообщает состояние. У SCM нет stdout, поэтому журнал по умолчанию находится в `C:\ProgramData\vmflow\logs\vmflow.log`.
+Служба запускает `vmflow run -config <path>` под супервизором платформы. На Linux и macOS супервизор посылает `SIGTERM`; на Windows демон определяет Service Control Manager и сообщает состояние. У SCM нет stdout, поэтому журнал по умолчанию находится в `C:\ProgramData\vmflow\logs\vmflow.log`.
 
 ## Действия
 
 | Действие | Описание |
 | --- | --- |
 | `install` | Проверяет конфигурацию, создаёт или обновляет unit/plist/Windows Service, **включает** и сразу **запускает** службу. Повторный запуск обновляет и перезапускает существующую службу. Требует root на Linux/macOS, права администратора на Windows. |
+| `start` | Запускает установленную, но остановленную службу без перезаписи определения или config. |
 | `uninstall` | Останавливает и удаляет службу. Файлы конфигурации и журналов остаются на месте. |
 | `status` | Выводит текущее состояние службы. |
 
@@ -40,7 +41,7 @@ vmflow service (install|uninstall|status) [flags]
 | `--extra-arg` | _(нет)_ | Добавляет будущий флаг в виде `--extra-arg=-flag=value`; параметр можно повторять. Для существующих флагов используйте отдельные опции. |
 | `-binary` | текущий исполняемый файл | Путь к бинарному файлу vmflow. Для `install` это должен быть **абсолютный путь**, принадлежащий root/admin в доверенном расположении. |
 
-¹ Пути конфигурации по умолчанию: Linux `/etc/vmflow/config.yaml`, macOS `/usr/local/etc/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
+¹ Пути конфигурации по умолчанию: Linux `/etc/vmflow/config.yaml`, macOS `/Library/Application Support/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
 
 ## Примеры
 

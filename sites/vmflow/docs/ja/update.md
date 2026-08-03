@@ -18,7 +18,7 @@ vmflow update [--check] [--version <tag>]
 | フラグ | 説明 |
 | --- | --- |
 | `--check` | アップデートの確認のみ行い、インストールしません。 |
-| `--version <tag>` | 特定のリリースタグ（例: `v0.1.1`）をインストールまたは検査します。 |
+| `--version <tag>` | 特定のリリースタグ（例: `v0.3.0`）をインストールまたは検査します。 |
 
 ## 実行内容
 
@@ -43,7 +43,7 @@ vmflow update
 特定バージョンをインストールします：
 
 ```bash
-vmflow update --version v0.1.1
+vmflow update --version v0.3.0
 ```
 
 ## 注記

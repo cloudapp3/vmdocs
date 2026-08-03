@@ -18,7 +18,7 @@ vmflow update [--check] [--version <tag>]
 | 参数 | 说明 |
 | --- | --- |
 | `--check` | 仅检查更新；不安装。 |
-| `--version <tag>` | 安装或查看指定的版本标签（例如 `v0.1.1`）。 |
+| `--version <tag>` | 安装或查看指定的版本标签（例如 `v0.3.0`）。 |
 
 ## 它做什么
 
@@ -43,7 +43,7 @@ vmflow update
 安装指定版本：
 
 ```bash
-vmflow update --version v0.1.1
+vmflow update --version v0.3.0
 ```
 
 ## 备注

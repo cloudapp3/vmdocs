@@ -5,16 +5,16 @@ description: ローカル管理、ログ、認証、統計、転送ルール、�
 
 # 設定
 
-vmflow は単一の YAML ファイルで駆動します。デフォルトでは解決済み実行ファイルの隣にある `config.yaml` を読み込みます。
+vmflow は単一の YAML ファイルで駆動します。`vmflow run` はデフォルトで platform user config path を読み込みます。
 
 ```bash
-vmflow
+vmflow run
 ```
 
 必要な場合はパスを明示して上書きできます。
 
 ```bash
-vmflow -config /path/to/config.yaml
+vmflow run -config /path/to/config.yaml
 ```
 
 リロード時には現在有効な設定パスを再読み込みし、新しい desired-state を適用します（[ルールとライフサイクル](./rules)を参照）。
@@ -23,11 +23,17 @@ vmflow -config /path/to/config.yaml
 
 ```yaml
 version: 1
+language: en
 control_port: 19090
+udp_max_sessions: 256
 
 log:
   level: info
   format: text # text or json
+
+stats:
+  persist: false
+  flush_interval: 60s
 
 # 管理チャネルは常に 127.0.0.1 にバインドされ、ポートだけを設定します。
 # The CLI/TUI can pass the token with -token or VMFLOW_CONTROL_TOKEN.
@@ -47,7 +53,14 @@ rules:
     target_addr: 127.0.0.1
     target_port: 22
     enabled: true
-    speed_limit: 0
+    bandwidth_limit:
+      rate: 100 Mbps
+    traffic_quota:
+      daily: 100 GB
+      monthly: 1 TB
+      timezone: Asia/Shanghai
+      action: block
+    speed_limit: 0 # 旧形式の接続ごとの B/s 制限
     max_conn: 0
     source_ip_mode: allowlist
     source_ips:
@@ -114,6 +127,14 @@ CLI/TUI 管理用の Bearer token 認証。
 TCP は `max_conn` を消費したりターゲットへ接続したりする前に socket peer を検査します。UDP はセッション作成やルール単位・全体の UDP 枠を消費する前に検査します。モードまたは有効なエントリを変更するとルールが再起動し、既存の TCP 接続と UDP セッションが閉じられるため、新しいポリシーが直ちに適用されます。
 
 ポリシーが見るのは実際の socket peer です。NAT や L4 プロキシの背後では、元のクライアントではなくゲートウェイやプロキシのアドレスになる場合があります。vmflow は転送 HTTP ヘッダーや PROXY protocol メタデータを信頼しません。大規模な攻撃の第一層にはクラウドファイアウォール、セキュリティグループ、ホストファイアウォールを使用してください。
+
+## 共有帯域制限とトラフィッククォータ
+
+`bandwidth_limit` は `rule_id` 全体の合計トラフィックを制限します。同じルールの TCP 接続と UDP セッションは方向別バケットを共有し、`tcp+udp` の両プロトコルも共有します。同じ上り・下り制限には `rate`、非対称制限には `upload` と `download` を使用します。省略した方向は無制限で、burst は vmflow が自動計算します。
+
+`bps`/`Kbps`/`Mbps`/`Gbps` は bit/s、`B/s`/`KB/s`/`MB/s`/`GB/s`/`KiB/s`/`MiB/s` は byte/s で、大文字小文字を区別します。`traffic_quota.daily` と `monthly` は成功した上り + 下りペイロードを合算します。10 進の `GB`/`TB`、2 進の `GiB`/`TiB`、IANA `timezone` を使用できます。`action` は省略可能で、現在は `block` のみです。
+
+クォータは `stats.persist: false` でも `quota-state.json` に永続化され、再起動や同じ `rule_id` の再追加ではリセットされません。`language` は `en` または `zh-CN` のみです。DNS は設定不要で、OS リゾルバーの一時障害時に `223.5.5.5:53`、次に `119.29.29.29:53` を使用します。`NXDOMAIN` はフォールバックしません。
 
 ::: tip
 `http` および `https` プロトコルはソースには存在しますが、現在のビルドでは無効化されています。検証で拒否されます。[転送リファレンス](./forwarding)を参照してください。

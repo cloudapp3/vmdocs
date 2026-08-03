@@ -6,7 +6,7 @@ description: vmflow を起動時に開始しクラッシュ時に再起動する
 # vmflow service
 
 ```bash
-vmflow service (install|uninstall|status) [flags]
+vmflow service (install|start|uninstall|status) [flags]
 ```
 
 エイリアス: `vmflow svc`。
@@ -19,13 +19,14 @@ vmflow service (install|uninstall|status) [flags]
 | macOS | launchd デーモン | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows サービス | `services.msc` / `sc.exe` で管理 |
 
-このサービスは単にプラットフォームのスーパーバイザ配下で `vmflow` を実行します。Linux と macOS ではスーパーバイザが停止のために `SIGTERM` を送信します。Windows ではデーモンが Service Control Manager を検出して状態を報告します。SCM には標準出力がないため、ログの既定値は `C:\ProgramData\vmflow\logs\vmflow.log` です。
+このサービスはプラットフォームのスーパーバイザ配下で `vmflow run -config <path>` を実行します。Linux と macOS ではスーパーバイザが停止のために `SIGTERM` を送信します。Windows ではデーモンが Service Control Manager を検出して状態を報告します。SCM には標準出力がないため、ログの既定値は `C:\ProgramData\vmflow\logs\vmflow.log` です。
 
 ## アクション
 
 | アクション | 説明 |
 | --- | --- |
 | `install` | 設定を検証し、ユニット/plist/Windows サービスを作成または更新して、**有効化**し、すぐに**開始**します。再実行すると既存サービスを更新して再起動します。Linux/macOS では root、Windows では管理者権限が必要です。 |
+| `start` | インストール済みで停止中のサービスを、定義や設定を書き換えずに開始します。 |
 | `uninstall` | サービスを停止して削除します。設定ファイルとログファイルはそのまま残ります。 |
 | `status` | 現在のサービス状態を表示します。 |
 
@@ -40,7 +41,7 @@ vmflow service (install|uninstall|status) [flags]
 | `--extra-arg` | _(なし)_ | 将来のデーモンフラグを `--extra-arg=-flag=value` 形式で追加します。複数回指定できます。既存フラグには専用オプションを使用します。 |
 | `-binary` | 現在の実行ファイル | vmflow バイナリのパス。`install` では、信頼できる場所にある root/管理者所有の**絶対パス**でなければなりません。 |
 
-¹ デフォルトの設定パス: Linux `/etc/vmflow/config.yaml`、macOS `/usr/local/etc/vmflow/config.yaml`、Windows `C:\ProgramData\vmflow\config.yaml`。
+¹ デフォルトの設定パス: Linux `/etc/vmflow/config.yaml`、macOS `/Library/Application Support/vmflow/config.yaml`、Windows `C:\ProgramData\vmflow\config.yaml`。
 
 ## 例
 

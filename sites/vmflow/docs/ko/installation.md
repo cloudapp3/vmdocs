@@ -14,7 +14,7 @@ description: 권한 인식 사용자/시스템 설치, PATH 연동, 체크섬 �
 ```bash
 VMFLOW_BIN_DIR="$(
   curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+    | bash -s -- --version v0.3.0 --print-install-dir
 )" \
   && [ -n "$VMFLOW_BIN_DIR" ] \
   && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
@@ -22,7 +22,7 @@ VMFLOW_BIN_DIR="$(
   && export PATH="$VMFLOW_BIN_DIR:$PATH"
 ```
 
-이 명령은 현재 프리릴리스 버전을 고정하고 선택된 디렉터리를 현재 셸의 PATH에 즉시 추가합니다. 최신 안정 버전을 따르려면 `--version v0.2.0-rc.4`를 생략하세요. 현재 버전을 지정하지 않으면 `v0.1.1`이 선택되며, 여기서 설명하는 MCP와 Source IP 정책은 포함되지 않습니다.
+이 명령은 안정 버전 `v0.3.0`을 고정하고 선택된 디렉터리를 현재 셸의 PATH에 즉시 추가합니다. 최신 안정 버전을 자동으로 따르려면 `--version v0.3.0`을 생략하세요.
 
 ## 시스템 전체 설치
 
@@ -30,15 +30,15 @@ VMFLOW_BIN_DIR="$(
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-  | bash -s -- --version v0.2.0-rc.4 --system
+  | bash -s -- --version v0.3.0 --system
 ```
 
-일반 사용자가 `--system`을 지정하면 설치 프로그램은 다운로드 전에 sudo를 검증하고 대상 확인과 쓰기에만 사용합니다. 새로 생성된 바이너리 옆 설정은 root 소유이며 모드는 `0600`입니다. 설치 프로그램이 출력하는 root/sudo 확인 및 시작 명령을 사용하세요.
+일반 사용자가 `--system`을 지정하면 설치 프로그램은 다운로드 전에 sudo를 검증하고 대상 확인과 쓰기에만 사용합니다. 설치 프로그램은 실행 파일만 씁니다. 이후 `vmflow init`을 실행해 시스템 서비스 또는 foreground 모드를 선택하고 해당 보호 설정을 만드세요.
 
 다른 릴리스를 설치하려면 `--version`에 전달하는 태그를 변경합니다:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.2.0-rc.4
+curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | bash -s -- --version v0.3.0
 ```
 
 ### 설치 스크립트 옵션
@@ -56,13 +56,13 @@ curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh | 
 
 ### 디렉터리와 PATH 동작
 
-`--dir`를 생략하면 먼저 바이너리 옆 설정을 가진 기존의 일반적인 vmflow 설치 디렉터리를 재사용합니다. 새로운 root 설치는 `/usr/local/bin`을 사용합니다. 일반 사용자는 이미 PATH에 있는 `~/.local/bin` 또는 `~/bin`을 우선하며, 그렇지 않으면 `~/.local/bin`을 사용합니다.
+`--dir`를 생략하면 일반 설치 디렉터리에 있는 기존의 정상 vmflow 실행 파일을 먼저 재사용합니다. 새로운 root 설치는 `/usr/local/bin`을 사용합니다. 일반 사용자는 이미 PATH에 있는 `~/.local/bin` 또는 `~/bin`을 우선하며, 그렇지 않으면 `~/.local/bin`을 사용합니다.
 
 자동 사용자 설치는 필요할 때 `.zshrc`, `.bashrc` 또는 `.profile`에 하나의 멱등 PATH 블록을 추가하고 정확한 다시 불러오기 명령을 출력합니다. 현재 셸 자체는 변경할 수 없으므로 권장 명령은 `--print-install-dir`를 캡처해 즉시 export합니다. `--dir` 또는 `VMFLOW_INSTALL_DIR`를 명시하면 셸 시작 파일을 변경하지 않습니다.
 
 ### 설정 및 아카이브 호환성
 
-설치 프로그램은 GitHub Release 아카이브를 다운로드하고 기본적으로 SHA-256으로 `checksums.txt`를 검증합니다. 현재 최상위 `config.yaml`과 레거시 `examples/config.yaml` 레이아웃을 모두 지원합니다. 최초 설치는 바이너리 옆에 모드 `0600`인 `config.yaml`을 만들고, 업그레이드는 바이너리만 교체하며 기존 설정과 포워딩 규칙을 보존합니다.
+설치 프로그램은 GitHub Release 아카이브를 다운로드하고 기본적으로 SHA-256으로 `checksums.txt`를 검증합니다. 아카이브에는 참고용 `examples/config.yaml`이 포함되지만 설치 프로그램은 이를 복사하거나 활성화하지 않습니다. 설치와 업그레이드는 실행 파일만 교체하므로 기존 설정과 포워딩 규칙은 보존됩니다.
 
 비공개 릴리스이거나 GitHub API 호출 한도가 더 필요하다면 `GITHUB_TOKEN` 또는 `GH_TOKEN`을 설정하세요.
 
@@ -91,12 +91,12 @@ vmflow version -json
 
 ## vmflow 업데이트
 
-태그가 지정된 릴리스(v0.1.1 이상)로 한 번 설치했다면, `vmflow`가 스스로 업데이트할 수 있습니다:
+태그가 지정된 릴리스로 한 번 설치했다면, `vmflow`가 스스로 업데이트할 수 있습니다:
 
 ```bash
 vmflow update --check            # 최신 릴리스 확인
 vmflow update                    # 최신 릴리스 설치
-vmflow update --version v0.2.0-rc.4 # 현재 프리릴리스 설치
+vmflow update --version v0.3.0 # 지정한 안정 버전 설치
 ```
 
 자세한 내용, 플래그, 플랫폼 참고 사항은 [`vmflow update`](./update)를 보세요.

@@ -28,7 +28,7 @@ La verificación previa produce una lista de hallazgos, cada uno de ellos un **e
 | `duplicate_rule_id` | error | El mismo ID aparece más de una vez en la instantánea. |
 | Conflicto de listener | error | Dos reglas reclaman el mismo `listen_addr:port`. |
 | Capacidad de bind del puerto | error | Realmente intenta hacer bind del puerto de escucha para confirmar que está disponible. |
-| Resolución DNS del destino | error | `target_addr` debe resolver. |
+| Resolución DNS del destino | error | Primero DNS del sistema; tras error transitorio, `223.5.5.5:53` y `119.29.29.29:53`; `NXDOMAIN` definitivo no usa fallback. |
 | Configuración de dominio HTTPS | — | _Deshabilitado en el build actual_ (los protocolos http/https se rechazan). |
 | Dirección ACME HTTP-01 | — | _Deshabilitado en el build actual_ (el subsistema ACME está apagado). |
 | Privilegio de puerto bajo | advertencia | Hacer bind de puertos privilegiados (<1024) suele necesitar permisos elevados. |

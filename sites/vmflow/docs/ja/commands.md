@@ -5,17 +5,20 @@ description: foreground、ctl、tui、mcp、version、update、service、uninsta
 
 # コマンドリファレンス
 
-vmflow はフォアグラウンド実行と 7 個のサブコマンドを持つ単一バイナリです。
+vmflow は初回設定、明示的な foreground 実行、状態、管理、サービス、保守コマンドを持つ単一バイナリです。
 
 | コマンド | エイリアス | 目的 |
 | --- | --- | --- |
-| `vmflow` | - | 転送ランタイムをフォアグラウンドで実行します。 |
+| `vmflow` | - | 設定/デーモン状態と次の操作を表示します。 |
+| `vmflow init` | - | 言語と実行モードを選び、最初の検証済みルールとローカル資格情報を作成します。 |
+| [`vmflow run`](./daemon) | - | platform user config で転送を foreground 実行します。 |
+| `vmflow status` | - | 設定パス、ルール数、デーモン、ネイティブサービス状態を確認します。`-json` 対応。 |
 | [`ctl`](./ctl) | `c` | 実行中のデーモンをクエリ・制御します。 |
 | [`tui`](./tui) | `t` | ターミナルダッシュボード。 |
 | [`mcp`](./mcp) | - | 実行中のローカルデーモン向け読み取り専用 stdio MCP サーバー。 |
 | [`version`](./version) | `v` | ビルドメタデータを表示します。 |
 | [`update`](./update) | `u` | 新しいリリースの確認またはインストールをします。 |
-| [`service`](./service) | `svc` | ネイティブ OS サービスとして登録します（起動時開始）。 |
+| [`service`](./service) | `svc` | ネイティブ OS サービスを install/start/status/uninstall します。 |
 | [`uninstall`](./uninstall) | `remove`, `rm` | ワンコマンドでクリーンアップ付きアンインストールをします。 |
 
 ## 共通管理フラグ {#common-client-flags}

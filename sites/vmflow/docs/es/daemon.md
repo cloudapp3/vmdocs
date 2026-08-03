@@ -1,12 +1,12 @@
 ---
-title: vmflow
+title: vmflow run
 description: Referencia CLI de vmflow para foreground, ctl, tui, version, update, service y uninstall.
 ---
 
-# vmflow
+# vmflow run
 
 ```bash
-vmflow [-config /path/to/config.yaml] [-control-port 19090]
+vmflow run [-config /path/to/config.yaml] [-control-port 19090]
 ```
 
 El modo foreground carga la configuración, inicia el canal interno solo en loopback, aplica las reglas como snapshot y se ejecuta hasta `SIGINT` o `SIGTERM`.
@@ -15,9 +15,10 @@ El modo foreground carga la configuración, inicia el canal interno solo en loop
 
 | Flag | Por defecto | Descripción |
 | --- | --- | --- |
-| `-config` | `config.yaml` junto al binario vmflow resuelto | Sobrescribe la ruta de configuración YAML. |
+| `-config` | platform user config | Sobrescribe la ruta de configuración YAML. |
 | `-control-port` | _(de configuración)_ | Sobrescribe el puerto de gestión loopback. |
-| `-log-file` | _(stdout)_ | Escribe los logs en este archivo en lugar de stdout (útil bajo un gestor de servicios; obligatorio en Windows). |
+| `-log-file` | _(stdout)_ | Escribe los logs en este archivo en lugar de stdout; útil bajo un gestor de servicios. |
+| `-service-name` | `vmflow` | Nombre registrado en Windows SCM; se ignora fuera de Windows service mode. |
 
 ## Comportamiento en ejecución
 

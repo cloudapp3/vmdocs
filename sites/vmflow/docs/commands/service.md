@@ -6,7 +6,7 @@ description: Register vmflow as a native OS service that starts at boot and rest
 # vmflow service
 
 ```bash
-vmflow service (install|uninstall|status) [flags]
+vmflow service (install|start|uninstall|status) [flags]
 ```
 
 Alias: `vmflow svc`.
@@ -19,13 +19,14 @@ Registers `vmflow` as a native OS service that **starts at boot** and **restarts
 | macOS | launchd daemon | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | managed via `services.msc` / `sc.exe` |
 
-The service simply runs `vmflow` under the platform's supervisor. On Linux and macOS the supervisor sends `SIGTERM` to stop it; on Windows the daemon detects the Service Control Manager at startup and reports state itself. The SCM has no stdout, so logs default to `C:\ProgramData\vmflow\logs\vmflow.log`.
+The service runs `vmflow run -config <path>` under the platform supervisor. On Linux and macOS the supervisor sends `SIGTERM` to stop it; on Windows the daemon detects the Service Control Manager at startup and reports state itself. The SCM has no stdout, so logs default to `C:\ProgramData\vmflow\logs\vmflow.log`.
 
 ## Actions
 
 | Action | Description |
 | --- | --- |
 | `install` | Validate the config, create or update the unit/plist/Windows Service, **enable** it, and **start** it now. Re-running it updates and restarts the existing service. Requires root on Linux/macOS, administrator on Windows. |
+| `start` | Start an installed but stopped service without rewriting its definition or config. |
 | `uninstall` | Stop and remove the service. Config and log files are left in place. |
 | `status` | Print the current service status. |
 
@@ -40,7 +41,7 @@ The service simply runs `vmflow` under the platform's supervisor. On Linux and m
 | `--extra-arg` | _(none)_ | Append a future daemon flag in `--extra-arg=-flag=value` form; repeat as needed. Existing flags must use their dedicated service options. |
 | `-binary` | current executable | Path to the vmflow binary. For `install` it must be an **absolute path** owned by root/admin in a trusted location. |
 
-¹ Default config paths: Linux `/etc/vmflow/config.yaml`, macOS `/usr/local/etc/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
+¹ Default config paths: Linux `/etc/vmflow/config.yaml`, macOS `/Library/Application Support/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
 
 ## Examples
 

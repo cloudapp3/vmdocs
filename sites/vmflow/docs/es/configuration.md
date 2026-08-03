@@ -5,16 +5,16 @@ description: Referencia YAML de vmflow para gestión local, logs, autenticación
 
 # Configuración
 
-vmflow se rige por un único archivo YAML. Por defecto carga `config.yaml` junto al ejecutable resuelto:
+vmflow se rige por un único archivo YAML. `vmflow run` usa por defecto la ruta de configuración de usuario de la plataforma:
 
 ```bash
-vmflow
+vmflow run
 ```
 
 Sobrescribe la ruta cuando sea necesario:
 
 ```bash
-vmflow -config /path/to/config.yaml
+vmflow run -config /path/to/config.yaml
 ```
 
 Una recarga vuelve a leer la ruta de configuración activa y aplica el nuevo estado deseado (consulta [Reglas y ciclo de vida](./rules)).
@@ -23,11 +23,17 @@ Una recarga vuelve a leer la ruta de configuración activa y aplica el nuevo est
 
 ```yaml
 version: 1
+language: en
 control_port: 19090
+udp_max_sessions: 256
 
 log:
   level: info
   format: text # text or json
+
+stats:
+  persist: false
+  flush_interval: 60s
 
 # La gestión siempre se enlaza a 127.0.0.1; solo se configura el puerto.
 # The CLI/TUI can pass the token with -token or VMFLOW_CONTROL_TOKEN.
@@ -47,7 +53,14 @@ rules:
     target_addr: 127.0.0.1
     target_port: 22
     enabled: true
-    speed_limit: 0
+    bandwidth_limit:
+      rate: 100 Mbps
+    traffic_quota:
+      daily: 100 GB
+      monthly: 1 TB
+      timezone: Asia/Shanghai
+      action: block
+    speed_limit: 0 # límite B/s por conexión heredado
     max_conn: 0
     source_ip_mode: allowlist
     source_ips:
@@ -114,6 +127,14 @@ Cada entrada describe una regla de reenvío.
 TCP comprueba el socket peer antes de consumir `max_conn` o conectarse al destino. UDP lo comprueba antes de crear una sesión o consumir los límites de sesiones UDP de la regla o globales. Cambiar el modo o el conjunto efectivo de entradas reinicia la regla y cierra las conexiones TCP y sesiones UDP existentes, por lo que la nueva política se aplica de inmediato.
 
 La política ve el socket peer real. Detrás de NAT o de un proxy L4, este puede ser la dirección de la puerta de enlace o del proxy, no la del cliente original. vmflow no confía en cabeceras HTTP reenviadas ni en metadatos de PROXY protocol. Usa un firewall de nube, un security group o el firewall del host como primera capa frente a ataques de gran volumen.
+
+## Límites compartidos y cuotas de tráfico
+
+`bandwidth_limit` limita el tráfico agregado de todo el `rule_id`. Todas las conexiones TCP y sesiones UDP de la regla comparten buckets por dirección, incluidos ambos protocolos de `tcp+udp`. Usa `rate` para el mismo límite de subida y bajada, o `upload` y `download` para límites asimétricos. Una dirección omitida queda sin límite y vmflow calcula el burst automáticamente.
+
+`bps`/`Kbps`/`Mbps`/`Gbps` son bit/s; `B/s`/`KB/s`/`MB/s`/`GB/s`/`KiB/s`/`MiB/s` son byte/s y distinguen mayúsculas. `traffic_quota.daily` y `monthly` suman el payload correcto de subida + bajada. Admiten `GB`/`TB` decimales, `GiB`/`TiB` binarios y una `timezone` IANA. `action` es opcional; por ahora solo existe `block`.
+
+Las cuotas persisten en `quota-state.json` incluso con `stats.persist: false` y no se reinician tras un reinicio o al volver a añadir el mismo `rule_id`. `language` solo acepta `en` o `zh-CN`. DNS no se configura: tras un fallo transitorio del resolver del sistema se prueban `223.5.5.5:53` y `119.29.29.29:53`; `NXDOMAIN` no activa fallback.
 
 ::: tip
 Los protocolos `http` y `https` existen en el código fuente pero están deshabilitados en el build actual. La validación los rechaza. Consulta la [referencia de reenvío](./forwarding).

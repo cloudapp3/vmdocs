@@ -6,7 +6,7 @@ description: Registra o vmflow como um serviço nativo do SO que inicia no boot 
 # vmflow service
 
 ```bash
-vmflow service (install|uninstall|status) [flags]
+vmflow service (install|start|uninstall|status) [flags]
 ```
 
 Alias: `vmflow svc`.
@@ -19,13 +19,14 @@ Registra o `vmflow` como um serviço nativo do SO que **inicia no boot** e **rei
 | macOS | daemon do launchd | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | gerenciado via `services.msc` / `sc.exe` |
 
-O serviço simplesmente executa `vmflow` sob o supervisor da plataforma. No Linux e no macOS, o supervisor envia `SIGTERM`; no Windows, o daemon detecta o Service Control Manager e reporta o estado. Como o SCM não tem stdout, os logs usam `C:\ProgramData\vmflow\logs\vmflow.log` por padrão.
+O serviço executa `vmflow run -config <path>` sob o supervisor da plataforma. No Linux e no macOS, o supervisor envia `SIGTERM`; no Windows, o daemon detecta o Service Control Manager e reporta o estado. Como o SCM não tem stdout, os logs usam `C:\ProgramData\vmflow\logs\vmflow.log` por padrão.
 
 ## Ações
 
 | Ação | Descrição |
 | --- | --- |
 | `install` | Valida a configuração, cria ou atualiza a unit/plist/Windows Service, **habilita** e **inicia** imediatamente. Repetir o comando atualiza e reinicia o serviço existente. Requer root no Linux/macOS, administrador no Windows. |
+| `start` | Inicia um serviço instalado, mas parado, sem regravar a definição ou config. |
 | `uninstall` | Interrompe e remove o serviço. Os arquivos de configuração e de log são mantidos no lugar. |
 | `status` | Exibe o status atual do serviço. |
 
@@ -40,7 +41,7 @@ O serviço simplesmente executa `vmflow` sob o supervisor da plataforma. No Linu
 | `--extra-arg` | _(nenhum)_ | Adiciona uma futura flag como `--extra-arg=-flag=value`; pode ser repetido. Flags atuais devem usar suas opções dedicadas. |
 | `-binary` | executável atual | Caminho para o binário do vmflow. Para `install`, deve ser um **caminho absoluto** pertencente a root/admin em um local confiável. |
 
-¹ Caminhos padrão de configuração: Linux `/etc/vmflow/config.yaml`, macOS `/usr/local/etc/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
+¹ Caminhos padrão de configuração: Linux `/etc/vmflow/config.yaml`, macOS `/Library/Application Support/vmflow/config.yaml`, Windows `C:\ProgramData\vmflow\config.yaml`.
 
 ## Exemplos
 

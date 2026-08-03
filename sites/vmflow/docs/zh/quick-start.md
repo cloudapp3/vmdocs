@@ -5,16 +5,16 @@ description: 安装 vmflow，并在两分钟内运行你的第一条 TCP 转发�
 
 # 快速开始
 
-本指南会安装当前 vmflow 预发布版及其共置配置，启动守护进程，并通过 CLI 查询它。
+本指南会安装 vmflow v0.3.0 正式版，通过 `vmflow init` 创建并校验第一条规则，再使用 CLI 查询运行中的守护进程。
 
 ## 1. 安装
 
-为当前 shell 安装 `v0.2.0-rc.4`（Linux/macOS）：
+为当前 shell 安装 `v0.3.0`（Linux/macOS）：
 
 ```bash
 VMFLOW_BIN_DIR="$(
   curl -fsSL https://raw.githubusercontent.com/cloudapp3/vmflow/main/install.sh \
-    | bash -s -- --version v0.2.0-rc.4 --print-install-dir
+    | bash -s -- --version v0.3.0 --print-install-dir
 )" \
   && [ -n "$VMFLOW_BIN_DIR" ] \
   && [ "${VMFLOW_BIN_DIR#/}" != "$VMFLOW_BIN_DIR" ] \
@@ -30,15 +30,21 @@ vmflow version -json
 
 需要时，安装器还会为后续受支持的 shell 会话配置 PATH。系统级 `--system` 安装、目录选择、校验和验证及源码构建参见[安装](./installation)。
 
-## 2. 启动守护进程
+## 2. 初始化 vmflow
 
-使用安装在二进制旁的 `config.yaml` 启动守护进程：
+运行首次使用向导：
 
 ```bash
-vmflow
+vmflow init
 ```
 
-共置配置是运行时默认配置。内置 SSH 示例默认禁用并监听 `127.0.0.1:2201`，启用该规则前请先检查配置。
+语言选择是第一步：`1` 选择 English，`2` 选择简体中文。接着选择推荐的系统原生服务、当前终端前台运行，或只保存暂不启动。向导随后创建经过校验的转发规则、启用带认证的本地管理，并根据运行模式写入正确的系统级或用户级配置路径。
+
+系统服务模式会安装、启用并立即启动 vmflow；前台模式会占用当前终端。如果选择暂不启动，之后可运行：
+
+```bash
+vmflow run
+```
 
 ## 3. 查询它
 
@@ -61,11 +67,10 @@ vmflow tui
 
 ## 5. 编辑配置后重载
 
-打开解析后可执行文件旁的配置，然后应用新的期望状态：
+先用 `vmflow status` 查看活动配置路径，编辑该文件，再应用新的期望状态：
 
 ```bash
-VMFLOW_CONFIG="$(dirname "$(command -v vmflow)")/config.yaml"
-"${EDITOR:-vi}" "$VMFLOW_CONFIG"
+vmflow status
 vmflow ctl reload
 ```
 
@@ -74,7 +79,7 @@ vmflow ctl reload
 ## 接下来
 
 - [配置](./configuration)——每一个 YAML 字段的说明
-- [转发引擎](./forwarding)——协议、限速、连接数上限
+- [转发引擎](./forwarding)——协议、规则共享限速、日/月流量配额、连接数上限
 - [规则与生命周期](./rules)——快照应用与增量 diff
 - [`vmflow service install`](./service)——将 vmflow 作为开机自启的原生服务运行（systemd / launchd / Windows Service）
 - [`vmflow uninstall`](./uninstall)——一条命令完成拆除（服务、二进制、配置、日志、证书）

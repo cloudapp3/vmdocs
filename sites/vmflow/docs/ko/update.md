@@ -18,7 +18,7 @@ vmflow update [--check] [--version <tag>]
 | 플래그 | 설명 |
 | --- | --- |
 | `--check` | 업데이트만 확인하고 설치하지 않습니다. |
-| `--version <tag>` | 특정 릴리스 태그(예: `v0.1.1`)를 설치하거나 확인합니다. |
+| `--version <tag>` | 특정 릴리스 태그(예: `v0.3.0`)를 설치하거나 확인합니다. |
 
 ## 수행하는 작업
 
@@ -43,7 +43,7 @@ vmflow update
 특정 버전 설치:
 
 ```bash
-vmflow update --version v0.1.1
+vmflow update --version v0.3.0
 ```
 
 ## 참고 사항

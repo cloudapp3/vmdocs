@@ -6,7 +6,7 @@ description: 将 vmflow 注册为开机自启、崩溃重启的原生系统服�
 # vmflow service
 
 ```bash
-vmflow service (install|uninstall|status) [flags]
+vmflow service (install|start|uninstall|status) [flags]
 ```
 
 别名：`vmflow svc`。
@@ -19,13 +19,14 @@ vmflow service (install|uninstall|status) [flags]
 | macOS | launchd daemon | `/Library/LaunchDaemons/io.cloudapp.<name>.plist` |
 | Windows | Windows Service | 通过 `services.msc` / `sc.exe` 管理 |
 
-该服务只是在平台监管器下运行 `vmflow`。在 Linux 和 macOS 上，监管器会发送 `SIGTERM` 来停止它；在 Windows 上，守护进程在启动时检测服务控制管理器（Service Control Manager）并自行上报状态。SCM 没有 stdout，因此日志默认写入 `C:\ProgramData\vmflow\logs\vmflow.log`。
+该服务在平台监管器下运行 `vmflow run -config <path>`。在 Linux 和 macOS 上，监管器会发送 `SIGTERM` 来停止它；在 Windows 上，守护进程在启动时检测服务控制管理器（Service Control Manager）并自行上报状态。SCM 没有 stdout，因此日志默认写入 `C:\ProgramData\vmflow\logs\vmflow.log`。
 
 ## 动作
 
 | 动作 | 说明 |
 | --- | --- |
 | `install` | 验证配置，创建或更新 unit/plist/Windows Service，**启用**它并立即**启动**。重复执行会更新并重启现有服务。在 Linux/macOS 上需要 root，在 Windows 上需要管理员权限。 |
+| `start` | 启动已安装但已停止的服务，不改写服务定义或配置。 |
 | `uninstall` | 停止并移除服务。配置和日志文件会保留原处。 |
 | `status` | 打印当前服务状态。 |
 
@@ -40,7 +41,7 @@ vmflow service (install|uninstall|status) [flags]
 | `--extra-arg` | _(无)_ | 以 `--extra-arg=-flag=value` 格式追加未来新增的守护进程标志，可重复使用。现有标志必须使用专用 service 选项。 |
 | `-binary` | 当前可执行文件 | vmflow 二进制的路径。对于 `install`，它必须是位于可信位置、由 root/admin 拥有的**绝对路径**。 |
 
-¹ 默认配置路径：Linux `/etc/vmflow/config.yaml`、macOS `/usr/local/etc/vmflow/config.yaml`、Windows `C:\ProgramData\vmflow\config.yaml`。
+¹ 默认配置路径：Linux `/etc/vmflow/config.yaml`、macOS `/Library/Application Support/vmflow/config.yaml`、Windows `C:\ProgramData\vmflow\config.yaml`。
 
 ## 示例
 

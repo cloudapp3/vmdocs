@@ -5,20 +5,25 @@ description: vmflow CLI reference for foreground runtime, ctl, tui, mcp, version
 
 # Command Reference
 
-vmflow is a single binary with a foreground runtime and seven subcommands. Aliases are shown below.
+vmflow is a single binary with first-use setup, explicit foreground runtime, status, management, service, and maintenance commands. Aliases are shown below.
 
 | Command | Alias | Purpose |
 | --- | --- | --- |
-| `vmflow` | - | Run the forwarding runtime in the foreground. |
+| `vmflow` | - | Show config/daemon status and the next actionable step. |
+| `vmflow init` | - | Choose language and run mode, then create the first validated rule and local credentials. |
+| [`vmflow run`](./daemon) | - | Run forwarding in the foreground with the platform user config. |
+| `vmflow status` | - | Inspect the resolved config path, rule count, daemon, and native-service status; supports `-json`. |
 | [`ctl`](./ctl) | `c` | Query and control a running daemon. |
 | [`tui`](./tui) | `t` | Terminal dashboard. |
 | [`mcp`](./mcp) | - | Read-only stdio MCP server for a running local daemon. |
 | [`version`](./version) | `v` | Print build metadata. |
 | [`update`](./update) | `u` | Check for or install a newer release. |
-| [`service`](./service) | `svc` | Register as a native OS service (boot startup). |
+| [`service`](./service) | `svc` | Install, start, inspect, or uninstall the native OS service. |
 | [`uninstall`](./uninstall) | `remove`, `rm` | One-command uninstall with cleanup. |
 
 ## Common management flags
+
+Global `--lang <en|zh-CN>` (or `VMFLOW_LANG`) overrides the saved display language for one invocation.
 
 The bundled `ctl`, `tui`, and `mcp` commands connect to the local daemon.
 

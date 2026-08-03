@@ -25,7 +25,9 @@ Each rule picks one protocol via the `protocol` field.
 
 Each rule carries runtime controls independent of the protocol:
 
-- **`speed_limit`** — per-connection bidirectional rate limit (token bucket), in bytes/sec. `0` means unlimited. This is intentionally simple and per-session; it is not a shared global bandwidth bucket.
+- **`bandwidth_limit`** — aggregate upload/download limit shared by every connection and session with the same `rule_id`; `tcp+udp` shares across both protocols.
+- **`traffic_quota`** — durable daily and monthly upload-plus-download payload allowance. Exhausted traffic is blocked until the next calendar boundary in the selected IANA timezone.
+- **`speed_limit`** — legacy per-connection bidirectional limit in bytes/sec. `0` means unlimited; prefer `bandwidth_limit` for new rules.
 - **`max_conn`** — concurrent connection cap. When the cap is reached, new connections are closed immediately. `0` means unlimited.
 - **`idle_timeout`** — per-connection idle timeout in seconds. `0` means use the default (5 minutes / 300s). Changing it restarts the rule.
 - **`source_ip_mode` / `source_ips`** — `off`, an IPv4/IPv6 allowlist, or an IPv4/IPv6 denylist. Entries may be literal addresses or CIDRs, up to 256 per rule.

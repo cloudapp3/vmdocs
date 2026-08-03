@@ -18,7 +18,7 @@ Alias: `vmflow u`.
 | Flag | Descrição |
 | --- | --- |
 | `--check` | Apenas verifica se há atualizações; não instala. |
-| `--version <tag>` | Instala ou inspeciona uma tag de release específica (ex. `v0.1.1`). |
+| `--version <tag>` | Instala ou inspeciona uma tag de release específica (ex. `v0.3.0`). |
 
 ## O que faz
 
@@ -43,7 +43,7 @@ vmflow update
 Instale uma versão específica:
 
 ```bash
-vmflow update --version v0.1.1
+vmflow update --version v0.3.0
 ```
 
 ## Observações

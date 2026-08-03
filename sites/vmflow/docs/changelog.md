@@ -7,12 +7,17 @@ description: Notable user-facing changes to vmflow.
 
 All notable user-facing changes to `vmflow` are documented here.
 
-## Unreleased
+## v0.3.0 - 2026-08-02
 
 ### Added
 
+- Aggregate per-rule `bandwidth_limit` with human-readable bit-rate and byte-rate units, symmetric `rate` or directional `upload` / `download`, and sharing across every TCP connection and UDP session with the same `rule_id`.
+- Durable `traffic_quota` enforcement for combined successful upload + download payload, with daily/monthly calendar periods, IANA timezones, automatic reopening, and fail-closed `quota-state.json` persistence independent of optional statistics persistence.
+- Automatic DNS failover for init checks, precheck, and outbound forwarding: operating-system DNS remains primary, with transient-error fallback to `223.5.5.5:53` and `119.29.29.29:53`; definitive `NXDOMAIN` responses stay local.
+- Dashboard Host Network section with interface state, MTU, IP CIDRs, cumulative RX/TX counters, and live rates from the connected daemon.
 - `vmflow mcp` - read-only stdio MCP tools for daemon status, forwarding rules, traffic statistics, and current-config precheck without exposing a new network listener.
-- `vmflow service (install|uninstall|status)` — register vmflow as a native OS service that starts at boot and restarts on crash (systemd / launchd / Windows Service).
+- `vmflow service (install|start|uninstall|status)` — register and recover a native OS service that starts at boot and restarts on crash (systemd / launchd / Windows Service).
+- `vmflow service start` and TUI-assisted recovery for an installed local service that is stopped.
 - `vmflow uninstall [--dry-run]` — one-command teardown that removes the service, binary, config, logs, TLS/ACME certificates, and self-update cache.
 
 ### Security
@@ -24,6 +29,10 @@ All notable user-facing changes to `vmflow` are documented here.
 
 ### Changed
 
+- `vmflow init` now asks for language first, then explicitly offers native background service, foreground, or configure-only mode. It validates target input before saving, requires explicit confirmation for exposed listeners, and creates the correct system or user config plus a mode-`0600` local client profile.
+- The TUI rule editor exposes shared bandwidth and daily/monthly quota fields, with directional rates and quota timezone in advanced settings. Host Network remains part of Dashboard and is reachable with `4`.
+- Release archives keep the sample at `examples/config.yaml`; the installer writes only `vmflow`, preserves all existing configuration, and directs first-time users to `vmflow init`.
+- Reload continues to apply `rules` and `udp_max_sessions` transactionally after precheck. Bandwidth, quota, or source-policy changes restart only the affected rule while preserving quota usage for its stable `rule_id`.
 - The supported management surface is the bundled CLI/TUI and read-only MCP adapter. Its loopback transport is internal and has no external compatibility promise.
 - Native service registration is now built in; the hand-written systemd unit is no longer the only option. Releases use portable archives and the installer rather than distro-specific system packages.
 - Service installation now parses and validates the protected config before changing OS state. Linux unit updates restart immediately and roll back the previous unit/state on failure; macOS restores the previous plist and loaded state when bootstrap fails; Windows uses native SCM APIs for quoted arguments, updates existing services, enables recovery for crash and non-crash failures, and waits for application readiness before reporting success.

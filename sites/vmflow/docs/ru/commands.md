@@ -5,17 +5,20 @@ description: Справочник CLI vmflow — foreground, ctl, tui, mcp, vers
 
 # Справочник команд
 
-vmflow — одиночный бинарный файл с режимом foreground и семью подкомандами.
+vmflow — одиночный бинарный файл с командами первичной настройки, явного foreground, состояния, управления, службы и обслуживания.
 
 | Команда | Алиас | Назначение |
 | --- | --- | --- |
-| `vmflow` | - | Запуск forwarding runtime в foreground. |
+| `vmflow` | - | Показ config/daemon status и следующего действия. |
+| `vmflow init` | - | Выбор языка и режима, создание первого проверенного правила и локальных credentials. |
+| [`vmflow run`](./daemon) | - | Запуск forwarding в foreground с platform user config. |
+| `vmflow status` | - | Проверка пути config, числа правил, daemon и native service; поддерживает `-json`. |
 | [`ctl`](./ctl) | `c` | Опрос и управление работающим демоном. |
 | [`tui`](./tui) | `t` | Терминальная панель. |
 | [`mcp`](./mcp) | - | MCP-сервер stdio только для чтения для локального работающего демона. |
 | [`version`](./version) | `v` | Вывод метаданных сборки. |
 | [`update`](./update) | `u` | Проверка или установка нового релиза. |
-| [`service`](./service) | `svc` | Регистрация как нативной службы ОС (старт при загрузке). |
+| [`service`](./service) | `svc` | Install, start, status или uninstall нативной службы ОС. |
 | [`uninstall`](./uninstall) | `remove`, `rm` | Удаление одной командой с очисткой. |
 
 ## Общие параметры управления {#common-client-flags}

@@ -25,7 +25,9 @@ Cada regla elige un protocolo mediante el campo `protocol`.
 
 Cada regla lleva controles de ejecución independientes del protocolo:
 
-- **`speed_limit`** — límite de tasa bidireccional por conexión (token bucket), en bytes/s. `0` significa ilimitado. Es intencionadamente simple y por sesión; no es un bucket compartido global de ancho de banda.
+- **`bandwidth_limit`** — límite agregado de upload/download compartido por todas las conexiones y sesiones del mismo `rule_id`; `tcp+udp` lo comparte entre ambos protocolos.
+- **`traffic_quota`** — cuota diaria y mensual persistente del payload de subida + bajada. Al agotarse, bloquea tráfico hasta el siguiente límite de calendario de la zona IANA elegida.
+- **`speed_limit`** — límite bidireccional bytes/s heredado por conexión. `0` significa ilimitado; usa `bandwidth_limit` en reglas nuevas.
 - **`max_conn`** — tope de conexiones concurrentes. Cuando se alcanza el tope, las conexiones nuevas se cierran de inmediato. `0` significa ilimitado.
 - **`idle_timeout`** — tiempo de inactividad por conexión en segundos. `0` significa usar el valor por defecto (5 minutos / 300 s). Cambiarlo reinicia la regla.
 - **`source_ip_mode` / `source_ips`** — `off`, una lista de permitidos IPv4/IPv6 o una lista de denegados IPv4/IPv6. Las entradas pueden ser direcciones literales o CIDR, hasta 256 por regla.
