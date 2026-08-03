@@ -40,7 +40,7 @@ vmflow init
 
 언어가 첫 번째 선택입니다. `1`은 English, `2`는 중국어 간체입니다. 다음으로 권장 네이티브 시스템 서비스, 현재 터미널 foreground 또는 시작하지 않고 저장을 선택합니다. 마법사는 검증된 규칙과 인증된 로컬 관리를 만들고 선택한 모드에 맞는 system/user config 경로에 저장합니다.
 
-서비스 모드는 vmflow를 설치, 활성화, 시작합니다. Foreground는 현재 터미널을 사용합니다. 저장만 선택했다면 이후 `vmflow run`을 실행하세요.
+서비스 모드는 vmflow를 설치하고 활성화한 뒤 이미 시작하므로 두 번째 foreground 프로세스를 실행하지 마세요. Foreground 모드도 이미 실행 중이며 현재 터미널에 연결된 상태를 유지합니다. 시작하지 않고 저장한 경우에만 나중에 `vmflow run`을 실행하세요.
 
 ## 3. 쿼리
 
@@ -55,11 +55,19 @@ vmflow ctl precheck
 
 ## 4. 터미널 UI 열기
 
+네이티브 시스템 서비스에서는 기본 명령을 사용합니다. 먼저 로컬 서비스가 설치되어 실행 중인지 확인합니다:
+
 ```bash
 vmflow tui
 ```
 
-<kbd>Tab</kbd> 키로 Dashboard, Rules, Detail 보기 사이를 전환합니다. [TUI 대시보드](./tui-guide)를 참고하세요.
+Foreground 모드에서는 데몬 터미널을 열어 둔 채 수동으로 시작한 프로세스의 주소를 명시하세요:
+
+```bash
+vmflow tui -addr http://127.0.0.1:19090
+```
+
+명시적인 `-addr`는 네이티브 서비스 검사를 건너뜁니다. <kbd>Tab</kbd> 키로 Dashboard, Rules, Detail 보기 사이를 전환합니다. [TUI 대시보드](./tui-guide)를 참고하세요.
 
 ## 5. 설정 편집 후 리로드
 

@@ -40,7 +40,7 @@ vmflow init
 
 El idioma es la primera elección: `1` selecciona English y `2` chino simplificado. Después elige el servicio nativo recomendado, modo foreground en el terminal actual o guardar sin iniciar. El asistente crea una regla validada, activa la gestión local autenticada y escribe el config system/user correcto para el modo elegido.
 
-El modo servicio instala, habilita e inicia vmflow. Foreground ocupa el terminal actual. Si guardaste sin iniciar, ejecuta después `vmflow run`.
+El modo servicio instala, habilita y ya inicia vmflow, por lo que no debes lanzar un segundo proceso foreground. El modo foreground también está en ejecución y permanece ligado al terminal actual. Ejecuta `vmflow run` más tarde solo si guardaste sin iniciar.
 
 ## 3. Consultarlo
 
@@ -55,11 +55,19 @@ vmflow ctl precheck
 
 ## 4. Abrir la interfaz de terminal
 
+Para el servicio nativo del sistema, usa el comando predeterminado. Primero comprueba que el servicio local esté instalado y en ejecución:
+
 ```bash
 vmflow tui
 ```
 
-Pulsa <kbd>Tab</kbd> para alternar entre las vistas Dashboard, Rules y Detail. Consulta [Panel TUI](./tui-guide).
+En modo foreground, mantén abierto el terminal del daemon e indica explícitamente la dirección del proceso iniciado manualmente:
+
+```bash
+vmflow tui -addr http://127.0.0.1:19090
+```
+
+Un `-addr` explícito omite la comprobación del servicio nativo. Pulsa <kbd>Tab</kbd> para alternar entre las vistas Dashboard, Rules y Detail. Consulta [Panel TUI](./tui-guide).
 
 ## 5. Recargar tras editar la configuración
 

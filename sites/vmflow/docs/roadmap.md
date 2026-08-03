@@ -1,37 +1,38 @@
 ---
 title: Roadmap
-description: vmflow release roadmap — v0.1 baseline shipped, v0.2 in progress, v0.3 planned.
+description: vmflow v0.3.0 is the current stable release, with shipped capabilities and future work tracked separately.
 ---
 
 # Roadmap
 
-vmflow is at a practical v0.1-style MVP. The forwarding path, rule lifecycle, local control plane, observability basics, and embedding API are in place.
+vmflow v0.3.0 is the current stable release. The L4 forwarding path, local control plane, observability, native service lifecycle, traffic governance, terminal UI, and embedding API are available today.
 
-## v0.1 — baseline
+## Baseline shipped before v0.3.0
 
-- [x] TCP forwarding
-- [x] UDP forwarding
-- [x] `ApplySnapshot`
-- [x] daemon + CLI
-- [x] local CLI/TUI management
-- [x] YAML config
+- [x] TCP, UDP, and `tcp+udp` forwarding
+- [x] `ApplySnapshot`, rule lifecycle, and YAML hot reload
+- [x] Local CLI/TUI management
+- [x] Prometheus metrics and structured logging
+- [x] Management authentication and rule precheck
+- [x] Embeddable Go runtime API
 
-## v0.2 — in progress
+## v0.3.0 - shipped 2026-08-03
 
-- [x] Prometheus metrics
-- [x] better structured logging
-- [x] management authentication
-- [x] rule precheck
-- [ ] graceful drain
-- [ ] Windows / macOS manual verification
+- [x] Aggregate per-rule upload/download bandwidth limits
+- [x] Durable daily and monthly traffic quotas
+- [x] Automatic DNS failover for checks and outbound forwarding
+- [x] Host Network dashboard with live interface counters and rates
+- [x] English and Simplified Chinese CLI/TUI localization
+- [x] Native service install, boot startup, status, and TUI-assisted recovery
+- [x] Read-only stdio MCP tools for local diagnostics
 
-## v0.3 — planned
+## Future work
 
-- [ ] per-rule shared bandwidth bucket
-- [ ] event subscription API
-- [ ] config hot-reload enhancements
-- [x] native boot-startup service (systemd / launchd / Windows Service via `vmflow service install`)
-- [ ] Docker official image / examples
+- [ ] Graceful connection draining
+- [ ] Event subscription API
+- [ ] Windows and macOS manual verification
+- [ ] Official Docker image and deployment examples
+- [ ] Expanded cross-platform and integration coverage
 
 ## Reserved for later
 

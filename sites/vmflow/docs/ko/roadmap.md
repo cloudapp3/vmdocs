@@ -1,37 +1,38 @@
 ---
 title: 로드맵
-description: vmflow 릴리스 로드맵 — v0.1 베이스라인 출시, v0.2 진행 중, v0.3 계획됨.
+description: vmflow v0.3.0은 현재 안정 릴리스이며 제공된 기능과 향후 작업을 구분해 관리합니다.
 ---
 
 # 로드맵
 
-vmflow는 실용적인 v0.1 스타일의 MVP 단계입니다. 포워딩 경로, 규칙 라이프사이클, 로컬 컨트롤 플레인, 관측 기초, 임베딩 API가 갖춰져 있습니다.
+vmflow v0.3.0은 현재 안정 릴리스입니다. L4 포워딩, 로컬 컨트롤 플레인, 관측성, 네이티브 서비스 수명 주기, 트래픽 제어, TUI, 임베딩 API를 지금 사용할 수 있습니다.
 
-## v0.1 — 베이스라인
+## v0.3.0 이전에 제공된 기본 기능
 
-- [x] TCP 포워딩
-- [x] UDP 포워딩
-- [x] `ApplySnapshot`
-- [x] daemon + CLI
+- [x] TCP, UDP, `tcp+udp` 포워딩
+- [x] `ApplySnapshot`, 규칙 수명 주기, YAML 핫 리로드
 - [x] 로컬 CLI/TUI 관리
-- [x] YAML 설정
+- [x] Prometheus 메트릭과 구조화 로깅
+- [x] 관리 인증과 규칙 사전 검사
+- [x] 임베딩 가능한 Go 런타임 API
 
-## v0.2 — 진행 중
+## v0.3.0 - 2026-08-03 출시 완료
 
-- [x] Prometheus 메트릭
-- [x] 향상된 구조화 로깅
-- [x] 관리 인증
-- [x] 규칙 사전 점검
-- [ ] graceful drain
-- [ ] Windows / macOS 수동 검증
+- [x] 규칙별 공유 upload/download 대역폭 제한
+- [x] 영구 일간 및 월간 트래픽 쿼터
+- [x] 검사 및 아웃바운드 포워딩을 위한 자동 DNS 장애 조치
+- [x] 실시간 인터페이스 카운터와 속도를 제공하는 Host Network 대시보드
+- [x] CLI/TUI 영어 및 중국어 간체 현지화
+- [x] 네이티브 서비스 설치, 부팅 시작, 상태 확인 및 TUI 복구
+- [x] 로컬 진단을 위한 읽기 전용 stdio MCP 도구
 
-## v0.3 — 계획됨
+## 향후 작업
 
-- [ ] 규칙별 공유 대역폭 버킷
+- [ ] 기존 연결의 graceful drain
 - [ ] 이벤트 구독 API
-- [ ] 설정 핫 리로드 개선
-- [x] 네이티브 부트 시작 서비스(`vmflow service install`을 통한 systemd / launchd / Windows Service)
-- [ ] Docker 공식 이미지 / 예제
+- [ ] Windows 및 macOS 수동 검증
+- [ ] 공식 Docker 이미지와 배포 예제
+- [ ] 크로스 플랫폼 및 통합 테스트 범위 확대
 
 ## 나중을 위해 예약됨
 

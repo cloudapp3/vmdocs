@@ -9,8 +9,16 @@ O vmflow inclui uma interface de terminal para consultar e gerenciar as regras c
 
 ## Como iniciá-lo
 
+Com o destino local padrão, `vmflow tui` gerencia o serviço nativo. Conclua o modo de serviço do sistema em `vmflow init`, ou instale e inicie o serviço antes de executar:
+
 ```bash
 vmflow tui
+```
+
+Se o daemon foi iniciado manualmente no modo foreground, mantenha esse terminal aberto e informe o endereço explicitamente. Isso ignora a verificação do serviço nativo:
+
+```bash
+vmflow tui -addr http://127.0.0.1:19090
 ```
 
 Quando a autenticação estiver habilitada, informe um token de acesso:

@@ -9,8 +9,16 @@ vmflow ships with a terminal UI for inspecting and managing the configured rules
 
 ## Start it
 
+With the default local target, `vmflow tui` manages the native service. Complete the system-service mode in `vmflow init`, or install and start the service before running:
+
 ```bash
 vmflow tui
+```
+
+If the daemon was started manually in foreground mode, keep that terminal open and specify its address explicitly. This bypasses the native-service check:
+
+```bash
+vmflow tui -addr http://127.0.0.1:19090
 ```
 
 Pass a token when authentication is enabled:

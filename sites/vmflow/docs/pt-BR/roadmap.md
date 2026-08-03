@@ -1,37 +1,38 @@
 ---
 title: Roadmap
-description: Roadmap de releases do vmflow — baseline v0.1 lançado, v0.2 em andamento, v0.3 planejado.
+description: vmflow v0.3.0 é a versão estável atual; recursos entregues e trabalhos futuros são acompanhados separadamente.
 ---
 
 # Roadmap
 
-O vmflow está em um MVP prático no estilo v0.1. O caminho de encaminhamento, o ciclo de vida de regras, o plano de controle local, o básico de observabilidade e a API de incorporação estão prontos.
+O vmflow v0.3.0 é a versão estável atual. Encaminhamento L4, plano de controle local, observabilidade, ciclo de vida do serviço nativo, controle de tráfego, TUI e API de incorporação estão disponíveis hoje.
 
-## v0.1 — baseline
+## Recursos básicos entregues antes do v0.3.0
 
-- [x] Encaminhamento TCP
-- [x] Encaminhamento UDP
-- [x] `ApplySnapshot`
-- [x] daemon + CLI
-- [x] gerenciamento local por CLI/TUI
-- [x] Configuração YAML
+- [x] Encaminhamento TCP, UDP e `tcp+udp`
+- [x] `ApplySnapshot`, ciclo de vida de regras e hot reload de YAML
+- [x] Gerenciamento local por CLI/TUI
+- [x] Métricas do Prometheus e logs estruturados
+- [x] Autenticação de gerenciamento e precheck de regras
+- [x] API de runtime Go incorporável
 
-## v0.2 — em andamento
+## v0.3.0 - lançado em 2026-08-03
 
-- [x] Métricas do Prometheus
-- [x] Logs estruturados melhores
-- [x] Autenticação de gerenciamento
-- [x] Precheck de regras
-- [ ] Drenagem suave (graceful drain)
-- [ ] Verificação manual no Windows / macOS
+- [x] Limites de largura de banda upload/download compartilhados por regra
+- [x] Cotas de tráfego diárias e mensais persistentes
+- [x] Failover automático de DNS para verificações e encaminhamento de saída
+- [x] Painel Host Network com contadores e taxas de interfaces em tempo real
+- [x] Localização da CLI/TUI em inglês e chinês simplificado
+- [x] Instalação, inicialização no boot, status e recuperação via TUI do serviço nativo
+- [x] Ferramentas MCP somente leitura via stdio para diagnóstico local
 
-## v0.3 — planejado
+## Trabalho futuro
 
-- [ ] Bucket de largura de banda compartilhado por regra
+- [ ] Drenagem suave das conexões existentes
 - [ ] API de assinatura de eventos
-- [ ] Melhorias no hot-reload de configuração
-- [x] Serviço nativo de inicialização no boot (systemd / launchd / Windows Service via `vmflow service install`)
-- [ ] Imagem oficial do Docker / exemplos
+- [ ] Verificação manual no Windows e macOS
+- [ ] Imagem oficial do Docker e exemplos de implantação
+- [ ] Maior cobertura multiplataforma e de integração
 
 ## Reservado para depois
 

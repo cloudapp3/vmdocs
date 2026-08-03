@@ -40,7 +40,7 @@ vmflow init
 
 Language is the first choice: `1` selects English and `2` selects Simplified Chinese. Next choose the recommended native system service, foreground mode in the current terminal, or save without starting. The wizard then creates a validated forwarding rule, enables authenticated local management, and writes the correct system or user configuration path for the selected mode.
 
-System-service mode installs, enables, and starts vmflow. Foreground mode stays attached to the current terminal. If you chose not to start yet, start the user configuration later with:
+System-service mode installs, enables, and starts vmflow, so do not start a second foreground process. Foreground mode is also already running and stays attached to the current terminal. Only if you chose not to start yet, start the saved user configuration later with:
 
 ```bash
 vmflow run
@@ -59,11 +59,19 @@ vmflow ctl precheck
 
 ## 4. Open the terminal UI
 
+For native system-service mode, use the default command. It verifies that the local service is installed and running:
+
 ```bash
 vmflow tui
 ```
 
-Press <kbd>Tab</kbd> to switch between the Dashboard, Rules, and Detail views. See [TUI Dashboard](./tui).
+For foreground mode, keep the daemon terminal open and explicitly address that manually started process:
+
+```bash
+vmflow tui -addr http://127.0.0.1:19090
+```
+
+An explicit `-addr` bypasses the native-service check. Press <kbd>Tab</kbd> to switch between the Dashboard, Rules, and Detail views. See [TUI Dashboard](./tui).
 
 ## 5. Reload after editing the config
 

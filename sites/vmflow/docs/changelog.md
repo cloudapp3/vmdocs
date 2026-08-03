@@ -7,7 +7,7 @@ description: Notable user-facing changes to vmflow.
 
 All notable user-facing changes to `vmflow` are documented here.
 
-## v0.3.0 - 2026-08-02
+## v0.3.0 - 2026-08-03
 
 ### Added
 
