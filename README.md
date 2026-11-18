@@ -8,6 +8,7 @@ Documentation monorepo for the cloudapp3 projects published on bestcheapvps.org 
 | vmbench | https://vmbench.bestcheapvps.org | https://github.com/cloudapp3/vmbench |
 | vmflow | https://vmflow.bestcheapvps.org | https://github.com/cloudapp3/vmflow |
 | tgbot | https://tgbot.bestcheapvps.org | https://github.com/cloudapp3/tgbot |
+| vmlg | https://vmlg.bestcheapvps.org | https://github.com/cloudapp3/vmlg |
 
 ## Repository layout
 
@@ -36,6 +37,7 @@ Use the project-specific commands:
 | vmbench | `pnpm docs:dev:vmbench` | `pnpm docs:build:vmbench` | `pnpm docs:preview:vmbench` |
 | vmflow | `pnpm docs:dev:vmflow` | `pnpm docs:build:vmflow` | `pnpm docs:preview:vmflow` |
 | tgbot | `pnpm docs:dev:tgbot` | `pnpm docs:build:tgbot` | `pnpm docs:preview:tgbot` |
+| vmlg | `pnpm docs:dev:vmlg` | `pnpm docs:build:vmlg` | `pnpm docs:preview:vmlg` |
 
 The compatibility aliases `docs:dev`, `docs:build`, and `docs:preview` continue to target vminfo.
 

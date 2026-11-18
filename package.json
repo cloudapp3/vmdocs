@@ -21,7 +21,10 @@
     "docs:build:tgbot": "vitepress build sites/tgbot/docs && pnpm check:seo:tgbot",
     "docs:preview:tgbot": "vitepress preview sites/tgbot/docs --host 0.0.0.0",
     "check:seo:tgbot": "node sites/tgbot/docs/.vitepress/check-hreflang.mjs",
-    "check:i18n:tgbot": "node sites/tgbot/docs/.vitepress/check-hreflang.mjs"
+    "check:i18n:tgbot": "node sites/tgbot/docs/.vitepress/check-hreflang.mjs",
+    "docs:dev:vmlg": "vitepress dev sites/vmlg/docs",
+    "docs:build:vmlg": "vitepress build sites/vmlg/docs",
+    "docs:preview:vmlg": "vitepress preview sites/vmlg/docs --host 0.0.0.0"
   },
   "devDependencies": {
     "@types/node": "25.9.3",
